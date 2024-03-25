@@ -13,6 +13,22 @@ login_mgr.init_app(app)
 mongo_client = MongoClient()
 
 
+# for removing dangerous characters from strings passed to routes via POST/address
+# def remove_danger_chars(passed_string):
+#     return re.sub("[$;:&@?*%<>{}|,^]", '', passed_string)
+
+
+@login_mgr.user_loader
+def user_loader(user_id):
+    pass
+    # user_arr = calls.get_sesh(user_id)
+    # if len(user_arr) > 0:
+    #     return User(user_arr[0], user_arr[1], user_arr[2], user_arr[3], user_arr[4])
+    # else:
+    #     return None
+
+
+# ROUTES:
 @app.route('/create_account', methods=['GET'])
 def create_account():
     pass
