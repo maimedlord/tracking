@@ -4,6 +4,7 @@
     required: [
       'date_joined',
       'email',
+      'password',
       'username'
     ],
     properties: {
@@ -15,6 +16,10 @@
         description: ''
       },
       email: {
+        bsonType: 'string',
+        description: ''
+      },
+      password: {
         bsonType: 'string',
         description: ''
       },
