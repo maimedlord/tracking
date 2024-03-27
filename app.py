@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_login import LoginManager#, login_required, login_user, logout_user, current_user
-from pymongo import MongoClient#, DESCENDING, ReturnDocument
+
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -10,7 +10,6 @@ login_mgr = LoginManager()
 login_mgr.init_app(app)
 #login_mgr.login_message = ''
 #login_mgr.login_view = ''
-mongo_client = MongoClient()
 
 
 # for removing dangerous characters from strings passed to routes via POST/address
