@@ -1,0 +1,27 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'date_joined',
+      'email',
+      'username'
+    ],
+    properties: {
+      date_joined: {
+        bsonType: [
+          'date',
+          'null'
+        ],
+        description: ''
+      },
+      email: {
+        bsonType: 'string',
+        description: ''
+      },
+      username: {
+        bsonType: 'string',
+        description: ''
+      }
+    }
+  }
+}
