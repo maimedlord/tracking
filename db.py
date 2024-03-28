@@ -15,19 +15,23 @@ test_user_template = {
     'password': 'passwordvalue',
     'username': 'testusername'
 }
+
+# RETURNS: None (if email or username already exist) | pymongo.results.InsertOneResult
+# TESTED
 def user_create(test_user_template):
     email_exists = c_users.find_one({'email': test_user_template['email']})
     username_exists = c_users.find_one({'username': test_user_template['username']})
     if email_exists or username_exists:
-        class TempObj:
-            def __init__(self):
-                # self.inserted_id = None
-                self.acknowledged = False
-        return TempObj
-        #return TempObj()
+        return None
     else:
         return c_users.insert_one(test_user_template)
 
 
 if __name__ == '__main__':
-    user_create(test_user_template)
+    attempt = user_create(test_user_template)
+    if not attempt:
+        print('twas None')
+    elif attempt.acknowledged == False:
+        print('unable to write to db')
+    else:
+        print('appears to have written')

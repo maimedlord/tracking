@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+    <title>tracking - home</title>
+{% endblock %}
 {% block body %}
     welcome to tracking!
+    <br>
+    <a href="{{ url_for('create_account') }}">create account</a>
 {% endblock %}

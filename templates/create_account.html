@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+        <title>tracking - create account</title>
+{% endblock %}
+{% block body %}
+    welcome to tracking - create account!
+    <br>
+    <a href="{{ url_for('index') }}">go home</a>
+    <div id="message_correction">
+        {{ message_correction }}
+    </div>
+    <div id="div_form_create_account">
+        <form id="form_create_account" method="post" name="form_create_account">
+            email: <input autocomplete="off" autofocus id="input_mail" name="input_email" placeholder="email..." required type="email">
+            <br>
+            username: <input autocomplete="off" id="input_username" name="input_username" placeholder="username..." required>
+            <br>
+            password: <input autocomplete="off" id="input_password_1" name="input_password_1" placeholder="password..." required>
+            <br>
+            password: <input autocomplete="off" id="input_password_2" name="input_password_2" placeholder="password..." required>
+            <br>
+            <button type="submit">submit</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,5 +1,7 @@
-from flask import Flask, render_template
-from flask_login import LoginManager#, login_required, login_user, logout_user, current_user
+import re
+
+from flask import Flask, redirect, render_template, request
+from flask_login import LoginManager, current_user#, login_required, login_user, logout_user
 
 
 app = Flask(__name__)
@@ -27,10 +29,28 @@ def user_loader(user_id):
     #     return None
 
 
-# ROUTES:
-@app.route('/create_account', methods=['GET'])
+"""ROUTES:"""
+
+# HERE
+@app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
-    pass
+    # is user is logged in redirect them to home
+    if current_user.is_authenticated:
+        return redirect('/')
+    if request.method == 'POST':
+        email = request.form['input_email']
+        #NEEDS EMAIL INPUT VALIDATION
+        password_1 = request.form['input_password_1']
+        password_2 = request.form['input_password_2']
+        #NEEDS PASSWORD INPUT VALIDATION
+        username = request.form['input_username']
+        if not re.match('', username):
+            pass
+        print(email, password_1, password_2, username)
+        if password_1 != password_2:
+            return render_template('create_account.html', message_correction='The passwords must match. Please try again.')
+    return render_template('create_account.html')
+
 
 
 @app.route('/', methods=['GET'])
