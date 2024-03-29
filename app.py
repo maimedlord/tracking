@@ -1,7 +1,9 @@
 import re
-
+from datetime import datetime
+from db import user_create
 from flask import Flask, redirect, render_template, request
 from flask_login import LoginManager, current_user#, login_required, login_user, logout_user
+from werkzeug.security import generate_password_hash
 
 
 app = Flask(__name__)
@@ -29,7 +31,7 @@ def user_loader(user_id):
     #     return None
 
 
-"""ROUTES:"""
+### ROUTES ###
 
 # HERE
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -44,11 +46,23 @@ def create_account():
         password_2 = request.form['input_password_2']
         #NEEDS PASSWORD INPUT VALIDATION
         username = request.form['input_username']
-        if not re.match('', username):
-            pass
-        print(email, password_1, password_2, username)
+        if not re.match('^[\w\d_]{6,30}$', username):
+            return render_template('create_account.html', message_correction='The username must be between 6 and 30 characters long consisting of lowercase/uppercase letters, numbers, and underscores. Please try again.')
         if password_1 != password_2:
             return render_template('create_account.html', message_correction='The passwords must match. Please try again.')
+        db_response = user_create({
+            'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
+            'date_joined': datetime.utcnow(),
+            'email': email,
+            'password': generate_password_hash(password_1),
+            'username': username
+        })
+        if not db_response:
+            return render_template('create_account.html', message_correction='The email or username already exist. Please try again.')
+        if not db_response.acknowledged:
+            return render_template('create_account.html', message_correction='Damn. The database could not be written to. Probably not good. Help!')
+        #NEED log person in and now redirecto to account
+
     return render_template('create_account.html')
 
 

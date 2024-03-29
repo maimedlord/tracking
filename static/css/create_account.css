@@ -1,6 +1,12 @@
 #div_form_create_account {
     margin: 20px auto 0px auto;
 }
+#main_create_account {
+    background-color: lightgray;
+    margin: 0px auto 0px auto;
+    text-align: center;
+    width: 100%;
+}
 #message_correction {
     background-color: lightgreen;
     margin: 20px auto 0px auto;
