@@ -1,8 +1,8 @@
-import re
 from datetime import datetime
-from db import user_create
+import db
 from flask import Flask, redirect, render_template, request
-from flask_login import LoginManager, current_user#, login_required, login_user, logout_user
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+import re
 from werkzeug.security import generate_password_hash
 
 
@@ -23,22 +23,24 @@ login_mgr.init_app(app)
 
 @login_mgr.user_loader
 def user_loader(user_id):
-    pass
-    # user_arr = calls.get_sesh(user_id)
-    # if len(user_arr) > 0:
-    #     return User(user_arr[0], user_arr[1], user_arr[2], user_arr[3], user_arr[4])
-    # else:
-    #     return None
-
+    return db.user_is_active_by_id(user_id)
 
 ### ROUTES ###
+
+
+@app.route('/')
+@app.route('/index')
+def index():  # put application's code here
+    if current_user.is_authenticated:
+        return render_template('index.html', message='current_user.is_authenticated == True')
+    return render_template('index.html')
 
 # HERE
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     # is user is logged in redirect them to home
     if current_user.is_authenticated:
-        return redirect('/')
+        return redirect('/index')
     if request.method == 'POST':
         email = request.form['input_email']
         #NEEDS EMAIL INPUT VALIDATION
@@ -50,11 +52,11 @@ def create_account():
             return render_template('create_account.html', message_correction='The username must be between 6 and 30 characters long consisting of lowercase/uppercase letters, numbers, and underscores. Please try again.')
         if password_1 != password_2:
             return render_template('create_account.html', message_correction='The passwords must match. Please try again.')
-        db_response = user_create({
+        db_response = db.user_create({
             'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
             'date_joined': datetime.utcnow(),
             'email': email,
-            'password': generate_password_hash(password_1),
+            'password_hash': generate_password_hash(password_1),
             'username': username
         })
         if not db_response:
@@ -66,10 +68,34 @@ def create_account():
     return render_template('create_account.html')
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    # is user is logged in redirect them to home
+    if current_user.is_authenticated:
+        return redirect('/index')
+    if request.method == 'POST':
+        email = request.form['input_email']
+        # NEEDS EMAIL INPUT VALIDATION
+        password = request.form['input_password']
+        # NEEDS PASSWORD INPUT VALIDATION
+        db_response = db.user_is_authenticated(email, password)
+        if not db_response:
+            return render_template('login.html', message_correction='User not found. Please try again.')
+        login_user(db_response)
+        return redirect('/index')
+    return render_template('login.html')
 
-@app.route('/', methods=['GET'])
-def index():  # put application's code here
-    return render_template('index.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    if not current_user.is_authenticated:
+        return redirect('/index')
+    logout_user()
+    return redirect('/index')
+
+
+### MAIN ###
 
 
 if __name__ == '__main__':

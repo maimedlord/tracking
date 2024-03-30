@@ -1,6 +1,7 @@
 from bson.objectid import ObjectId
 from datetime import datetime
 from pymongo import MongoClient#, DESCENDING, ReturnDocument
+from user import User
 from werkzeug.security import check_password_hash
 
 mongo_client = MongoClient()
@@ -27,11 +28,31 @@ def user_create(test_user_template):
         return c_users.insert_one(test_user_template)
 
 
+# RETURNS: None (if email, hashed-password combo cannot be found or user is 'inactive' | User obj
+def user_is_authenticated(email, password):
+    is_active = c_users.find_one({'email': email}, {
+        '_id': 1,
+        'active': 1,
+        'password_hash': 1,
+        'username': 1
+    })
+    print(is_active['password_hash'], is_active['username'])
+    if not is_active or not is_active['active'] or not check_password_hash(is_active['password_hash'], password):
+        return None
+    return User(str(is_active['_id']), is_active['username'])
+
+
+# RETURNS: None (if id cannot be found or user is 'inactive') | User obj
+def user_is_active_by_id(user_id):
+    is_active = c_users.find_one({'_id': ObjectId(user_id)}, {
+        'active': 1,
+        'username': 1
+    })
+    if not is_active or not is_active['active']:
+        return None
+    return User(user_id, is_active['username'])
+
+# MAIN
+
 if __name__ == '__main__':
-    attempt = user_create(test_user_template)
-    if not attempt:
-        print('twas None')
-    elif attempt.acknowledged == False:
-        print('unable to write to db')
-    else:
-        print('appears to have written')
+    print(user_is_active_by_email('1@email.com').get_id())

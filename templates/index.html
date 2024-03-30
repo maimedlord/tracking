@@ -5,5 +5,13 @@
 {% block body %}
     welcome to tracking!
     <br>
+    {{ message }}
+    <br>
+    {{ current_user.username }}
+    <br>
     <a href="{{ url_for('create_account') }}">create account</a>
+    <br>
+    <a href="{{ url_for('login') }}">login</a>
+    <br>
+    <a href="{{ url_for('logout') }}">logout</a>
 {% endblock %}

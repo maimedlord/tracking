@@ -4,7 +4,7 @@
     required: [
       'date_joined',
       'email',
-      'password',
+      'password_hash',
       'username'
     ],
     properties: {
@@ -19,7 +19,7 @@
         bsonType: 'string',
         description: ''
       },
-      password: {
+      password_hash: {
         bsonType: 'string',
         description: ''
       },
