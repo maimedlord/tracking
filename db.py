@@ -12,6 +12,7 @@ c_users = db_users['tc_users']
 test_user_template = {
     'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION EMAIL STEP
     'date_joined': datetime.utcnow(),
+    'date_last_login': None,
     'email': 'test@email.com',
     'password': 'passwordvalue',
     'username': 'testusername'

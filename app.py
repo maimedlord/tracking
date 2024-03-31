@@ -1,7 +1,8 @@
 from datetime import datetime
 import db
-from flask import abort, Flask, redirect, render_template, request
+from flask import abort, Flask, redirect, render_template, request, session, url_for
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+from flask_session import Session
 import re
 from urllib.parse import urlparse, urljoin
 from werkzeug.security import generate_password_hash
@@ -9,6 +10,8 @@ from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+
+Session(app)
 
 # rough
 login_mgr = LoginManager()
@@ -36,11 +39,18 @@ def is_safe_url(target):
 ### ROUTES ###
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():  # put application's code here
     if current_user.is_authenticated:
-        return render_template('index.html', message='current_user.is_authenticated == True')
+        return redirect('/console')
+    if request.method == 'POST':
+        email = request.form['input_email']
+        password = request.form['input_password']
+        session['email'] = request.form['input_email']
+        session['password'] = request.form['input_password']
+        if session['email'] and session['password']:
+            return redirect('/login')
     return render_template('index.html')
 
 
@@ -79,6 +89,7 @@ def create_account():
             return render_template('create_account.html', message_correction='The passwords must match. Please try again.')
         db_response = db.user_create({
             'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
+            'date_last_login': None,
             'date_joined': datetime.utcnow(),
             'email': email,
             'password_hash': generate_password_hash(password_1),
@@ -98,10 +109,21 @@ def login():
     # is user is logged in redirect them to home
     if current_user.is_authenticated:
         return redirect('/index')
+    email = ''
+    password = ''
+    # check if session email and password values are assigned
+    if 'email' in session.keys():
+        email = session['email']
+        session['email'] = ''
+    if 'password' in session.keys():
+        password = session['password']
+        session['password'] = ''
+    # POST will overwrite anything from the session
     if request.method == 'POST':
         email = request.form['input_email']
-        # NEEDS EMAIL INPUT VALIDATION
         password = request.form['input_password']
+    if email and password:
+        # NEEDS EMAIL INPUT VALIDATION
         # NEEDS PASSWORD INPUT VALIDATION
         db_response = db.user_is_authenticated(email, password)
         if not db_response:
@@ -123,7 +145,10 @@ def login():
 def logout():
     if not current_user.is_authenticated:
         return redirect('/index')
+    # clear flask-login session
     logout_user()
+    # clear server-side session
+    session.clear()
     return redirect('/index')
 
 
