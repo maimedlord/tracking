@@ -1,8 +1,9 @@
 from datetime import datetime
 import db
-from flask import Flask, redirect, render_template, request
+from flask import abort, Flask, redirect, render_template, request
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 import re
+from urllib.parse import urlparse, urljoin
 from werkzeug.security import generate_password_hash
 
 
@@ -25,6 +26,13 @@ login_mgr.init_app(app)
 def user_loader(user_id):
     return db.user_is_active_by_id(user_id)
 
+
+# for logging in user... // MIGHT NEED TO GET PRESENT FOR ALL REDIRECTS???
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
 ### ROUTES ###
 
 
@@ -34,6 +42,23 @@ def index():  # put application's code here
     if current_user.is_authenticated:
         return render_template('index.html', message='current_user.is_authenticated == True')
     return render_template('index.html')
+
+
+@app.route('/account')
+@login_required
+def account():
+    if not current_user.is_authenticated:
+        return redirect('/index')
+    return render_template('account.html')
+
+
+@app.route('/console')
+@login_required
+def console():
+    if not current_user.is_authenticated:
+        return redirect('/index')
+    return render_template('console.html')
+
 
 # HERE
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -82,7 +107,14 @@ def login():
         if not db_response:
             return render_template('login.html', message_correction='User not found. Please try again.')
         login_user(db_response)
-        return redirect('/index')
+        # the entire following sequence needs to be fully understood:
+        next = request.args.get('next')
+        print('YOU NEED TO MAKE SURE THAT THIS LOGIN PROCEDURE IS SAFE: NEXT IS_SAFE_URL(NEXT)')
+        print(next)
+        if not is_safe_url(next):
+            return abort(400)
+        #return redirect(url_for('account'))
+        return redirect('/console')
     return render_template('login.html')
 
 

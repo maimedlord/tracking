@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>tracking - home</title>
+    <title>tracking - console</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/console.css') }}">
 {% endblock %}
 {% block body %}
     welcome to tracking!

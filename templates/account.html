@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    <title>tracking - account</title>
+{% endblock %}
+{% block css %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/account.css') }}">
+{% endblock %}
+{% block body %}
+    welcome to tracking!
+    <br>
+    {{ message_correction }}
+    <br>
+    this is the account page for {{ current_user.username }}
+    <br>
+    <a href="{{ url_for('index') }}">go home</a>
+{% endblock %}

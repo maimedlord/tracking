@@ -4,13 +4,37 @@
         <meta charset="UTF-8">
         {% block title %}
         {% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
         {% block css %}
         {% endblock %}
         {% block javascript %}
         {% endblock %}
     </head>
 <body>
+    <div id="base_nav">
+        {% if not current_user.is_authenticated %}
+            <div>
+             <a href="{{ url_for('create_account') }}">create account</a>
+            </div>
+            <div>
+                 <a href="{{ url_for('login') }}">login</a>
+            </div>
+        {% else %}
+            <div>
+             <a href="{{ url_for('logout') }}">logout</a>
+            </div>
+            <div>
+                 <a href="{{ url_for('account') }}">account</a>
+            </div>
+            <div>
+                 <a href="{{ url_for('console') }}">console</a>
+            </div>
+        {% endif %}
+    </div>
     {% block body %}
     {% endblock %}
+    <div id="base_footer">
+        <div>tracking 2024</div>
+    </div>
 </body>
 </html>
