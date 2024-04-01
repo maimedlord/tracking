@@ -13,4 +13,6 @@
     this is the account page for {{ current_user.username }}
     <br>
     <a href="{{ url_for('index') }}">go home</a>
+    <br>
+    <a href="{{ url_for('delete_account') }}">delete your account</a>
 {% endblock %}

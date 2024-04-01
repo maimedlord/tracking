@@ -51,7 +51,7 @@ def index():  # put application's code here
         session['password'] = request.form['input_password']
         if session['email'] and session['password']:
             return redirect('/login')
-    return render_template('index.html')
+    return render_template('index.html', message='')
 
 
 @app.route('/account')
@@ -90,6 +90,7 @@ def create_account():
         db_response = db.user_create({
             'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
             'date_last_login': None,
+            'date_last_logout': None,
             'date_joined': datetime.utcnow(),
             'email': email,
             'password_hash': generate_password_hash(password_1),
@@ -99,9 +100,17 @@ def create_account():
             return render_template('create_account.html', message_correction='The email or username already exist. Please try again.')
         if not db_response.acknowledged:
             return render_template('create_account.html', message_correction='Damn. The database could not be written to. Probably not good. Help!')
-        #NEED log person in and now redirecto to account
-
+        return redirect('/login')
     return render_template('create_account.html')
+
+
+@app.route('/delete_account')
+@login_required
+def delete_account():
+    db_response = db.user_delete(current_user.id_str)
+    logout_user()
+    session.clear()
+    return redirect('/index')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -129,6 +138,7 @@ def login():
         if not db_response:
             return render_template('login.html', message_correction='User not found. Please try again.')
         login_user(db_response)
+        db_response = db.record_login_date(email)
         # the entire following sequence needs to be fully understood:
         next = request.args.get('next')
         print('YOU NEED TO MAKE SURE THAT THIS LOGIN PROCEDURE IS SAFE: NEXT IS_SAFE_URL(NEXT)')
@@ -145,8 +155,11 @@ def login():
 def logout():
     if not current_user.is_authenticated:
         return redirect('/index')
+    username = current_user.username
     # clear flask-login session
     logout_user()
+    # log logout
+    db_response = db.record_logout_date(username)
     # clear server-side session
     session.clear()
     return redirect('/index')
