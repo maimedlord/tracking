@@ -1,0 +1,7 @@
+#root_item_create {
+    background-color: azure;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}

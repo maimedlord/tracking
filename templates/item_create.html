@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>tracking - item create</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/item_create.css') }}">
+{% endblock %}
+{% block body %}
+    <!-- HERE -->
+    <div id="root_item_create">
+        <div>Fill out only the fields you want your trackable item to have:</div>
+        <div>
+            <form id="item_create" method="post" name="item_create">
+                name of trackable item: <input id="input_name" name="input_name" type="text">
+                <br>
+                keywords <i>(separate keywords with a comma)</i>: <input id="input_keywords" name="input_keywords" type="text">
+                <br>
+                colors: <input id="input_colors" name="input_colors" type="checkbox">
+                <br>
+                intensity: <input id="input_intensity" name="input_intensity" type="checkbox">
+                <br>
+                time duration: <input id="input_time_duration" name="input_time_duration" type="checkbox">
+                <br>
+                feeling before discovery: <input id="input_feeling_before" name="input_feeling_before" type="checkbox">
+                <br>
+                feeling after discovery: <input id="input_feeling_after" name="input_feeling_after" type="checkbox">
+                <br>
+                notes: <input id="input_notes" name="input_notes" type="checkbox">
+                <br>
+                <button type="submit">create trackable item</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

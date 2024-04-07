@@ -24,7 +24,11 @@ collection_prefix = 'tc_'
 
 # RETURNS:
 def item_create(id_str, item_obj):
-    pass
+    print(item_obj.keys())
+    db = mongo_client[database_prefix + id_str]
+    # test if db exists?
+    item_coll = db[item_obj['name']]
+    return item_coll.insert_one(item_obj)
 
 
 # RETURNS:
@@ -102,4 +106,4 @@ def user_is_active_by_id(user_id):
 # MAIN
 
 if __name__ == '__main__':
-    print(user_is_active_by_email('1@email.com').get_id())
+    print(item_create('6611a83ed497f8b63fe10b34', {'name': 'trackable12', 'color': 'red', 'created': datetime.utcnow()}))

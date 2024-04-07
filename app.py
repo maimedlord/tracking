@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 import db
 from flask import abort, Flask, redirect, render_template, request, session, url_for
@@ -165,10 +166,12 @@ def logout():
     return redirect('/index')
 
 
-@app.route('/item_create')
+@app.route('/item_create', methods=['GET', 'POST'])
 @login_required
 def item_create():
-    pass
+    if request.method == 'POST':
+        print(request.form.keys())
+    return render_template('item_create.html')
 
 
 @app.route('/items_manage')
