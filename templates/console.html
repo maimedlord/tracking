@@ -14,5 +14,13 @@
     <br>
     password: {{ password }}
     <br>
-    {{ current_user.username }}
+    username: {{ current_user.username }}
+    <div id="console_nav">
+        <div><a href="{{ url_for('items_manage') }}">manage items</a></div>
+        <div>track items</div>
+        <div>manage views</div>
+    </div>
+    <div class="console_view">
+        main view here
+    </div>
 {% endblock %}

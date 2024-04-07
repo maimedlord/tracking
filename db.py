@@ -11,15 +11,21 @@ c_users = db_users['tc_users']
 
 database_prefix = 't_'
 collection_prefix = 'tc_'
-test_user_template = {
-    'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION EMAIL STEP
-    'date_joined': datetime.utcnow(),
-    'date_last_login': None,
-    'date_last_logout': None,
-    'email': 'test@email.com',
-    'password': 'passwordvalue',
-    'username': 'testusername'
-}
+# test_user_template = {
+#     'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION EMAIL STEP
+#     'date_joined': datetime.utcnow(),
+#     'date_last_login': None,
+#     'date_last_logout': None,
+#     'email': 'test@email.com',
+#     'password': 'passwordvalue',
+#     'username': 'testusername'
+# }
+
+
+# RETURNS:
+def item_create(id_str, item_obj):
+    pass
+
 
 # RETURNS:
 def record_login_date(email):
@@ -68,8 +74,6 @@ def user_delete(id_str):
     # delete user's user record:
     c_delete = c_users.delete_one({'_id': id_exists['_id']})
     return c_delete
-
-
 
 
 # RETURNS: None (if email, hashed-password combo cannot be found or user is 'inactive' | User obj

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>tracking - manage items</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/manage_items.css') }}">
+{% endblock %}
+{% block body %}
+    <div id="item_create">
+        create new item
+    </div>
+    <div id="item_list">
+        the list of existing items will be here. each item will have its own manage button
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+#item_create {
+    background-color: blanchedalmond;
+    width: 100%;
+}
+#item_list {
+    background-color: gray;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}

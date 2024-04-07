@@ -165,6 +165,17 @@ def logout():
     return redirect('/index')
 
 
+@app.route('/item_create')
+@login_required
+def item_create():
+    pass
+
+
+@app.route('/items_manage')
+def items_manage():
+    return render_template('items_manage.html')
+
+
 ### MAIN ###
 
 

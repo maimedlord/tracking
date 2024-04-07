@@ -1,0 +1,14 @@
+#console_nav {
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%
+}
+
+.console_view {
+    background-color: darkkhaki;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
