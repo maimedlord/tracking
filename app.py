@@ -1,3 +1,4 @@
+import copy
 import json
 from datetime import datetime
 import db
@@ -58,16 +59,12 @@ def index():  # put application's code here
 @app.route('/account')
 @login_required
 def account():
-    if not current_user.is_authenticated:
-        return redirect('/index')
     return render_template('account.html')
 
 
 @app.route('/console')
 @login_required
 def console():
-    if not current_user.is_authenticated:
-        return redirect('/index')
     return render_template('console.html')
 
 
@@ -154,8 +151,6 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    if not current_user.is_authenticated:
-        return redirect('/index')
     username = current_user.username
     # clear flask-login session
     logout_user()
@@ -166,17 +161,27 @@ def logout():
     return redirect('/index')
 
 
+# NEEDS INPUT VALIDATION
 @app.route('/item_create', methods=['GET', 'POST'])
 @login_required
 def item_create():
     if request.method == 'POST':
-        print(request.form.keys())
+        temp_obj = {
+            'date_noticed': datetime.utcnow()
+        }
+        for key in request.form.keys():
+            temp_obj[key] = request.form[key]
+        db_response = db.item_create(current_user.id_str, temp_obj)
+        if not db_response:
+            return render_template('item_create.html', message_correction='unable to create item')
+        return redirect('/console')
     return render_template('item_create.html')
 
 
 @app.route('/items_manage')
 def items_manage():
-    return render_template('items_manage.html')
+    items = db.get_collections(current_user.id_str)
+    return render_template('items_manage.html', items=items)
 
 
 ### MAIN ###

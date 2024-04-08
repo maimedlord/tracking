@@ -2,9 +2,14 @@
     background-color: blanchedalmond;
     width: 100%;
 }
+.item_div {
+    background-color: antiquewhite;
+    padding: 5px 5px 5px 5px;
+}
 #item_list {
     background-color: gray;
     display: flex;
     flex-direction: row;
+    gap: 20px;
     width: 100%;
 }

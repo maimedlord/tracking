@@ -11,21 +11,23 @@
         <div>Fill out only the fields you want your trackable item to have:</div>
         <div>
             <form id="item_create" method="post" name="item_create">
-                name of trackable item: <input id="input_name" name="input_name" type="text">
+                name of trackable item: <input id="name" name="name" required type="text">
                 <br>
-                keywords <i>(separate keywords with a comma)</i>: <input id="input_keywords" name="input_keywords" type="text">
+                keywords <i>(separate keywords with a comma)</i>: <input id="keywords" name="keywords" required type="text">
                 <br>
-                colors: <input id="input_colors" name="input_colors" type="checkbox">
+                colors: <input id="colors" name="colors" type="checkbox">
                 <br>
-                intensity: <input id="input_intensity" name="input_intensity" type="checkbox">
+                intensity: <input id="intensity" name="intensity" type="checkbox">
                 <br>
-                time duration: <input id="input_time_duration" name="input_time_duration" type="checkbox">
+                time noticed: <i>required</i>
                 <br>
-                feeling before discovery: <input id="input_feeling_before" name="input_feeling_before" type="checkbox">
+                time duration: <input id="time_duration" name="time_duration" type="checkbox">
                 <br>
-                feeling after discovery: <input id="input_feeling_after" name="input_feeling_after" type="checkbox">
+                feeling before discovery: <input id="feeling_before" name="feeling_before" type="checkbox">
                 <br>
-                notes: <input id="input_notes" name="input_notes" type="checkbox">
+                feeling after discovery: <input id="feeling_after" name="feeling_after" type="checkbox">
+                <br>
+                notes: <input id="notes" name="notes" type="checkbox">
                 <br>
                 <button type="submit">create trackable item</button>
             </form>

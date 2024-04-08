@@ -8,6 +8,7 @@ mongo_client = MongoClient()
 
 db_users = mongo_client['t_users']
 c_users = db_users['tc_users']
+meta_coll = 'tc_meta'
 
 database_prefix = 't_'
 collection_prefix = 'tc_'
@@ -24,11 +25,23 @@ collection_prefix = 'tc_'
 
 # RETURNS:
 def item_create(id_str, item_obj):
-    print(item_obj.keys())
+    # print(item_obj.keys())
+    # print('break')
+    # print(item_obj.values())
     db = mongo_client[database_prefix + id_str]
     # test if db exists?
     item_coll = db[item_obj['name']]
     return item_coll.insert_one(item_obj)
+
+
+# RETURNS:
+def get_collections(id_str):
+    db = mongo_client[database_prefix + id_str]
+    db_response = list(db.list_collections())
+    #db_response.remove(meta_coll)
+    print(db_response)
+    return db_response
+
 
 
 # RETURNS:
