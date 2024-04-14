@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>tracking - item track</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/item_track.css') }}">
+{% endblock %}
+{% block body %}
+    <div id="root_item_track">
+        {{ item_template }}
+        <form id="item_track" method="post" name="item_track">
+            {% for element in item_template %}
+                {{ element }}: <input id="{{ element }}" name="{{ element }}" type="text">
+                <br>
+            {% endfor %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>tracking - item manage</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/item_manage.css') }}">
+{% endblock %}
+{% block body %}
+    this is item_manage
+    <br>
+    <div id="root_item_manage">
+        {% for element in item_docs %}
+            <div class="item_div">
+                {{ element }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

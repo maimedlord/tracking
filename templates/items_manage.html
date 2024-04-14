@@ -10,11 +10,16 @@
     <div id="item_create">
         <a href="{{ url_for('item_create') }}">create new item</a>
     </div>
+    <div class="titles">your trackable items:</div>
     <div id="item_list">
-        the list of existing items will be here. each item will have its own manage button
-        <br>
         {% for item in items %}
-            <div class="item_div">{{ item }}</div>
+            <div class="item_div">
+                {{ item }}
+                <br>
+                <a href="{{ url_for('item_manage', item_name=item) }}">manage item</a>
+                <br>
+                <a href="{{ url_for('item_track', item_name=item) }}">track item</a>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

@@ -1,0 +1,6 @@
+#root_item_track {
+    background-color: cadetblue;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

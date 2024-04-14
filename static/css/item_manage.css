@@ -1,0 +1,12 @@
+.item_div {
+    background-color: aquamarine;
+    width: 350px;
+}
+#root_item_manage {
+    background-color: bisque;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    width: 100%
+}

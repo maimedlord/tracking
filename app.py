@@ -111,6 +111,51 @@ def delete_account():
     return redirect('/index')
 
 
+# NEEDS INPUT VALIDATION
+@app.route('/item_create', methods=['GET', 'POST'])
+@login_required
+def item_create():
+    if request.method == 'POST':
+        # check if item name already exists
+        coll_names = db.get_collection_names(current_user.id_str)
+        if coll_names and request.form['name'] in coll_names:
+            return render_template('item_create.html', message_correction='an item with that name already exists. please try again.')
+        # build object and push to database:
+        temp_obj = {
+            'date_noticed': datetime.utcnow()
+        }
+        for key in request.form.keys():
+            temp_obj[key] = request.form[key]
+        db_response = db.item_create(current_user.id_str, temp_obj)
+        if not db_response:
+            return render_template('item_create.html', message_correction='unable to create item')
+        return redirect('/items_manage')
+    return render_template('item_create.html')
+
+
+@app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
+@login_required
+def item_manage(item_name):
+    db_response = db.item_get_all_docs(current_user.id_str, item_name)
+    return render_template('item_manage.html', item_docs=db_response, item_name=item_name)
+
+
+@app.route('/items_manage')
+@login_required
+def items_manage():
+    items = db.get_collection_names(current_user.id_str)
+    return render_template('items_manage.html', items=items)
+
+
+@app.route('/item_track/<item_name>')
+@login_required
+def item_track(item_name):
+    db_response = db.item_get_template(current_user.id_str, item_name)
+    time_now = datetime.utcnow()
+    print(db_response)
+    return render_template('item_track.html', item_template=db_response, time_now=time_now)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # is user is logged in redirect them to home
@@ -159,30 +204,6 @@ def logout():
     # clear server-side session
     session.clear()
     return redirect('/index')
-
-
-# NEEDS INPUT VALIDATION
-@app.route('/item_create', methods=['GET', 'POST'])
-@login_required
-def item_create():
-    if request.method == 'POST':
-        temp_obj = {
-            'date_noticed': datetime.utcnow()
-        }
-        for key in request.form.keys():
-            temp_obj[key] = request.form[key]
-        db_response = db.item_create(current_user.id_str, temp_obj)
-        if not db_response:
-            return render_template('item_create.html', message_correction='unable to create item')
-        return redirect('/console')
-    return render_template('item_create.html')
-
-
-@app.route('/items_manage')
-def items_manage():
-    items = db.get_collections(current_user.id_str)
-    return render_template('items_manage.html', items=items)
-
 
 ### MAIN ###
 

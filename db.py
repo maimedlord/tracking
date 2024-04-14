@@ -1,3 +1,4 @@
+import pymongo
 from bson.objectid import ObjectId
 from datetime import datetime
 from pymongo import MongoClient#, DESCENDING, ReturnDocument
@@ -24,7 +25,7 @@ collection_prefix = 'tc_'
 
 
 # RETURNS:
-def item_create(id_str, item_obj):
+def item_create(id_str: str, item_obj):
     # print(item_obj.keys())
     # print('break')
     # print(item_obj.values())
@@ -35,11 +36,36 @@ def item_create(id_str, item_obj):
 
 
 # RETURNS:
-def get_collections(id_str):
+def item_get_all_docs(id_str: str, item_name: str):
     db = mongo_client[database_prefix + id_str]
-    db_response = list(db.list_collections())
+    item_docs = db[item_name]
+    db_response = item_docs.find().sort('_id', pymongo.ASCENDING)
+    db_response = list(db_response)
+    for element in db_response:
+        del element['_id']
+    return db_response
+
+
+# NEED TO CHANGE HOW TEMPLATE IS FOUND BY USING FIND_ONE AND OLDEST RECORD
+# RETURNS:
+def item_get_template(id_str: str, item_name: str):
+    db = mongo_client[database_prefix + id_str]
+    item_docs = db[item_name]
+    db_response = item_docs.find().sort('_id', pymongo.ASCENDING)
+    db_response = list(db_response)
+    db_response = db_response[0]
+    del db_response['_id']
+    del db_response['keywords']
+    db_response = list(db_response.keys())
+    return db_response
+
+
+# RETURNS:
+def get_collection_names(id_str: str):
+    db = mongo_client[database_prefix + id_str]
+    db_response = list(db.list_collection_names())
     #db_response.remove(meta_coll)
-    print(db_response)
+    print(type(db_response), '//', db_response)
     return db_response
 
 
