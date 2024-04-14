@@ -1,6 +1,23 @@
+.item_div {
+    background-color: blanchedalmond;
+    width: 350px;
+}
+#item_track_form {
+    background-color: deepskyblue;
+}
+#item_track_view {
+    align-items: center;
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px auto 0px auto;
+    width: 100%
+}
 #root_item_track {
     background-color: cadetblue;
     display: flex;
     flex-direction: column;
+    text-align: center;
     width: 100%;
 }

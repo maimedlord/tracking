@@ -115,22 +115,14 @@ def delete_account():
 @app.route('/item_create', methods=['GET', 'POST'])
 @login_required
 def item_create():
+    # get list of item attributes
+    item_attributes = db.item_get_template_attributes()
     if request.method == 'POST':
-        # check if item name already exists
-        coll_names = db.get_collection_names(current_user.id_str)
-        if coll_names and request.form['name'] in coll_names:
-            return render_template('item_create.html', message_correction='an item with that name already exists. please try again.')
-        # build object and push to database:
-        temp_obj = {
-            'date_noticed': datetime.utcnow()
-        }
-        for key in request.form.keys():
-            temp_obj[key] = request.form[key]
-        db_response = db.item_create(current_user.id_str, temp_obj)
+        # NEEDS INPUT VALIDATION
+        db_response = db.item_create(current_user.id_str, request.form.to_dict())
         if not db_response:
-            return render_template('item_create.html', message_correction='unable to create item')
-        return redirect('/items_manage')
-    return render_template('item_create.html')
+            return render_template('item_create.html', error_msg='your item could not be created')
+    return render_template('item_create.html', item_attributes=item_attributes.keys())
 
 
 @app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
@@ -147,13 +139,16 @@ def items_manage():
     return render_template('items_manage.html', items=items)
 
 
-@app.route('/item_track/<item_name>')
+@app.route('/item_track/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_track(item_name):
-    db_response = db.item_get_template(current_user.id_str, item_name)
-    time_now = datetime.utcnow()
-    print(db_response)
-    return render_template('item_track.html', item_template=db_response, time_now=time_now)
+    item_attributes = db.item_get_template_attributes()
+    print(item_attributes)
+    item_history = db.item_get_all_docs(current_user.id_str, item_name)
+    if request.method == 'POST':
+        # NEED INPUT VALIDATION
+        pass
+    return render_template('item_track.html', item_attributes=item_attributes, item_docs=item_history, item_name=item_name)
 
 
 @app.route('/login', methods=['GET', 'POST'])

@@ -7,12 +7,26 @@
 {% endblock %}
 {% block body %}
     <div id="root_item_track">
-        {{ item_template }}
-        <form id="item_track" method="post" name="item_track">
-            {% for element in item_template %}
-                {{ element }}: <input id="{{ element }}" name="{{ element }}" type="text">
-                <br>
+        <div id="item_track_form">
+            <h2>{{ item_name }}</h2>
+            <br>
+            <form id="item_track" method="post" name="item_track">
+                {% for attribute in item_attributes %}
+                    {{ attribute }}: <input id="{{ attribute }}" name="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
+                    <br>
+                {% endfor %}
+                <button type="submit">create item</button>
+            </form>
+        </div>
+        <div>
+            item history will go below:
+        </div>
+        <div id="item_track_view">
+            {% for item in item_docs %}
+                <div class="item_div">
+                    {{ item }}
+                </div>
             {% endfor %}
-        </form>
+        </div>
     </div>
 {% endblock %}

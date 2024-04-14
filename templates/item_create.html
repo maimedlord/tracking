@@ -9,31 +9,25 @@
     <!-- HERE -->
     <div id="root_item_create">
         <div id="message_correction">
-            {{ message_correction }}
+            {{ error_msg }}
         </div>
         <div>Fill out only the fields you want your trackable item to have:</div>
         <div>
             <form id="item_create" method="post" name="item_create">
-                name of trackable item: <input id="name" name="name" required type="text">
+                name: <input id="name" name="name" required type="text">
                 <br>
-                keywords <i>(separate keywords with a comma)</i>: <input id="keywords" name="keywords" required type="text">
+                keywords: <input id="keywords" name="keywords" type="text">
                 <br>
-                colors: <input id="colors" name="colors" type="checkbox">
-                <br>
-                intensity: <input id="intensity" name="intensity" type="checkbox">
-                <br>
-                time noticed: <i>required</i>
-                <br>
-                time duration: <input id="time_duration" name="time_duration" type="checkbox">
-                <br>
-                feeling before discovery: <input id="feeling_before" name="feeling_before" type="checkbox">
-                <br>
-                feeling after discovery: <input id="feeling_after" name="feeling_after" type="checkbox">
-                <br>
-                notes: <input id="notes" name="notes" type="checkbox">
-                <br>
-                <button type="submit">create trackable item</button>
+                <button type="submit">create item</button>
             </form>
+        </div>
+        <div>
+            your trackable item will have the additional following attributes:
+            <br>
+            {% for attribute in item_attributes %}
+                {{ attribute }}
+                <br>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

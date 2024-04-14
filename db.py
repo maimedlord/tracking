@@ -7,31 +7,24 @@ from werkzeug.security import check_password_hash
 
 mongo_client = MongoClient()
 
+db_misc = mongo_client['t_misc']
 db_users = mongo_client['t_users']
+c_templates = db_misc['tc_templates']
 c_users = db_users['tc_users']
 meta_coll = 'tc_meta'
 
 database_prefix = 't_'
 collection_prefix = 'tc_'
-# test_user_template = {
-#     'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION EMAIL STEP
-#     'date_joined': datetime.utcnow(),
-#     'date_last_login': None,
-#     'date_last_logout': None,
-#     'email': 'test@email.com',
-#     'password': 'passwordvalue',
-#     'username': 'testusername'
-# }
 
 
 # RETURNS:
 def item_create(id_str: str, item_obj):
-    # print(item_obj.keys())
-    # print('break')
-    # print(item_obj.values())
     db = mongo_client[database_prefix + id_str]
     # test if db exists?
     item_coll = db[item_obj['name']]
+    item_obj['date_created'] = datetime.utcnow()
+    for attribute in item_get_template_attributes().keys():
+        item_obj[attribute] = None
     return item_coll.insert_one(item_obj)
 
 
@@ -46,18 +39,14 @@ def item_get_all_docs(id_str: str, item_name: str):
     return db_response
 
 
-# NEED TO CHANGE HOW TEMPLATE IS FOUND BY USING FIND_ONE AND OLDEST RECORD
 # RETURNS:
-def item_get_template(id_str: str, item_name: str):
-    db = mongo_client[database_prefix + id_str]
-    item_docs = db[item_name]
-    db_response = item_docs.find().sort('_id', pymongo.ASCENDING)
-    db_response = list(db_response)
-    db_response = db_response[0]
-    del db_response['_id']
-    del db_response['keywords']
-    db_response = list(db_response.keys())
-    return db_response
+def item_get_template_attributes():
+    new_item_template = c_templates.find_one({'doc_type': 'new_item_template'})
+    if new_item_template:
+        del new_item_template['template']['keywords']
+        del new_item_template['template']['name']
+        new_item_template['template']['time noticed']['value'] = datetime.utcnow()
+    return new_item_template['template']
 
 
 # RETURNS:
@@ -145,4 +134,4 @@ def user_is_active_by_id(user_id):
 # MAIN
 
 if __name__ == '__main__':
-    print(item_create('6611a83ed497f8b63fe10b34', {'name': 'trackable12', 'color': 'red', 'created': datetime.utcnow()}))
+    print(item_get_attributes())
