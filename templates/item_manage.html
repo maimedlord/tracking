@@ -8,6 +8,8 @@
 {% block body %}
     this is item_manage
     <br>
+    <a href="{{ url_for('items_manage') }}">back to managing all items</a>
+    <br>
     <div id="root_item_manage">
         {% for element in item_docs %}
             <div class="item_div">

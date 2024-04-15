@@ -14,9 +14,11 @@
         <div>Fill out only the fields you want your trackable item to have:</div>
         <div>
             <form id="item_create" method="post" name="item_create">
-                name: <input id="name" name="name" required type="text">
+                <label>name: <input autocomplete="off" id="name" name="name" required type="text"></label>
                 <br>
-                keywords: <input id="keywords" name="keywords" type="text">
+                <label>
+                    keywords: <input autocomplete="off" id="keywords" name="keywords" type="text">
+                </label>
                 <br>
                 <button type="submit">create item</button>
             </form>

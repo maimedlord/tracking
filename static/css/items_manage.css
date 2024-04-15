@@ -5,11 +5,13 @@
 .item_div {
     background-color: antiquewhite;
     padding: 5px 5px 5px 5px;
+    width: 350px;
 }
 #item_list {
     background-color: gray;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     width: 100%;

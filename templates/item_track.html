@@ -7,15 +7,22 @@
 {% endblock %}
 {% block body %}
     <div id="root_item_track">
+        <a href="{{ url_for('items_manage') }}">back to managing all items</a>
         <div id="item_track_form">
             <h2>{{ item_name }}</h2>
+            created: {{ item_meta['time noticed'] }}
             <br>
+            keywords: {{ item_meta['keywords'] }}
+            <br>
+            for datetime fields, leave blank and the datetime recorded will be when the page was requested from the server.
             <form id="item_track" method="post" name="item_track">
                 {% for attribute in item_attributes %}
-                    {{ attribute }}: <input id="{{ attribute }}" name="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
+                    <label>
+                        {{ attribute }}: <input autocomplete="off" id="{{ attribute }}" name="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
+                    </label>
                     <br>
                 {% endfor %}
-                <button type="submit">create item</button>
+                <button type="submit">track item</button>
             </form>
         </div>
         <div>

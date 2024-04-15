@@ -7,6 +7,8 @@ from werkzeug.security import check_password_hash
 
 mongo_client = MongoClient()
 
+datetime_format = '%Y-%m-%dT%H:%M'
+#datetime_format = '%Y-%m-%d %H:%M:%S%z'
 db_misc = mongo_client['t_misc']
 db_users = mongo_client['t_users']
 c_templates = db_misc['tc_templates']
@@ -45,8 +47,23 @@ def item_get_template_attributes():
     if new_item_template:
         del new_item_template['template']['keywords']
         del new_item_template['template']['name']
-        new_item_template['template']['time noticed']['value'] = datetime.utcnow()
     return new_item_template['template']
+
+
+# RETURNS:
+def item_track(item_name: str, id_str: str, item_obj):
+    # swap out blank values for null
+    for attribute in item_obj.keys():
+        if attribute == 'time noticed':
+            if item_obj[attribute] == '':
+                item_obj[attribute] = datetime.utcnow()
+            else:
+                item_obj[attribute] = datetime.strptime(item_obj[attribute], datetime_format)
+        if item_obj[attribute] == '':
+            item_obj[attribute] = None
+    db = mongo_client[database_prefix + id_str]
+    item_coll = db[item_name]
+    return item_coll.insert_one(item_obj)
 
 
 # RETURNS:
@@ -134,4 +151,4 @@ def user_is_active_by_id(user_id):
 # MAIN
 
 if __name__ == '__main__':
-    print(item_get_attributes())
+    print(''    )

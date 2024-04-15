@@ -145,10 +145,16 @@ def item_track(item_name):
     item_attributes = db.item_get_template_attributes()
     print(item_attributes)
     item_history = db.item_get_all_docs(current_user.id_str, item_name)
+    item_meta = item_history[0]
+    # remove meta document from item_history
+    item_history.pop(0)
     if request.method == 'POST':
         # NEED INPUT VALIDATION
-        pass
-    return render_template('item_track.html', item_attributes=item_attributes, item_docs=item_history, item_name=item_name)
+        db_response = db.item_track(item_name, current_user.id_str, request.form.to_dict())
+        if not db_response:
+            return render_template('item_track.html', error_msg='your item could not be tracked.')
+        return redirect(url_for('item_track', item_attributes=item_attributes, item_docs=item_history, item_meta=item_meta, item_name=item_name))
+    return render_template('item_track.html', item_attributes=item_attributes, item_docs=item_history, item_meta=item_meta, item_name=item_name)
 
 
 @app.route('/login', methods=['GET', 'POST'])

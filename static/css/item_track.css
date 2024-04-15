@@ -10,6 +10,8 @@
     background-color: aqua;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
     margin: 20px auto 0px auto;
     width: 100%
