@@ -3,12 +3,28 @@
     bsonType: 'object',
     required: [
       'date_joined',
+      'date_last_login',
+      'date_last_logout',
       'email',
       'password_hash',
       'username'
     ],
     properties: {
       date_joined: {
+        bsonType: [
+          'date',
+          'null'
+        ],
+        description: ''
+      },
+      date_last_login: {
+        bsonType: [
+          'date',
+          'null'
+        ],
+        description: ''
+      },
+      date_last_logout: {
         bsonType: [
           'date',
           'null'
