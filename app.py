@@ -38,6 +38,16 @@ def is_safe_url(target):
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
+
+# write parameter to app.log:
+def write_to_app_log(message: str):
+    try:
+        app_log = open('/logs/app.log', 'a')
+        app_log.write(message)
+        app_log.close()
+    finally:
+        pass
+
 ### ROUTES ###
 
 
@@ -68,7 +78,6 @@ def console():
     return render_template('console.html')
 
 
-# HERE
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     # is user is logged in redirect them to home
@@ -85,20 +94,24 @@ def create_account():
             return render_template('create_account.html', message_correction='The username must be between 6 and 30 characters long consisting of lowercase/uppercase letters, numbers, and underscores. Please try again.')
         if password_1 != password_2:
             return render_template('create_account.html', message_correction='The passwords must match. Please try again.')
-        db_response = db.user_create({
-            'active': True,#NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
-            'date_last_login': None,
-            'date_last_logout': None,
-            'date_joined': datetime.utcnow(),
-            'email': email,
-            'password_hash': generate_password_hash(password_1),
-            'username': username
-        })
-        if not db_response:
-            return render_template('create_account.html', message_correction='The email or username already exist. Please try again.')
-        if not db_response.acknowledged:
-            return render_template('create_account.html', message_correction='Damn. The database could not be written to. Probably not good. Help!')
-        return redirect('/login')
+        try:
+            db_response = db.user_create({
+                'active': True,  # NEED TO CHANGE THIS FOR EMAIL CONFIRMATION STEP
+                'date_last_login': None,
+                'date_last_logout': None,
+                'date_joined': datetime.utcnow(),
+                'email': email,
+                'password_hash': generate_password_hash(password_1),
+                'username': username
+            })
+        except:
+            write_to_app_log(str(datetime.utcnow()) + ' - 1 - db.user_create() crashed')
+        else:
+            if not db_response:
+                return render_template('create_account.html', message_correction='The email or username already exist. Please try again.')
+            if not db_response.acknowledged:
+                return render_template('create_account.html', message_correction='Damn. The database could not be written to. Probably not good. Help!')
+            return redirect('/login')
     return render_template('create_account.html')
 
 
@@ -206,6 +219,12 @@ def logout():
     # clear server-side session
     session.clear()
     return redirect('/index')
+
+
+@app.route('/view_create/<view_obj>')
+@login_required
+def view_create(view_obj):
+    pass
 
 ### MAIN ###
 
