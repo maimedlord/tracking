@@ -122,6 +122,7 @@ def item_create():
         db_response = db.item_create(current_user.id_str, request.form.to_dict())
         if not db_response:
             return render_template('item_create.html', error_msg='your item could not be created')
+        return render_template('item_create.html', message='Your item has been created!')
     return render_template('item_create.html', item_attributes=item_attributes.keys())
 
 
