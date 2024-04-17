@@ -39,6 +39,10 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
+def remove_danger_chars(input: str) -> str:
+    return re.sub("[;#:&@?*%<>{}|,^]", '', input)
+
+
 # write parameter to app.log:
 def write_to_app_log(message: str):
     try:
@@ -139,6 +143,16 @@ def item_create():
     return render_template('item_create.html', item_attributes=item_attributes.keys())
 
 
+@app.route('/item_create_api/<item_obj>', methods=['GET', 'POST'])
+@login_required
+def item_create_api(item_obj):
+    # NEEDS INPUT VALIDATION
+    db_response = db.item_create(current_user.id_str, request.form.to_dict())
+    if not db_response:
+        return 'your item could not be created'
+    return 'Your item has been created!'
+
+
 @app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_manage(item_name):
@@ -230,4 +244,5 @@ def view_create(view_obj):
 
 
 if __name__ == '__main__':
+    print(remove_danger_chars('asfq34ftWQE%$#^@#^%#s\];/.,lkasdf'))
     app.run()
