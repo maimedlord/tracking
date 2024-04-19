@@ -44,5 +44,7 @@ document.getElementById('create_view_button').onclick=function (){
 }
 //
 document.getElementById('submit_create_item').onclick=function (){
-
+    item_name = document.getElementById('name').value;
+    item_keywords = document.getElementById('keywords').value;
+    console.log(item_name, item_keywords);
 }

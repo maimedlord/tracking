@@ -76,7 +76,7 @@ def account():
     return render_template('account.html')
 
 
-@app.route('/console')
+@app.route('/console', methods=['GET', 'POST'])
 @login_required
 def console():
     return render_template('console.html')

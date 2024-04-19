@@ -41,3 +41,8 @@
     justify-content: flex-end;
     width: 100%;
 }
+#submit_create_item {
+    background-color: deepskyblue;
+    font-size: larger;
+    font-weight: bold;
+}
