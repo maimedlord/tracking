@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
         {% block css %}
         {% endblock %}
-        {% block javascript %}
+        {% block javascript_head %}
         {% endblock %}
     </head>
 <body>
@@ -37,4 +37,6 @@
         <div>tracking 2024</div>
     </div>
 </body>
+{% block javascript_footer %}
+{% endblock %}
 </html>

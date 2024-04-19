@@ -235,6 +235,12 @@ def logout():
     return redirect('/index')
 
 
+@app.route('/test_api/<input1>/<input2>')
+@login_required
+def test_api(input1: str, input2: str):
+    return 'this is a response'
+
+
 @app.route('/view_create/<view_obj>')
 @login_required
 def view_create(view_obj):

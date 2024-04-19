@@ -5,10 +5,39 @@
     justify-content: space-around;
     width: 100%
 }
-
 .console_view {
     background-color: darkkhaki;
     display: flex;
     justify-content: center;
+    width: 100%;
+}
+#create_button {
+    background-color: red;
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+}
+#create_item_input {
+    background-color: chartreuse;
+    display: none;
+    width: 100%;
+}
+#create_view_input {
+    background-color: aqua;
+    display: none;
+    width: 100%;
+}
+#item_or_view {
+    background-color: burlywood;
+    display: none;
+    flex-direction: row;
+    gap: 30px;
+}
+#root_console_create {
+    align-content: flex-end;
+    background-color: cadetblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 100%;
 }

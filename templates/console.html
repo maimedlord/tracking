@@ -6,21 +6,55 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/console.css') }}">
 {% endblock %}
 {% block body %}
-    welcome to tracking!
-    <br>
-    message: {{ message }}
-    <br>
-    email: {{ email }}
-    <br>
-    password: {{ password }}
-    <br>
-    username: {{ current_user.username }}
     <div id="console_nav">
         <div><a href="{{ url_for('item_create') }}">create new item</a></div>
         <div><a href="{{ url_for('items_manage') }}">items</a></div>
         <div>manage views</div>
     </div>
+    <div id="root_console_create">
+        <div id="create_button">
+            CREATE
+        </div>
+        <div id="item_or_view">
+            <div id="create_item_button">
+                CREATE ITEM
+            </div>
+            <div id="create_view_button">
+                CREATE VIEW
+            </div>
+            <div id="create_item_input">
+                <form id="item_create" method="post" name="item_create">
+                    <label>name: <input autocomplete="off" id="name" name="name" required type="text"></label>
+                    <br>
+                    <label>
+                        keywords: <input autocomplete="off" id="keywords" name="keywords" type="text">
+                    </label>
+                    <br>
+                    <button id="submit_create_item" type="submit">create item</button>
+                </form>
+            </div>
+            <div id="create_view_input">
+                stuff
+                <br>
+                stuff
+            </div>
+        </div>
+    </div>
     <div class="console_view">
         main view here
     </div>
+    <div>
+        welcome to tracking!
+        <br>
+        message: {{ message }}
+        <br>
+        email: {{ email }}
+        <br>
+        password: {{ password }}
+        <br>
+        username: {{ current_user.username }}
+    </div>
+    {% block javascript_footer %}
+        <script src="{{ url_for('static', filename='scripts/console.js') }}"></script>
+    {% endblock %}
 {% endblock %}
