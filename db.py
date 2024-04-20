@@ -15,6 +15,7 @@ db_users = mongo_client['t_users']
 c_templates = db_misc['tc_templates']
 c_users = db_users['tc_users']
 meta_coll = 'tc_meta'
+meta_doc_amt = 1
 
 database_prefix = 't_'
 collection_prefix = 'tc_'
@@ -29,6 +30,7 @@ def item_create(id_str: str, item_obj):
     # test if db exists?
     item_coll = db[item_obj['name']]
     item_obj['date_created'] = datetime.utcnow()
+    item_obj['counter'] = 0
     for attribute in item_get_template_attributes().keys():
         item_obj[attribute] = None
     return item_coll.insert_one(item_obj)
@@ -78,6 +80,21 @@ def get_collection_names(id_str: str):
     print(type(db_response), '//', db_response)
     return db_response
 
+
+# RETURNS:
+def get_item_metas(id_str: str):
+    db = mongo_client[database_prefix + id_str]
+    items = get_collection_names(id_str)
+    arr_of_item_objs = []
+    if len(items) == 0:
+        return 1;
+    for item_name in items:
+        item = {
+            'item_name': item_name,
+            'item_count': db[item_name].count_documents({}) - meta_doc_amt
+        }
+        arr_of_item_objs.append(item)
+    return arr_of_item_objs
 
 
 # RETURNS:

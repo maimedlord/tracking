@@ -168,6 +168,8 @@ def item_manage(item_name):
 @login_required
 def items_manage():
     items = db.get_collection_names(current_user.id_str)
+    stuff = db.get_item_metas(current_user.id_str)
+    print(stuff)
     return render_template('items_manage.html', items=items)
 
 
@@ -175,7 +177,8 @@ def items_manage():
 @app.route('/item_refresh_list')
 @login_required
 def item_refresh_list():
-    return db.get_collection_names(current_user.id_str)
+    temp = db.get_item_metas(current_user.id_str)
+    return temp
 
 
 @app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])

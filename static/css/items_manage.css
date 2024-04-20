@@ -1,5 +1,17 @@
+#api_response {
+    background-color: chartreuse;
+    color: red;
+    display: none;
+    font-size: x-large;
+    width: 100%;
+}
+#create_item_input {
+    background-color: chartreuse;
+    display: none;
+    width: 100%;
+}
 #item_create {
-    background-color: blanchedalmond;
+    background-color: aqua;
     width: 100%;
 }
 .item_div {
@@ -15,6 +27,11 @@
     gap: 20px;
     justify-content: center;
     width: 100%;
+}
+#submit_create_item {
+    background-color: deepskyblue;
+    font-size: larger;
+    font-weight: bold;
 }
 .titles {
     display: flex;
