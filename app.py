@@ -171,6 +171,19 @@ def items_manage():
     return render_template('items_manage.html', items=items)
 
 
+# INCOMPLETE NEED WORK NOW
+@app.route('/item_refresh_list')
+@login_required
+def item_refresh_list():
+    return db.get_collection_names(current_user.id_str)
+
+
+@app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])
+@login_required
+def item_track_api(item_obj):
+    pass
+
+
 @app.route('/item_track/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_track(item_name):
