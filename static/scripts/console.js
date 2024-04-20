@@ -42,9 +42,38 @@ document.getElementById('create_view_button').onclick=function (){
         create_view_on = false;
     }
 }
-//
+// submit_create_item
 document.getElementById('submit_create_item').onclick=function (){
     item_name = document.getElementById('name').value;
     item_keywords = document.getElementById('keywords').value;
-    console.log(item_name, item_keywords);
+    const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
+        'name': item_name,
+        'keywords': item_keywords
+    });
+
+    // NEED validate input
+    // const request_options = {
+    //     method: 'POST',
+    //     body: {
+    //         'name': item_name,
+    //         'keywords': item_keywords
+    //     }
+    // };
+
+    fetch(api_url, {method: 'POST'})
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            //responseMessage.textContent = data;
+            api_response = document.getElementById('api_response')
+            api_response.textContent = data;
+            api_response.style.display = 'flex';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }

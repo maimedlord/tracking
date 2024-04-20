@@ -1,6 +1,7 @@
 import pymongo
 from bson.objectid import ObjectId
 from datetime import datetime
+import json
 from pymongo import MongoClient#, DESCENDING, ReturnDocument
 from user import User
 from werkzeug.security import check_password_hash
@@ -21,6 +22,9 @@ collection_prefix = 'tc_'
 
 # RETURNS:
 def item_create(id_str: str, item_obj):
+    item_obj = json.loads(item_obj)
+    if item_obj['name'] in get_collection_names(id_str):
+        return None
     db = mongo_client[database_prefix + id_str]
     # test if db exists?
     item_coll = db[item_obj['name']]

@@ -1,3 +1,10 @@
+#api_response {
+    background-color: chartreuse;
+    color: red;
+    display: none;
+    font-size: x-large;
+    width: 100%;
+}
 #console_nav {
     background-color: azure;
     display: flex;

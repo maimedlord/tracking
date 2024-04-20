@@ -7,7 +7,6 @@
 {% endblock %}
 {% block body %}
     <div id="console_nav">
-        <div><a href="{{ url_for('item_create') }}">create new item</a></div>
         <div><a href="{{ url_for('items_manage') }}">items</a></div>
         <div>views</div>
     </div>
@@ -32,6 +31,8 @@
                     <br>
                     <div id="submit_create_item">create item</div>
                 </form>
+                <br>
+                <div id="api_response"></div>
             </div>
             <div id="create_view_input">
                 stuff

@@ -79,7 +79,8 @@ def account():
 @app.route('/console', methods=['GET', 'POST'])
 @login_required
 def console():
-    return render_template('console.html')
+    banana = 'banankjhlkjhlkjhlkja'
+    return render_template('console.html', banana=banana)
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -129,27 +130,29 @@ def delete_account():
 
 
 # NEEDS INPUT VALIDATION
-@app.route('/item_create', methods=['GET', 'POST'])
-@login_required
-def item_create():
-    # get list of item attributes
-    item_attributes = db.item_get_template_attributes()
-    if request.method == 'POST':
-        # NEEDS INPUT VALIDATION
-        db_response = db.item_create(current_user.id_str, request.form.to_dict())
-        if not db_response:
-            return render_template('item_create.html', error_msg='your item could not be created')
-        return render_template('item_create.html', message='Your item has been created!')
-    return render_template('item_create.html', item_attributes=item_attributes.keys())
+# @app.route('/item_create', methods=['GET', 'POST'])
+# @login_required
+# def item_create():
+#     # get list of item attributes
+#     item_attributes = db.item_get_template_attributes()
+#     if request.method == 'POST':
+#         # NEEDS INPUT VALIDATION
+#         db_response = db.item_create(current_user.id_str, request.form.to_dict())
+#         if not db_response:
+#             return render_template('item_create.html', error_msg='your item could not be created')
+#         return render_template('item_create.html', message='Your item has been created!')
+#     return render_template('item_create.html', item_attributes=item_attributes.keys())
 
 
-@app.route('/item_create_api/<item_obj>', methods=['GET', 'POST'])
+@app.route('/item_create/<item_obj>', methods=['GET', 'POST'])
 @login_required
-def item_create_api(item_obj):
+def item_create(item_obj):
+    print(item_obj)
     # NEEDS INPUT VALIDATION
-    db_response = db.item_create(current_user.id_str, request.form.to_dict())
+    db_response = db.item_create(current_user.id_str, item_obj)
+    print(db_response)
     if not db_response:
-        return 'your item could not be created'
+        return 'your item could not be created. perhaps it already exists?'
     return 'Your item has been created!'
 
 
@@ -157,6 +160,7 @@ def item_create_api(item_obj):
 @login_required
 def item_manage(item_name):
     db_response = db.item_get_all_docs(current_user.id_str, item_name)
+    print(db_response)
     return render_template('item_manage.html', item_docs=db_response, item_name=item_name)
 
 
