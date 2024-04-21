@@ -30,9 +30,6 @@ def item_create(id_str: str, item_obj):
     # test if db exists?
     item_coll = db[item_obj['name']]
     item_obj['date_created'] = datetime.utcnow()
-    item_obj['counter'] = 0
-    for attribute in item_get_template_attributes().keys():
-        item_obj[attribute] = None
     return item_coll.insert_one(item_obj)
 
 
@@ -41,6 +38,8 @@ def item_get_all_docs(id_str: str, item_name: str):
     db = mongo_client[database_prefix + id_str]
     item_docs = db[item_name]
     db_response = item_docs.find().sort('_id', pymongo.ASCENDING)
+    if not db_response:
+        return db_response
     db_response = list(db_response)
     for element in db_response:
         del element['_id']
@@ -77,7 +76,6 @@ def get_collection_names(id_str: str):
     db = mongo_client[database_prefix + id_str]
     db_response = list(db.list_collection_names())
     #db_response.remove(meta_coll)
-    print(type(db_response), '//', db_response)
     return db_response
 
 
@@ -89,10 +87,17 @@ def get_item_metas(id_str: str):
     if len(items) == 0:
         return 1;
     for item_name in items:
+        item_meta_doc = db[item_name].find().sort('_id', 1).limit(1)
+        num_of_docs = db[item_name].count_documents({}) - meta_doc_amt
         item = {
             'item_name': item_name,
-            'item_count': db[item_name].count_documents({}) - meta_doc_amt
+            'item_count': num_of_docs,
+            'date_created': item_meta_doc[0]['date_created'],
+            'keywords': item_meta_doc[0]['keywords']
         }
+        # if item has more than meta doc, add late time it was tracked to object
+        if num_of_docs > 0:
+            item['date_last_noticed'] = db[item_name].find().sort('_id', -1).limit(1)[0]['time noticed']
         arr_of_item_objs.append(item)
     return arr_of_item_objs
 

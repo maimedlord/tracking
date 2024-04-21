@@ -3,7 +3,7 @@
     <title>tracking - manage items</title>
 {% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/items_manage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/items_manage.css') }}">
 {% endblock %}
 {% block body %}
     {{ message_correction }}
@@ -29,7 +29,7 @@
     <div class="titles">your trackable items:</div>
     <div id="item_list">
     </div>
-    {% block javascript_footer %}
-        <script src="{{ url_for('static', filename='scripts/items_manage.js') }}"></script>
-    {% endblock %}
+{% endblock %}
+{% block javascript_footer %}
+    <script src="{{ url_for('static', filename='scripts/items_manage.js') }}"></script>
 {% endblock %}

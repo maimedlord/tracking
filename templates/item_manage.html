@@ -3,7 +3,11 @@
     <title>tracking - item manage</title>
 {% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/item_manage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/item_manage.css') }}">
+{% endblock %}
+{% block javascript_head %}
+    <script src="{{ url_for('static', filename='scripts/chartjs/node_modules/chart.js/dist/chart.umd.js') }}"></script>
+    <script>g_item_name='{{ item_name }}'</script>
 {% endblock %}
 {% block body %}
     this is item_manage
@@ -11,10 +15,9 @@
     <a href="{{ url_for('items_manage') }}">back to managing all items</a>
     <br>
     <div id="root_item_manage">
-        {% for element in item_docs %}
-            <div class="item_div">
-                {{ element }}
-            </div>
-        {% endfor %}
+        <div id="item_doc_list"></div>
     </div>
+{% endblock %}
+{% block javascript_footer %}
+    <script src="{{ url_for('static', filename='scripts/item_manage.js') }}"></script>
 {% endblock %}

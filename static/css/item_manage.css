@@ -1,3 +1,11 @@
+#item_doc_list {
+    background-color: darkkhaki;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
 .item_div {
     background-color: aquamarine;
     width: 350px;

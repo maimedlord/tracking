@@ -156,6 +156,13 @@ def item_create(item_obj):
     return 'Your item has been created!'
 
 
+@app.route('/item_doc_refresh_list/<item_name>', methods=['GET', 'POST'])
+@login_required
+def item_doc_refresh_list(item_name):
+    db_response = db.item_get_all_docs(current_user.id_str, item_name)
+    return db_response
+
+
 @app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_manage(item_name):
