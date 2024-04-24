@@ -80,7 +80,6 @@ window.onload=function () {
     const DATA_COUNT = 7;
     const NUMBER_CFG = {count: DATA_COUNT, rmin: 1, rmax: 1, min: 0, max: 100};
 
-
     new Chart(
         document.getElementById('item_graph_canvas'),
         {
