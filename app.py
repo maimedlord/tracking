@@ -159,33 +159,51 @@ def item_create(item_obj):
 @app.route('/item_doc_refresh_list/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_doc_refresh_list(item_name):
-    db_response = db.item_get_all_docs(current_user.id_str, item_name)
-    return db_response
+    db_response = db.get_item_docs(current_user.id_str, item_name)
+    if not db_response or len(db_response) == 1:
+        return json.dumps({
+            'status': 'fail',
+            'data': 'There are no items to refresh...'
+        })
+    return json.dumps({
+        'status': 'success',
+        'data': db_response
+    })
 
 
 @app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_manage(item_name):
-    db_response = db.item_get_all_docs(current_user.id_str, item_name)
-    print(db_response)
+    db_response = db.get_item_docs(current_user.id_str, item_name)
+    # swap out None values for ''
+    for doc in db_response:
+        for attribute in doc.keys():
+            if not doc[attribute]:
+                doc[attribute] = ''
     return render_template('item_manage.html', item_docs=db_response, item_name=item_name)
 
 
 @app.route('/items_manage')
 @login_required
 def items_manage():
-    items = db.get_collection_names(current_user.id_str)
-    stuff = db.get_item_metas(current_user.id_str)
-    print(stuff)
-    return render_template('items_manage.html', items=items)
+    #item_names = db.get_collection_names(current_user.id_str)
+    return render_template('items_manage.html')
 
 
 # INCOMPLETE NEED WORK NOW
 @app.route('/item_refresh_list')
 @login_required
 def item_refresh_list():
-    temp = db.get_item_metas(current_user.id_str)
-    return temp
+    db_response = db.get_item_metas(current_user.id_str)
+    if db_response == 1:
+        return json.dumps({
+            'status': 'fail',
+            'data': 'There are no items to refresh...'
+        })
+    return json.dumps({
+        'status': 'success',
+        'data': db_response
+    })
 
 
 @app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])
@@ -197,9 +215,9 @@ def item_track_api(item_obj):
 @app.route('/item_track/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_track(item_name):
-    item_attributes = db.item_get_template_attributes()
+    item_attributes = db.get_item_template_attributes()
     print(item_attributes)
-    item_history = db.item_get_all_docs(current_user.id_str, item_name)
+    item_history = db.get_item_docs(current_user.id_str, item_name)
     item_meta = item_history[0]
     # remove meta document from item_history
     item_history.pop(0)

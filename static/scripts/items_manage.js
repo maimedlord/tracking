@@ -14,29 +14,37 @@ function refresh_item_list() {
         .then(data => {
             // NEED TO HANDLE ALL RETURNS
             //responseMessage.textContent = data;
-            data_array = JSON.parse(data);
-            console.log(data_array);
-            item_list.innerHTML = '';
-            // processes an array of item meta documents
-            for (i = 0; i < data_array.length; i++) {
-                temp_div = document.createElement('div');
-                temp_div.innerHTML += '<b>' + data_array[i]['item_name'] + '</b><br>';
-                for (const attribute of Object.keys(data_array[i])) {
-                    temp_div.innerHTML += (attribute + ': ' + data_array[i][attribute] + '<br>');
-                }
-                link_manage = document.createElement('a');
-                link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data_array[i]['item_name']);
-                link_manage.innerHTML += 'manage this item';
-                link_track = document.createElement('a');
-                link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data_array[i]['item_name']);
-                link_track.innerHTML += 'track this item';
-                temp_div.appendChild(link_manage);
-                temp_div.appendChild(document.createElement('br'));
-                temp_div.appendChild(link_track);
-                temp_div.appendChild(document.createElement('br'));
+            // convert response from string to JSON
+            data = JSON.parse(data);
+            // handle error/failed response:
+            if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
+                item_list.innerHTML += data['data'];
+            }
+            //
+            else {
+                data = data['data']
+                item_list.innerHTML = '';
+                // processes an array of item meta documents
+                for (i = 0; i < data.length; i++) {
+                    temp_div = document.createElement('div');
+                    temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
+                    for (const attribute of Object.keys(data[i])) {
+                        temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
+                    }
+                    link_manage = document.createElement('a');
+                    link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
+                    link_manage.innerHTML += 'manage this item';
+                    link_track = document.createElement('a');
+                    link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
+                    link_track.innerHTML += 'track this item';
+                    temp_div.appendChild(link_manage);
+                    temp_div.appendChild(document.createElement('br'));
+                    temp_div.appendChild(link_track);
+                    temp_div.appendChild(document.createElement('br'));
 
-                temp_div.className = 'item_div';
-                item_list.append(temp_div);
+                    temp_div.className = 'item_div';
+                    item_list.append(temp_div);
+                }
             }
         })
         .catch(error => {

@@ -1,3 +1,6 @@
 venv
 ahenv
 .idea
+static/scripts/node_modules
+static/scripts/package.json
+static/scripts/package-lock.json

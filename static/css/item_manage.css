@@ -10,6 +10,10 @@
     background-color: aquamarine;
     width: 350px;
 }
+#item_graph {
+    background-color: greenyellow;
+    width: 100%;
+}
 #root_item_manage {
     background-color: bisque;
     display: flex;

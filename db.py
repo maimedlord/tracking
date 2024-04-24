@@ -34,20 +34,23 @@ def item_create(id_str: str, item_obj):
 
 
 # RETURNS:
-def item_get_all_docs(id_str: str, item_name: str):
+def get_item_docs(id_str: str, item_name: str):
     db = mongo_client[database_prefix + id_str]
     item_docs = db[item_name]
-    db_response = item_docs.find().sort('_id', pymongo.ASCENDING)
+    db_response = item_docs.find().sort('_id', 1)
     if not db_response:
         return db_response
     db_response = list(db_response)
     for element in db_response:
         del element['_id']
+        for key in element.keys():
+            if isinstance(element[key], datetime):
+                element[key] = datetime.strftime(element[key], datetime_format)
     return db_response
 
 
 # RETURNS:
-def item_get_template_attributes():
+def get_item_template_attributes():
     new_item_template = c_templates.find_one({'doc_type': 'new_item_template'})
     if new_item_template:
         del new_item_template['template']['keywords']
@@ -82,23 +85,27 @@ def get_collection_names(id_str: str):
 # RETURNS:
 def get_item_metas(id_str: str):
     db = mongo_client[database_prefix + id_str]
-    items = get_collection_names(id_str)
+    item_names = get_collection_names(id_str)
     arr_of_item_objs = []
-    if len(items) == 0:
-        return 1;
-    for item_name in items:
+    if len(item_names) <= 1:
+        return 1
+    if meta_coll in item_names:
+        item_names.remove(meta_coll)
+    for item_name in item_names:
         item_meta_doc = db[item_name].find().sort('_id', 1).limit(1)
+        print('item meta doc', item_meta_doc[0])
         num_of_docs = db[item_name].count_documents({}) - meta_doc_amt
-        item = {
+        item_obj = {
             'item_name': item_name,
             'item_count': num_of_docs,
-            'date_created': item_meta_doc[0]['date_created'],
+            'date_created': datetime.strftime(item_meta_doc[0]['date_created'], datetime_format),
             'keywords': item_meta_doc[0]['keywords']
         }
         # if item has more than meta doc, add late time it was tracked to object
         if num_of_docs > 0:
-            item['date_last_noticed'] = db[item_name].find().sort('_id', -1).limit(1)[0]['time noticed']
-        arr_of_item_objs.append(item)
+            datetime_obj = db[item_name].find().sort('_id', -1).limit(1)[0]['time noticed']
+            item_obj['date_last_noticed'] = datetime.strftime(datetime_obj, datetime_format)
+        arr_of_item_objs.append(item_obj)
     return arr_of_item_objs
 
 
