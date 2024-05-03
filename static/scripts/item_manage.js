@@ -56,26 +56,23 @@ window.onload=function () {
                   {x: 23, y:67}
               ],
               borderColor: 'red',
-              backgroundColor: 'white'
+              backgroundColor: 'red'
             }
-        ]
+        ],
     };
 
     if (g_item_docs.length < 2) {
         return;
     }
 
-    console.log(data['datasets'][0]['data']);
     data['datasets'][0]['data'] = [];
-    console.log(data['datasets'][0]['data']);
 
     for (i = 1; i < g_item_docs.length; i++) {
         data['datasets'][0]['data'].push({
-            x: parseInt(g_item_docs[i]['time noticed']),
+            x: new Date(g_item_docs[i]['time noticed']),
             y: g_item_docs[i]['intensity']
         });
     }
-    console.log(data['datasets'][0]['data']);
 
     const DATA_COUNT = 7;
     const NUMBER_CFG = {count: DATA_COUNT, rmin: 1, rmax: 1, min: 0, max: 100};
@@ -92,6 +89,14 @@ window.onload=function () {
                     title: {
                         display: true,
                         text: 'Chart.js Scatter Chart'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'week'
+                        }
                     }
                 }
             }
