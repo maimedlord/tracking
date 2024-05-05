@@ -1,0 +1,55 @@
+{
+  "_id": {
+    "$oid": "661c112eefd5013a96d99be0"
+  },
+  "doc_type": "new_item_template",
+  "template": {
+    "color": {
+      "type": "color",
+      "value": ""
+    },
+    "feeling after": {
+      "placeholder": "...",
+      "type": "text",
+      "value": ""
+    },
+    "feeling before": {
+      "placeholder": "...",
+      "type": "text",
+      "value": ""
+    },
+    "intensity": {
+      "max": 100,
+      "min": 1,
+      "placeholder": "integer bewteen 1, 100",
+      "type": "number",
+      "value": ""
+    },
+    "keywords": {
+      "type": "string"
+    },
+    "name": {
+      "type": "text",
+      "value": ""
+    },
+    "notes": {
+      "placeholder": "...",
+      "type": "text",
+      "value": ""
+    },
+    "response method": {
+      "placeholder": "...",
+      "type": "text",
+      "value": ""
+    },
+    "time duration": {
+      "placeholder": "integer in minutes",
+      "type": "number",
+      "value": ""
+    },
+    "time noticed": {
+      "type": "datetime-local",
+      "value": ""
+    }
+  }
+}
