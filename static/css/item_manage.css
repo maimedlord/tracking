@@ -14,6 +14,9 @@
     background-color: greenyellow;
     width: 100%;
 }
+#item_graph_div {
+    width: 100%;
+}
 #root_item_manage {
     background-color: bisque;
     display: flex;

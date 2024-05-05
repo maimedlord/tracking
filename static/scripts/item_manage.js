@@ -47,16 +47,16 @@ window.onload=function () {
     g_item_docs = g_item_docs.replaceAll('&#39;', '"');
     g_item_docs = JSON.parse(g_item_docs);
     console.log(g_item_docs);
-    data = {
+    data_obj = {
         datasets: [
             {
-              label: 'Dataset 1',
-              data: [
-                  {x: 1, y:20},
-                  {x: 23, y:67}
-              ],
-              borderColor: 'red',
-              backgroundColor: 'red'
+                label: 'hello and stuff',
+                data: [
+                    {x: 1, y:20},
+                    {x: 23, y:67}
+                ],
+                borderColor: 'red ',
+                backgroundColor: 'purple'
             }
         ],
     };
@@ -65,38 +65,49 @@ window.onload=function () {
         return;
     }
 
-    data['datasets'][0]['data'] = [];
+    data_obj['datasets'][0]['data'] = [];
+    data_obj['datasets'][0]['label'] = [];
 
     for (i = 1; i < g_item_docs.length; i++) {
-        data['datasets'][0]['data'].push({
+        data_obj['datasets'][0]['data'].push({
             x: new Date(g_item_docs[i]['time noticed']),
-            y: g_item_docs[i]['intensity']
+            //y: g_item_docs[i]['intensity']
+            y: new Date(g_item_docs[i]['time noticed']).getHours(),
+            r: parseInt(g_item_docs[i]['intensity']) / 5
         });
     }
 
-    const DATA_COUNT = 7;
-    const NUMBER_CFG = {count: DATA_COUNT, rmin: 1, rmax: 1, min: 0, max: 100};
+    console.log('gitemdocs', g_item_docs);
+    console.log('leh dataobjs', data_obj);
 
     new Chart(
         document.getElementById('item_graph_canvas'),
         {
-            type: 'scatter',
-            data: data,
+            type: 'bubble',
+            data: data_obj,
             options: {
                 responsive: true,
                 plugins: {
                     legend: {position: 'top'},
                     title: {
                         display: true,
-                        text: 'Chart.js Scatter Chart'
+                        text: 'Chart.js Scatter Chart stuff'
                     }
                 },
                 scales: {
                     x: {
                         type: 'time',
                         time: {
-                            unit: 'week'
+                            unit: 'day'
                         }
+                    },
+                    y: {
+                        type: 'linear',
+                        ticks: {
+                            stepSize: 1
+                        },
+                        min: 0,
+                        max: 24
                     }
                 }
             }
