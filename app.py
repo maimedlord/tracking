@@ -175,6 +175,7 @@ def item_doc_refresh_list(item_name):
 @login_required
 def item_manage(item_name):
     db_response = db.get_item_docs(current_user.id_str, item_name)
+    print('teh db response', db_response)
     # swap out None values for ''
     for doc in db_response:
         for attribute in doc.keys():
