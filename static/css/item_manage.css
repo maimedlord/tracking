@@ -14,6 +14,9 @@
     background-color: greenyellow;
     width: 100%;
 }
+#item_graph_canvas {
+    background-color: white;
+}
 #item_graph_div {
     width: 100%;
 }

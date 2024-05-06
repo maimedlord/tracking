@@ -50,13 +50,9 @@ window.onload=function () {
     data_obj = {
         datasets: [
             {
-                label: 'hello and stuff',
-                data: [
-                    {x: 1, y:20},
-                    {x: 23, y:67}
-                ],
-                borderColor: 'red ',
-                backgroundColor: 'purple'
+                label: g_item_docs[0]['name'],
+                data: [],
+                backgroundColor: []
             }
         ],
     };
@@ -65,16 +61,17 @@ window.onload=function () {
         return;
     }
 
-    data_obj['datasets'][0]['data'] = [];
-    data_obj['datasets'][0]['label'] = [];
-
+    // notice skipping meta doc in front of array
     for (i = 1; i < g_item_docs.length; i++) {
+        temp_date = new Date(g_item_docs[i]['time noticed']);
         data_obj['datasets'][0]['data'].push({
-            x: new Date(g_item_docs[i]['time noticed']),
+            x: temp_date,
             //y: g_item_docs[i]['intensity']
-            y: new Date(g_item_docs[i]['time noticed']).getHours(),
-            r: parseInt(g_item_docs[i]['intensity']) / 5
+            y: temp_date.getHours() + (temp_date.getMinutes() / 60),
+            r: parseInt(g_item_docs[i]['intensity']) / 2
         });
+        //
+        data_obj['datasets'][0]['backgroundColor'].push(g_item_docs[i]['color']);
     }
 
     console.log('gitemdocs', g_item_docs);
@@ -91,7 +88,7 @@ window.onload=function () {
                     legend: {position: 'top'},
                     title: {
                         display: true,
-                        text: 'Chart.js Scatter Chart stuff'
+                        text: 'Chart.js Bubble Chart stuff'
                     }
                 },
                 scales: {
