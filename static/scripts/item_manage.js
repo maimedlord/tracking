@@ -66,7 +66,6 @@ window.onload=function () {
         temp_date = new Date(g_item_docs[i]['time noticed']);
         data_obj['datasets'][0]['data'].push({
             x: temp_date,
-            //y: g_item_docs[i]['intensity']
             y: temp_date.getHours() + (temp_date.getMinutes() / 60),
             r: parseInt(g_item_docs[i]['intensity']) / 2
         });
@@ -100,12 +99,13 @@ window.onload=function () {
                         max: new Date()
                     },
                     y: {
-                        type: 'linear',
+                        //type: 'linear',
+                        type: 'time',
                         ticks: {
-                            stepSize: 1
+                            //stepSize: 1
                         },
-                        min: 0,
-                        max: 24
+                        // min: '0:00',
+                        // max: '24:00'
                     }
                 }
             }
