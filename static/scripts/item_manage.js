@@ -96,7 +96,8 @@ window.onload=function () {
                         type: 'time',
                         time: {
                             unit: 'day'
-                        }
+                        },
+                        max: new Date()
                     },
                     y: {
                         type: 'linear',

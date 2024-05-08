@@ -2,13 +2,16 @@
     background-color: darkkhaki;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     width: 100%;
 }
 .item_div {
     background-color: aquamarine;
-    width: 350px;
+    flex-basis: 600px;
+    max-width: 600px;
+    min-width: 350px;
 }
 #item_graph {
     background-color: greenyellow;
