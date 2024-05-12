@@ -1,3 +1,6 @@
+.graph_buttons {
+    background-color: deepskyblue;
+}
 #item_doc_list {
     background-color: darkkhaki;
     display: flex;
