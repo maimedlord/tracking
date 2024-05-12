@@ -32,3 +32,10 @@
     justify-content: center;
     width: 100%
 }
+#temp_buttons {
+    background-color: darkseagreen;
+    display: none;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
