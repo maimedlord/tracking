@@ -5,6 +5,10 @@
     background-color: palegoldenrod;
     width: 100%;
 }
+#items {
+    background-color: azure;
+    width: 100%;
+}
 #nav_view_type {
     background-color: aqua;
     display: flex;
