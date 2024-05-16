@@ -292,6 +292,12 @@ def test_api(input1: str, input2: str):
 def view_create(view_obj):
     pass
 
+
+@app.route('/views_manage')
+@login_required
+def views_manage():
+    return render_template('views_manage.html')
+
 ### MAIN ###
 
 

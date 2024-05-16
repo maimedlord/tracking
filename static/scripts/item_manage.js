@@ -12,7 +12,7 @@ let DIV_BUTTONS = document.getElementById('temp_buttons');
 let DIV_LIST_ITEM_DOCS = document.getElementById('item_doc_list');
 
 /*
-runs on page load.
+runs on page load via window.onload
 grab item docs via API and then display/populate elements accordingly
 */
 function get_item_docs() {
