@@ -5,8 +5,19 @@
     background-color: palegoldenrod;
     width: 100%;
 }
+.item_div {
+    background-color: antiquewhite;
+    border: black solid 3px;
+    padding: 5px 5px 5px 5px;
+    width: 350px;
+}
 #items {
     background-color: azure;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
     width: 100%;
 }
 #nav_view_type {

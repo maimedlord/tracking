@@ -22,7 +22,7 @@ function refresh_item_list() {
             }
             //
             else {
-                data = data['data']
+                data = data['data'];
                 item_list.innerHTML = '';
                 // processes an array of item meta documents
                 for (i = 0; i < data.length; i++) {

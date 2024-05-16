@@ -29,3 +29,6 @@
         </div>
     </div>
 {% endblock %}
+{% block javascript_footer %}
+    <script src="{{ url_for('static', filename='scripts/views_manage.js') }}"></script>
+{% endblock %}
