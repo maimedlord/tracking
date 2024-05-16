@@ -121,6 +121,10 @@ window.onload=function () {
     get_item_docs();
 }
 
+/*
+...
+ */
+
 // last week
 div_graph_button_last_week = document.getElementById('graph_button_last_week');
 div_graph_button_last_week.onclick=function () {

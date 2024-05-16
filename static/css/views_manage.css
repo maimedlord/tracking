@@ -1,3 +1,24 @@
+.button {
+    background-color: chartreuse;
+}
+#div_teh_view {
+    background-color: palegoldenrod;
+    width: 100%;
+}
+#nav_view_type {
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    justify-content: center;
+}
 #root_views_mangage {
     background-color: darkseagreen;
+    width: 100%;
+}
+#view_item_bucket {
+    background-color: beige;
+}
+#views_saved {
+    background-color: lavender;
 }
