@@ -1,14 +1,20 @@
 // global variables
 const API_URL = 'http://127.0.0.1:5000/item_doc_refresh_list/' + g_item_name;
+const CANVAS_ID = 'item_graph_canvas';
 const DATE_TODAY = new Date();
+const DATE_LAST_MONTH = new Date().setDate(DATE_TODAY.getDate() - 31);
+const DATE_LAST_QTR = new Date().setDate(DATE_TODAY.getDate() - (31 * 3));
+const DATE_LAST_WEEK = new Date().setDate(DATE_TODAY.getDate() - 8);
+const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
+const DEFAULT_BUTTON_COLOR = 'aquamarine';
 let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
 let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
-let THE_CHART = {};
+let THE_CHART = new Chart(GRAPH_CANVAS);
 
 // global element variables
-let DIV_BUTTONS = document.getElementById('temp_buttons');
+let DIV_BUTTONS = document.getElementById('nav_graph_buttons');
 let DIV_LIST_ITEM_DOCS = document.getElementById('item_doc_list');
 
 /*
@@ -75,41 +81,9 @@ function get_item_docs() {
                 //
                 GRAPH_DATA_OBJECT['datasets'][0]['backgroundColor'].push(ITEM_DOCS[i]['color']);
             }
-            THE_CHART = new Chart(
-                document.getElementById('item_graph_canvas'),
-                {
-                    type: 'bubble',
-                    data: GRAPH_DATA_OBJECT,
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {position: 'top'},
-                            title: {
-                                display: true,
-                                text: ITEM_DOCS[0]['name'] + ' bubble chart all time'
-                            }
-                        },
-                        scales: {
-                            x: {
-                                type: 'time',
-                                time: {
-                                    unit: 'day'
-                                },
-                                max: DATE_TOMORROW
-                            },
-                            y: {
-                                type: 'linear',
-                                ticks: {
-                                    stepSize: 1
-                                },
-                                min: '0',
-                                max: '24'
-                            }
-                        }
-                    }
-                }
-            );
-            // enable display of graph interaction buttons
+            // draw graph
+            draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time to today', DATE_TOMORROW, null);
+            // display graph buttons
             DIV_BUTTONS.style.display = 'flex';
         })
         .catch(error => {
@@ -125,24 +99,21 @@ window.onload=function () {
 ...
  */
 
-// last week
-div_graph_button_last_week = document.getElementById('graph_button_last_week');
-div_graph_button_last_week.onclick=function () {
-    div_graph_button_last_week.style.backgroundColor = 'grey';
-    // destroy chart so that its canvas can be reused
+// draw bubble graph
+function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
     THE_CHART.destroy();
     THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
+        GRAPH_CANVAS,
         {
             type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
+            data: data_objects,
             options: {
                 responsive: true,
                 plugins: {
                     legend: {position: 'top'},
                     title: {
                         display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart by week'
+                        text: ITEM_DOCS[0]['name'] + ' bubble chart ' + title_text
                     }
                 },
                 scales: {
@@ -151,8 +122,8 @@ div_graph_button_last_week.onclick=function () {
                         time: {
                             unit: 'day'
                         },
-                        max: DATE_TOMORROW,
-                        min: new Date().setDate(DATE_TODAY.getDate() - 8)
+                        max: x_max,
+                        min: x_min
                     },
                     y: {
                         type: 'linear',
@@ -168,210 +139,40 @@ div_graph_button_last_week.onclick=function () {
     );
 }
 
-// last month
-div_graph_button_last_month = document.getElementById('graph_button_last_month');
-div_graph_button_last_month.onclick=function () {
-    div_graph_button_last_month.style.backgroundColor = 'grey';
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
-        {
-            type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart by month'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                        max: DATE_TOMORROW,
-                        min: new Date().setDate(DATE_TODAY.getDate() - 31)
-                    },
-                    y: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
-                    }
-                }
-            }
-        }
-    );
+//
+function redraw_graph_buttons() {
+    console.log(DIV_BUTTONS.children.item(0));
+    for (let i = 0; i <= DIV_BUTTONS.children.length; i++) {
+        //DIV_BUTTONS.children.item(i).className = 'graph_buttons';
+    }
 }
 
-// last qtr
-div_graph_button_last_qtr = document.getElementById('graph_button_last_qtr');
-div_graph_button_last_qtr.onclick=function () {
-    div_graph_button_last_qtr.style.backgroundColor = 'grey';
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
-        {
-            type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart by qtr'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                        max: DATE_TOMORROW,
-                        min: new Date().setDate(DATE_TODAY.getDate() - (31 * 3))
-                    },
-                    y: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
-                    }
-                }
-            }
-        }
-    );
-}
+/*
+    onclicks
+ */
 
-// last year
-div_graph_button_last_year = document.getElementById('graph_button_last_year');
-div_graph_button_last_year.onclick=function () {
-    div_graph_button_last_year.style.backgroundColor = 'grey';
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
-        {
-            type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart by year'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                        max: DATE_TOMORROW,
-                        min: new Date().setDate(DATE_TODAY.getDate() - 365)
-                    },
-                    y: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
-                    }
-                }
-            }
-        }
-    );
+document.getElementById('graph_button_all_time').onclick=function() {
+    this.style.backgroundColor = 'grey';
+    redraw_graph_buttons();
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time', null, null);
 }
-
-// all time to today
-div_graph_button_all_time_today = document.getElementById('graph_button_all_time_today');
-div_graph_button_all_time_today.onclick=function () {
-    div_graph_button_all_time_today.style.backgroundColor = 'grey';
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
-        {
-            type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart all time to today'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                        max: DATE_TODAY,
-                    },
-                    y: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
-                    }
-                }
-            }
-        }
-    );
-    console.log('all time today');
+document.getElementById('graph_button_all_time_today').onclick=function () {
+    this.style.backgroundColor = 'grey';
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time to today', DATE_TOMORROW, null);
 }
-
-// all time
-div_graph_button_all_time = document.getElementById('graph_button_all_time');
-div_graph_button_all_time.onclick=function () {
-    div_graph_button_all_time.style.backgroundColor = 'grey';
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        document.getElementById('item_graph_canvas'),
-        {
-            type: 'bubble',
-            data: GRAPH_DATA_OBJECT,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart all time'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                    },
-                    y: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
-                    }
-                }
-            }
-        }
-    );
+document.getElementById('graph_button_last_month').onclick=function () {
+    this.style.backgroundColor = 'grey';
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last month', DATE_TOMORROW, DATE_LAST_MONTH);
+}
+document.getElementById('graph_button_last_qtr').onclick=function () {
+    this.style.backgroundColor = 'grey';
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last quarter', DATE_TOMORROW, DATE_LAST_QTR);
+}
+document.getElementById('graph_button_last_week').onclick=function () {
+    this.style.backgroundColor = 'grey';
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last week', DATE_TOMORROW, DATE_LAST_WEEK);
+}
+document.getElementById('graph_button_last_year').onclick=function () {
+    this.style.backgroundColor = 'grey';
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last year', DATE_TOMORROW, DATE_LAST_YEAR);
 }
