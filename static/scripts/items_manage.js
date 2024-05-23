@@ -22,7 +22,7 @@ function refresh_item_list() {
             }
             //
             else {
-                data = data['data']
+                data = data['data'];
                 item_list.innerHTML = '';
                 // processes an array of item meta documents
                 for (i = 0; i < data.length; i++) {
@@ -33,7 +33,7 @@ function refresh_item_list() {
                     }
                     link_manage = document.createElement('a');
                     link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
-                    link_manage.innerHTML += 'manage this item';
+                    link_manage.innerHTML += 'manage, view this item';
                     link_track = document.createElement('a');
                     link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
                     link_track.innerHTML += 'track this item';

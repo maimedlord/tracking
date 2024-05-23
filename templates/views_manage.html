@@ -24,5 +24,11 @@
         <div id="view_item_bucket">
             view_item_bucket
         </div>
+        <div id="items">
+            items here
+        </div>
     </div>
+{% endblock %}
+{% block javascript_footer %}
+    <script src="{{ url_for('static', filename='scripts/views_manage.js') }}"></script>
 {% endblock %}
