@@ -303,4 +303,5 @@ def views_manage():
 
 if __name__ == '__main__':
     print(remove_danger_chars('asfq34ftWQE%$#^@#^%#s\];/.,lkasdf'))
+    #
     app.run()
