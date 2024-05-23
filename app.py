@@ -256,7 +256,7 @@ def login():
         if not db_response:
             return render_template('login.html', message_correction='User not found. Please try again.')
         login_user(db_response)
-        db_response = db.record_login_date(email)
+        db_response = db.user_set_login_date(email)
         # the entire following sequence needs to be fully understood:
         next = request.args.get('next')
         print('YOU NEED TO MAKE SURE THAT THIS LOGIN PROCEDURE IS SAFE: NEXT IS_SAFE_URL(NEXT)')
@@ -275,7 +275,7 @@ def logout():
     # clear flask-login session
     logout_user()
     # log logout
-    db_response = db.record_logout_date(username)
+    db_response = db.user_set_logout_date(username)
     # clear server-side session
     session.clear()
     return redirect('/index')

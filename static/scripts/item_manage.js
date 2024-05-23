@@ -2,7 +2,6 @@
 const API_URL = 'http://127.0.0.1:5000/item_doc_refresh_list/' + g_item_name;
 const DATE_TODAY = new Date();
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY + 1);
-let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
 let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
 let THE_CHART = {};
