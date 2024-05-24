@@ -20,13 +20,14 @@ c_users = db_users['tc_users']
 meta_coll = 'tc_meta'
 meta_doc_amt = 1
 
-database_prefix = 't_'
+db_item_prefix = 't_item_'
+db_view_prefix = 't_view_'
 collection_prefix = 'tc_'
 
 
 # RETURNS:
 def get_collection_names(id_str: str):
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_item_prefix + id_str]
     db_response = list(db.list_collection_names())
     #db_response.remove(meta_coll)
     return db_response
@@ -34,7 +35,7 @@ def get_collection_names(id_str: str):
 
 # RETURNS:
 def get_item_docs(id_str: str, item_name: str):
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_item_prefix + id_str]
     item_docs = db[item_name]
     db_response = item_docs.find().sort('_id', 1)
     if not db_response:
@@ -50,7 +51,7 @@ def get_item_docs(id_str: str, item_name: str):
 
 # RETURNS:
 def get_item_metas(id_str: str):
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_item_prefix + id_str]
     item_names = get_collection_names(id_str)
     arr_of_item_objs = []
     if len(item_names) <= 1:
@@ -89,7 +90,7 @@ def item_create(id_str: str, item_obj):
     item_obj = json.loads(item_obj)
     if item_obj['name'] in get_collection_names(id_str):
         return None
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_item_prefix + id_str]
     # test if db exists?
     item_coll = db[item_obj['name']]
     item_obj['date_created'] = datetime.utcnow()
@@ -107,7 +108,7 @@ def item_track(item_name: str, id_str: str, item_obj):
                 item_obj[attribute] = datetime.strptime(item_obj[attribute], datetime_format)
         if item_obj[attribute] == '':
             item_obj[attribute] = None
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_item_prefix + id_str]
     item_coll = db[item_name]
     return item_coll.insert_one(item_obj)
 
@@ -126,13 +127,13 @@ def user_create(test_user_template):
     id_obj = copy.deepcopy(db_write.inserted_id)
     # create user's personal database, meta collection and initial meta document,
     # view collection and initial view meta document:
-    new_db = mongo_client[database_prefix + 'item_' + str(db_write.inserted_id)]
+    new_db = mongo_client[db_item_prefix + str(db_write.inserted_id)]
     new_collection = new_db[collection_prefix + 'meta']
     db_write = new_collection.insert_one({
         'date_created': datetime.utcnow(),
         'user_id_obj': db_write.inserted_id
     })
-    new_db = mongo_client[database_prefix + 'view_' + str(id_obj)]
+    new_db = mongo_client[db_view_prefix + str(id_obj)]
     new_collection = new_db[collection_prefix + 'meta']
     db_write = new_collection.insert_one({
         'date_create': datetime.utcnow()
@@ -145,8 +146,10 @@ def user_delete(id_str):
     id_exists = c_users.find_one({'_id': ObjectId(id_str)}, {'_id': 1})
     if not id_exists:
         return None
-    # delete user's personal db:
-    db_delete = mongo_client.drop_database(database_prefix + str(id_exists['_id']))
+    # delete user's items:
+    mongo_client.drop_database(db_item_prefix + id_str)
+    # delete user's views:
+    mongo_client.drop_database(db_view_prefix + id_str)
     # delete user's user record:
     c_delete = c_users.delete_one({'_id': id_exists['_id']})
     return c_delete
@@ -192,7 +195,7 @@ def user_set_logout_date(username: str):
 
 # RETURNS:
 def view_create(id_str: str, views_arr: list[str]):
-    db = mongo_client[database_prefix + id_str]
+    db = mongo_client[db_view_prefix + id_str]
     print(db)
     pass
 

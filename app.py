@@ -1,4 +1,3 @@
-import copy
 import json
 from datetime import datetime
 import db
