@@ -1,3 +1,9 @@
+//
+let button_view_calendar = document.getElementById('button_view_calendar');
+let button_view_graph = document.getElementById('button_view_graph');
+let div_view_calendar = document.getElementById('div_view_calendar');
+let div_view_graph = document.getElementById('div_view_graph');
+
 // refresh item list
 function refresh_item_list() {
     item_list = document.getElementById('items');
@@ -41,3 +47,27 @@ function refresh_item_list() {
 window.onload=function () {
     refresh_item_list();
 }
+
+/*
+    onclicks
+ */
+
+button_view_calendar.onclick=function () {
+    div_view_graph.style.display = 'none';
+    div_view_calendar.style.display = 'flex';
+}
+button_view_graph.onclick=function () {
+    div_view_calendar.style.display = 'none';
+    div_view_graph.style.display = 'flex';
+}
+
+// div_view_calendar.onclick=function () {
+//     //div_view_graph.style.display = 'none';
+//     div_view_calendar.style.display = 'flex';
+//     console.log('clicked on calendar');
+// }
+// div_view_graph.onclick=function () {
+//     div_view_calendar.style.display = 'none';
+//     div_view_graph.style.display = 'flex';
+//     console.log('clicked on graph');
+// }

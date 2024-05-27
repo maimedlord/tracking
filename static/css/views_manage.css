@@ -1,6 +1,16 @@
 .button {
     background-color: chartreuse;
 }
+#div_view_calendar {
+    background-color: palegoldenrod;
+    display: none;
+    width: 100%;
+}
+#div_view_graph {
+    background-color: chartreuse;
+    display: none;
+    width: 100%;
+}
 #div_teh_view {
     background-color: palegoldenrod;
     width: 100%;
