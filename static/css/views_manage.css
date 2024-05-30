@@ -32,7 +32,7 @@
 }
 #nav_view_type {
     background-color: aqua;
-    display: flex;
+    display: none;
     flex-direction: row;
     gap: 80px;
     justify-content: center;
