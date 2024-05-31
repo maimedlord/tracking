@@ -51,7 +51,7 @@ def write_to_app_log(message: str):
     finally:
         pass
 
-### ROUTES ###
+# # # ROUTES # # #
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -143,33 +143,6 @@ def delete_account():
 #     return render_template('item_create.html', item_attributes=item_attributes.keys())
 
 
-@app.route('/item_create/<item_obj>', methods=['GET', 'POST'])
-@login_required
-def item_create(item_obj):
-    print(item_obj)
-    # NEEDS INPUT VALIDATION
-    db_response = db.item_create(current_user.id_str, item_obj)
-    print(db_response)
-    if not db_response:
-        return 'your item could not be created. perhaps it already exists?'
-    return 'Your item has been created!'
-
-
-@app.route('/item_doc_refresh_list/<item_name>', methods=['GET', 'POST'])
-@login_required
-def item_doc_refresh_list(item_name):
-    db_response = db.get_item_docs(current_user.id_str, item_name)
-    if not db_response or len(db_response) == 1:
-        return json.dumps({
-            'status': 'fail',
-            'data': 'There are no items to refresh...'
-        })
-    return json.dumps({
-        'status': 'success',
-        'data': db_response
-    })
-
-
 @app.route('/item_manage/<item_name>', methods=['GET', 'POST'])
 @login_required
 def item_manage(item_name):
@@ -188,28 +161,6 @@ def item_manage(item_name):
 def items_manage():
     #item_names = db.get_collection_names(current_user.id_str)
     return render_template('items_manage.html')
-
-
-# INCOMPLETE NEED WORK NOW
-@app.route('/item_refresh_list')
-@login_required
-def item_refresh_list():
-    db_response = db.get_item_metas(current_user.id_str)
-    if db_response == 1:
-        return json.dumps({
-            'status': 'fail',
-            'data': 'There are no items to refresh...'
-        })
-    return json.dumps({
-        'status': 'success',
-        'data': db_response
-    })
-
-
-@app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])
-@login_required
-def item_track_api(item_obj):
-    pass
 
 
 @app.route('/item_track/<item_name>', methods=['GET', 'POST'])
@@ -280,12 +231,6 @@ def logout():
     return redirect('/index')
 
 
-@app.route('/test_api/<input1>/<input2>')
-@login_required
-def test_api(input1: str, input2: str):
-    return 'this is a response'
-
-
 @app.route('/view_create/<view_obj>')
 @login_required
 def view_create(view_obj):
@@ -297,7 +242,93 @@ def view_create(view_obj):
 def views_manage():
     return render_template('views_manage.html')
 
-### MAIN ###
+
+# # # API ROUTES # # #
+
+
+@app.route('/item_create/<item_obj>', methods=['GET', 'POST'])
+@login_required
+def item_create(item_obj):
+    print(item_obj)
+    # NEEDS INPUT VALIDATION
+    db_response = db.item_create(current_user.id_str, item_obj)
+    print(db_response)
+    if not db_response:
+        return 'your item could not be created. perhaps it already exists?'
+    return 'Your item has been created!'
+
+
+@app.route('/item_doc_refresh_list/<item_name>', methods=['GET', 'POST'])
+@login_required
+def item_doc_refresh_list(item_name):
+    db_response = db.get_item_docs(current_user.id_str, item_name)
+    if not db_response or len(db_response) == 1:
+        return json.dumps({
+            'status': 'fail',
+            'data': 'There are no items to refresh...'
+        })
+    return json.dumps({
+        'status': 'success',
+        'data': db_response
+    })
+
+
+#
+@app.route('/item_get_all/')
+@login_required
+def item_get_all():
+    db_response = None
+    try:
+        print('beginning of try')
+        db_response = db.get_all_items_for_user(current_user.id_str)
+        print('end of try')
+    except:
+        pass
+    else:
+        if db_response == 1:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        print(db_response)
+        return json.dumps({
+            'status': 'success',
+            'data': db_response
+        })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened...'
+    })
+
+# INCOMPLETE NEED WORK NOW
+@app.route('/item_refresh_list')
+@login_required
+def item_refresh_list():
+    db_response = db.get_item_metas(current_user.id_str)
+    if db_response == 1:
+        return json.dumps({
+            'status': 'fail',
+            'data': 'There are no items to refresh...'
+        })
+    return json.dumps({
+        'status': 'success',
+        'data': db_response
+    })
+
+
+@app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])
+@login_required
+def item_track_api(item_obj):
+    pass
+
+
+@app.route('/test_api/<input1>/<input2>')
+@login_required
+def test_api(input1: str, input2: str):
+    return 'this is a response'
+
+
+# # # MAIN # # #
 
 
 if __name__ == '__main__':

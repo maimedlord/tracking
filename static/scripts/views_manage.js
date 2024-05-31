@@ -1,15 +1,19 @@
 //
 let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_graph = document.getElementById('button_view_graph');
+const CANVAS_ID = 'item_graph_canvas';
 let div_view_calendar = document.getElementById('div_view_calendar');
 let div_view_graph = document.getElementById('div_view_graph');
+const DATE_TODAY = new Date();
+const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
 let nav_view_type = document.getElementById('nav_view_type');
 
 // refresh item list
-function refresh_item_list() {
+function get_items() {
     item_list = document.getElementById('items');
 
-    const api_url = 'http://127.0.0.1:5000/item_refresh_list';
+    //const api_url = 'http://127.0.0.1:5000/item_refresh_list';
+    const api_url = 'http://127.0.0.1:5000/item_get_all'
 
     fetch(api_url, {method: 'GET'})
         .then(response => {
@@ -29,19 +33,19 @@ function refresh_item_list() {
                 item_list.innerHTML += data['data'];
                 return;
             }
-            data = data['data'];
-            temp_div = document.createElement('div');
-            item_list.innerHTML = '';
+            // data = data['data'];
+            // temp_div = document.createElement('div');
+            // item_list.innerHTML = '';
             // processes an array of item meta documents
-            for (i = 0; i < data.length; i++) {
-                temp_div = document.createElement('div');
-                temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
-                for (const attribute of Object.keys(data[i])) {
-                    temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
-                }
-                temp_div.className = 'item_div';
-                item_list.append(temp_div);
-            }
+            // for (i = 0; i < data.length; i++) {
+            //     temp_div = document.createElement('div');
+            //     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
+            //     for (const attribute of Object.keys(data[i])) {
+            //         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
+            //     }
+            //     temp_div.className = 'item_div';
+            //     item_list.append(temp_div);
+            // }
             // display view type navigation:
             nav_view_type.style.display = 'flex';
         })
@@ -88,7 +92,7 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
 }
 
 window.onload=function () {
-    refresh_item_list();
+    get_items();
 }
 
 /*
