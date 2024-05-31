@@ -6,6 +6,8 @@ from copy import deepcopy
 from datetime import datetime
 import json
 from pymongo import MongoClient#, DESCENDING, ReturnDocument
+
+import db
 from user import User
 from werkzeug.security import check_password_hash
 
@@ -26,6 +28,24 @@ collection_prefix = 'tc_'
 
 
 # RETURNS:
+def get_all_items_for_user(id_str: str):
+    collection_names = get_collection_names(id_str)
+    if not collection_names:
+        return None
+    collection_rtn_arr = list()
+    #print(len(collection_names))
+    for coll_name in collection_names:
+        coll_docs = db.get_item_docs(id_str, coll_name)
+        #print('coll_docs', coll_docs)
+        for index_num in range(len(coll_docs)):
+            print(str(coll_docs[index_num]['_id']))
+            coll_docs[index_num]['_id'] = str(coll_docs[index_num]['_id'])
+            collection_rtn_arr.append(coll_docs)
+    print('in db.py ', collection_rtn_arr)
+    return collection_rtn_arr
+
+
+# RETURNS:
 def get_collection_names(id_str: str):
     db = mongo_client[db_item_prefix + id_str]
     db_response = list(db.list_collection_names())
@@ -42,7 +62,7 @@ def get_item_docs(id_str: str, item_name: str):
         return db_response
     db_response = list(db_response)
     for element in db_response:
-        del element['_id']
+        #del element['_id']
         for key in element.keys():
             if isinstance(element[key], datetime):
                 element[key] = datetime.strftime(element[key], datetime_format)
@@ -60,7 +80,7 @@ def get_item_metas(id_str: str):
         item_names.remove(meta_coll)
     for item_name in item_names:
         item_meta_doc = db[item_name].find().sort('_id', 1).limit(1)
-        print('item meta doc', item_meta_doc[0])
+        #print('item meta doc', item_meta_doc[0])
         num_of_docs = db[item_name].count_documents({}) - meta_doc_amt
         item_obj = {
             'item_name': item_name,
