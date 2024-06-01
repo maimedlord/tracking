@@ -147,7 +147,6 @@ def delete_account():
 @login_required
 def item_manage(item_name):
     db_response = db.get_item_docs(current_user.id_str, item_name)
-    #print('teh db response', db_response)
     # swap out None values for ''
     for doc in db_response:
         for attribute in doc.keys():
@@ -249,10 +248,8 @@ def views_manage():
 @app.route('/item_create/<item_obj>', methods=['GET', 'POST'])
 @login_required
 def item_create(item_obj):
-    print(item_obj)
     # NEEDS INPUT VALIDATION
     db_response = db.item_create(current_user.id_str, item_obj)
-    print(db_response)
     if not db_response:
         return 'your item could not be created. perhaps it already exists?'
     return 'Your item has been created!'

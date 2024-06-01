@@ -22,11 +22,37 @@
                 <canvas id="item_graph_canvas"></canvas>
             </div>
         </div>
+        <div id="nav_graph_buttons">
+            <div class="graph_buttons" id="graph_button_all_time">
+                All time
+            </div>
+            <div class="graph_buttons" id="graph_button_all_time_today">
+                All time to today
+            </div>
+            <div class="graph_buttons" id="graph_button_today">
+                Today
+            </div>
+            <div class="graph_buttons" id="graph_button_last_week">
+                last week
+            </div>
+            <div class="graph_buttons" id="graph_button_last_month">
+                last month
+            </div>
+            <div class="graph_buttons" id="graph_button_last_qtr">
+                last qtr
+            </div>
+            <div class="graph_buttons" id="graph_button_last_year">
+                last year
+            </div>
+            <div class="graph_buttons">
+                range?
+            </div>
+        </div>
         <div id="nav_view_type">
-            <div class="button" id="button_view_graph">
+            <div class="view_type_button" id="button_view_graph">
                 graph view button
             </div>
-            <div class="button" id="button_view_calendar">
+            <div class="view_type_button" id="button_view_calendar">
                 calendar view button
             </div>
         </div>
@@ -40,5 +66,6 @@
     </div>
 {% endblock %}
 {% block javascript_footer %}
+    <script src="{{ url_for('static', filename='scripts/shared_code.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/views_manage.js') }}"></script>
 {% endblock %}

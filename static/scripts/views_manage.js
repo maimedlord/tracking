@@ -2,13 +2,9 @@
 let all_items = "";
 let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_graph = document.getElementById('button_view_graph');
-const CANVAS_ID = 'item_graph_canvas';
 let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
 let div_view_graph = document.getElementById('div_view_graph');
-const DATE_TODAY = new Date();
-const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
-let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
 let GRAPH_DATA_OBJECT = {
                 datasets: [
                     // {
@@ -18,8 +14,8 @@ let GRAPH_DATA_OBJECT = {
                     // }
                 ],
             };
+let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
-let THE_CHART = new Chart(CANVAS_ID);
 
 // refresh item list
 function get_items() {
@@ -56,6 +52,7 @@ function get_items() {
                 //console.log(all_items[i][0]);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
+                temp_div.style.borderColor = all_items[i][0]['color'];
                 temp_div.innerHTML += '<b>' + all_items[i][0]['name'] + '</b><br><br>';
                 temp_div.innerHTML += 'keywords: ' +all_items[i][0]['keywords'];
                 temp_div.appendChild(document.createElement('br'));
@@ -65,8 +62,6 @@ function get_items() {
                 div_items.append(temp_div);
             }
             // draw bubble graph using all items as datasets
-            // first, create datasets object
-            //console.log(all_items);
             for (let i = 0; i < all_items.length; i++) {
                 if (all_items[i].length < 2) {
                     continue;
@@ -74,7 +69,6 @@ function get_items() {
                 // skipping meta object at [0]
                 let xyz_array = [];
                 let color_array = [];
-                console.log(all_items[i][1]);
                 for (let ii = 1; ii < all_items[i].length; ii++) {
                     let temp_date = new Date(all_items[i][ii]['time noticed']);
                     xyz_array.push({
@@ -82,25 +76,29 @@ function get_items() {
                         y: temp_date.getHours() + (temp_date.getMinutes() / 60),
                         r: parseInt(all_items[i][ii]['intensity']) / 2
                     });
-                    color_array.push(all_items[i][ii]['color']);
+                    color_array.push(hexToRgb(all_items[i][ii]['color']));
+                    console.log('hex to rbg: ', hexToRgb(all_items[i][ii]['color']));
                 }
                 GRAPH_DATA_OBJECT['datasets'].push(
                     {
                         label: all_items[i][0]['name'],
                         data: xyz_array,
-                        backgroundColor: color_array
+                        backgroundColor: color_array,
+                        borderColor: all_items[i][0]['color'],
+                        borderWidth: BORDER_WIDTH
                     }
                 );
             }
-            // ...
+            // enable graph view div
             div_view_graph.style.display = 'flex';
             // draw_bubble_graph();
             draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HERE...', DATE_TOMORROW, null);
             // display view type navigation:
             nav_view_type.style.display = 'flex';
+            nav_graph_buttons.style.display = 'flex';
         })
         .then(function () {
-            console.log('graph_data_obj', GRAPH_DATA_OBJECT);
+            //
         })
 }
 
@@ -125,18 +123,21 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
                     x: {
                         type: 'time',
                         time: {
+                            displayFormats: {
+                                //day: 'MMM DD YYY'
+                            },
                             unit: 'day'
                         },
                         max: x_max,
                         min: x_min
                     },
                     y: {
+                        min: 0,
+                        max: 24,
                         type: 'linear',
                         ticks: {
                             stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
+                        }
                     }
                 }
             }
@@ -144,8 +145,13 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
     );
 }
 
+/*
+    onload
+ */
+
 window.onload=function () {
     get_items();
+    console.log(hexToRgb('#00ff55'));
 }
 
 /*
@@ -154,9 +160,11 @@ window.onload=function () {
 
 button_view_calendar.onclick=function () {
     div_view_graph.style.display = 'none';
+    nav_graph_buttons.style.display = 'none';
     div_view_calendar.style.display = 'flex';
 }
 button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
     div_view_graph.style.display = 'flex';
+    nav_graph_buttons.style.display = 'flex';
 }

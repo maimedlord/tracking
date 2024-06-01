@@ -1,5 +1,14 @@
 .graph_buttons {
-    background-color: deepskyblue;
+    align-items: center;
+    border: lightskyblue solid 3px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    padding: 6px;
+    text-align: center;
+    width: 80px;
 }
 #item_doc_list {
     background-color: darkkhaki;
@@ -27,14 +36,12 @@
     width: 100%;
 }
 #nav_graph_buttons {
-    background-color: darkseagreen;
     display: none;
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
 }
 #root_item_manage {
-    background-color: bisque;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

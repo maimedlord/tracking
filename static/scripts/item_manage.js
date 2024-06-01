@@ -1,19 +1,7 @@
 // global variables
 const API_URL = 'http://127.0.0.1:5000/item_doc_refresh_list/' + g_item_name;
-const BTN_CLR_OFF = 'deepskyblue';
-const BTN_CLR_ON = 'grey';
-const CANVAS_ID = 'item_graph_canvas';
-const DATE_TODAY = new Date();
-const DATE_LAST_MONTH = new Date().setDate(DATE_TODAY.getDate() - 31);
-const DATE_LAST_QTR = new Date().setDate(DATE_TODAY.getDate() - (31 * 3));
-const DATE_LAST_WEEK = new Date().setDate(DATE_TODAY.getDate() - 8);
-const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
-const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
-const DEFAULT_BUTTON_COLOR = 'aquamarine';
-let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
 let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
-let THE_CHART = new Chart(GRAPH_CANVAS);
 
 // global element variables
 let DIV_BUTTONS = document.getElementById('nav_graph_buttons');
@@ -82,7 +70,7 @@ function get_item_docs() {
                     r: parseInt(ITEM_DOCS[i]['intensity']) / 2
                 });
                 //
-                GRAPH_DATA_OBJECT['datasets'][0]['backgroundColor'].push(ITEM_DOCS[i]['color']);
+                GRAPH_DATA_OBJECT['datasets'][0]['backgroundColor'].push(hexToRgb(ITEM_DOCS[i]['color']));
             }
             // draw graph
             draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time to today', DATE_TOMORROW, null);
@@ -129,12 +117,12 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
                         min: x_min
                     },
                     y: {
-                        type: 'linear',
+                        min: 0,
+                        max: 24,
+                        //type: 'linear',
                         ticks: {
                             stepSize: 1
-                        },
-                        min: '0',
-                        max: '24'
+                        }
                     }
                 }
             }
@@ -142,43 +130,6 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
     );
 }
 
-// redraw graph buttons
-function redraw_graph_buttons(div_id) {
-    elements = document.getElementsByClassName('graph_buttons');
-    for (let i = 0; i <= elements.length; i++) {
-        if (elements[i]) {
-            console.log(elements[i].innerHTML);
-            elements[i].style.backgroundColor = BTN_CLR_OFF;
-        }
-    }
-    document.getElementById(div_id).style.backgroundColor = BTN_CLR_ON;
-}
-
 /*
     onclicks
  */
-
-document.getElementById('graph_button_all_time').onclick=function() {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time', null, null);
-}
-document.getElementById('graph_button_all_time_today').onclick=function () {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time to today', DATE_TOMORROW, null);
-}
-document.getElementById('graph_button_last_month').onclick=function () {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last month', DATE_TOMORROW, DATE_LAST_MONTH);
-}
-document.getElementById('graph_button_last_qtr').onclick=function () {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last quarter', DATE_TOMORROW, DATE_LAST_QTR);
-}
-document.getElementById('graph_button_last_week').onclick=function () {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last week', DATE_TOMORROW, DATE_LAST_WEEK);
-}
-document.getElementById('graph_button_last_year').onclick=function () {
-    redraw_graph_buttons(this.id);
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for last year', DATE_TOMORROW, DATE_LAST_YEAR);
-}

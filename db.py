@@ -107,10 +107,13 @@ def get_item_template_attributes():
 
 
 # RETURNS:
+# STRANGE: adds a hash, '#', back to item_obj's color value as it was stripped in javascript
 def item_create(id_str: str, item_obj):
     item_obj = json.loads(item_obj)
     if item_obj['name'] in get_collection_names(id_str):
         return None
+    # add '#' back to color hex
+    item_obj['color'] = '#' + item_obj['color']
     database = mongo_client[db_item_prefix + id_str]
     # test if database exists?
     item_coll = database[item_obj['name']]

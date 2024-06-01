@@ -44,11 +44,15 @@ document.getElementById('create_view_button').onclick=function (){
 }
 // submit_create_item
 document.getElementById('submit_create_item').onclick=function (){
-    item_name = document.getElementById('name').value;
-    item_keywords = document.getElementById('keywords').value;
+    let item_color = document.getElementById('color').value;
+    let item_keywords = document.getElementById('keywords').value;
+    let item_name = document.getElementById('name').value;
+    console.log(item_color);
     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
-        'name': item_name,
-        'keywords': item_keywords
+        // cannot include '#' as it messes with python decoder
+        'color': item_color.substr(1, item_color.length),
+        'keywords': item_keywords,
+        'name': item_name
     });
 
     // NEED validate input

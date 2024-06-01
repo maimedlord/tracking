@@ -1,23 +1,32 @@
-.button {
-    background-color: chartreuse;
-}
 #div_view_calendar {
     background-color: palegoldenrod;
     display: none;
     width: 100%;
 }
 #div_view_graph {
-    background-color: chartreuse;
     display: none;
+    position: relative;
     width: 100%;
 }
 #div_teh_view {
-    background-color: palegoldenrod;
     width: 100%;
+}
+.graph_buttons {
+    align-items: center;
+    border: lightskyblue solid 3px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 80px;
 }
 .item_div {
     background-color: antiquewhite;
-    border: black solid 3px;
+    border: black solid 5px;
     padding: 5px 5px 5px 5px;
     width: 350px;
 }
@@ -30,19 +39,38 @@
     justify-content: center;
     width: 100%;
 }
-#nav_view_type {
-    background-color: aqua;
+#nav_graph_buttons {
     display: none;
     flex-direction: row;
-    gap: 80px;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-evenly;
+    width: 100%;
+}
+#nav_view_type {
+    display: none;
+    flex-direction: row;
+    gap: 100px;
     justify-content: center;
 }
 #root_views_mangage {
-    background-color: darkseagreen;
     width: 100%;
 }
 #view_item_bucket {
     background-color: beige;
+}
+.view_type_button {
+    align-items: center;
+    background-color: azure;
+    border: black solid 3px;
+    border-radius: 5px;
+    display: flex;
+    height: 40px;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    text-align: center;
+    width: 150px;
 }
 #views_saved {
     background-color: lavender;
