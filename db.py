@@ -46,16 +46,16 @@ def get_all_items_for_user(id_str: str):
 
 # RETURNS:
 def get_collection_names(id_str: str):
-    db = mongo_client[db_item_prefix + id_str]
-    db_response = list(db.list_collection_names())
+    database = mongo_client[db_item_prefix + id_str]
+    db_response = list(database.list_collection_names())
     #db_response.remove(meta_coll)
     return db_response
 
 
 # RETURNS:
 def get_item_docs(id_str: str, item_name: str):
-    db = mongo_client[db_item_prefix + id_str]
-    item_docs = db[item_name]
+    database = mongo_client[db_item_prefix + id_str]
+    item_docs = database[item_name]
     db_response = item_docs.find().sort('_id', 1)
     if not db_response:
         return db_response
@@ -65,7 +65,6 @@ def get_item_docs(id_str: str, item_name: str):
         for key in element.keys():
             if key == '_id':
                 element[key] = str(element[key])
-            #
             if isinstance(element[key], datetime):
                 element[key] = datetime.strftime(element[key], datetime_format)
     return db_response
@@ -73,7 +72,7 @@ def get_item_docs(id_str: str, item_name: str):
 
 # RETURNS:
 def get_item_metas(id_str: str):
-    db = mongo_client[db_item_prefix + id_str]
+    database = mongo_client[db_item_prefix + id_str]
     item_names = get_collection_names(id_str)
     arr_of_item_objs = []
     if len(item_names) <= 1:
@@ -81,9 +80,9 @@ def get_item_metas(id_str: str):
     if meta_coll in item_names:
         item_names.remove(meta_coll)
     for item_name in item_names:
-        item_meta_doc = db[item_name].find().sort('_id', 1).limit(1)
+        item_meta_doc = database[item_name].find().sort('_id', 1).limit(1)
         #print('item meta doc', item_meta_doc[0])
-        num_of_docs = db[item_name].count_documents({}) - meta_doc_amt
+        num_of_docs = database[item_name].count_documents({}) - meta_doc_amt
         item_obj = {
             'item_name': item_name,
             'item_count': num_of_docs,
@@ -92,7 +91,7 @@ def get_item_metas(id_str: str):
         }
         # if item has more than meta doc, add late time it was tracked to object
         if num_of_docs > 0:
-            datetime_obj = db[item_name].find().sort('_id', -1).limit(1)[0]['time noticed']
+            datetime_obj = database[item_name].find().sort('_id', -1).limit(1)[0]['time noticed']
             item_obj['date_last_noticed'] = datetime.strftime(datetime_obj, datetime_format)
         arr_of_item_objs.append(item_obj)
     return arr_of_item_objs
@@ -112,9 +111,9 @@ def item_create(id_str: str, item_obj):
     item_obj = json.loads(item_obj)
     if item_obj['name'] in get_collection_names(id_str):
         return None
-    db = mongo_client[db_item_prefix + id_str]
-    # test if db exists?
-    item_coll = db[item_obj['name']]
+    database = mongo_client[db_item_prefix + id_str]
+    # test if database exists?
+    item_coll = database[item_obj['name']]
     item_obj['date_created'] = datetime.utcnow()
     return item_coll.insert_one(item_obj)
 
@@ -130,8 +129,8 @@ def item_track(item_name: str, id_str: str, item_obj):
                 item_obj[attribute] = datetime.strptime(item_obj[attribute], datetime_format)
         if item_obj[attribute] == '':
             item_obj[attribute] = None
-    db = mongo_client[db_item_prefix + id_str]
-    item_coll = db[item_name]
+    database = mongo_client[db_item_prefix + id_str]
+    item_coll = database[item_name]
     return item_coll.insert_one(item_obj)
 
 
@@ -217,8 +216,8 @@ def user_set_logout_date(username: str):
 
 # RETURNS:
 def view_create(id_str: str, views_arr: list[str]):
-    db = mongo_client[db_view_prefix + id_str]
-    print(db)
+    database = mongo_client[db_view_prefix + id_str]
+    print(database)
     pass
 
 # MAIN
