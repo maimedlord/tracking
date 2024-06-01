@@ -33,15 +33,14 @@ def get_all_items_for_user(id_str: str):
     if not collection_names:
         return None
     collection_rtn_arr = list()
-    #print(len(collection_names))
     for coll_name in collection_names:
         coll_docs = db.get_item_docs(id_str, coll_name)
-        #print('coll_docs', coll_docs)
-        for index_num in range(len(coll_docs)):
-            print(str(coll_docs[index_num]['_id']))
-            coll_docs[index_num]['_id'] = str(coll_docs[index_num]['_id'])
+        # pull out the meta collection
+        if coll_name != meta_coll:
+            for index_num in range(len(coll_docs)):
+                # convert object_id's to strings
+                coll_docs[index_num]['_id'] = str(coll_docs[index_num]['_id'])
             collection_rtn_arr.append(coll_docs)
-    print('in db.py ', collection_rtn_arr)
     return collection_rtn_arr
 
 
@@ -64,6 +63,9 @@ def get_item_docs(id_str: str, item_name: str):
     for element in db_response:
         #del element['_id']
         for key in element.keys():
+            if key == '_id':
+                element[key] = str(element[key])
+            #
             if isinstance(element[key], datetime):
                 element[key] = datetime.strftime(element[key], datetime_format)
     return db_response

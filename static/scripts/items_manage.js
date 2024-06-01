@@ -19,14 +19,15 @@ function refresh_item_list() {
             // handle error/failed response:
             if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
                 item_list.innerHTML += data['data'];
+                return
             }
             //
             else {
                 data = data['data'];
                 item_list.innerHTML = '';
                 // processes an array of item meta documents
-                for (i = 0; i < data.length; i++) {
-                    temp_div = document.createElement('div');
+                for (let i = 0; i < data.length; i++) {
+                    let temp_div = document.createElement('div');
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
@@ -41,7 +42,6 @@ function refresh_item_list() {
                     temp_div.appendChild(document.createElement('br'));
                     temp_div.appendChild(link_track);
                     temp_div.appendChild(document.createElement('br'));
-
                     temp_div.className = 'item_div';
                     item_list.append(temp_div);
                 }

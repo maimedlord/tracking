@@ -1,7 +1,9 @@
 //
+let all_items = "";
 let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_graph = document.getElementById('button_view_graph');
 const CANVAS_ID = 'item_graph_canvas';
+let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
 let div_view_graph = document.getElementById('div_view_graph');
 const DATE_TODAY = new Date();
@@ -10,10 +12,9 @@ let nav_view_type = document.getElementById('nav_view_type');
 
 // refresh item list
 function get_items() {
-    item_list = document.getElementById('items');
+    let item_list = document.getElementById('items');
 
-    //const api_url = 'http://127.0.0.1:5000/item_refresh_list';
-    const api_url = 'http://127.0.0.1:5000/item_get_all'
+    const api_url = 'http://127.0.0.1:5000/get_items_all';
 
     fetch(api_url, {method: 'GET'})
         .then(response => {
@@ -27,25 +28,34 @@ function get_items() {
             //responseMessage.textContent = data;
             // convert response from string to JSON
             data = JSON.parse(data);
-            console.log(data);
+            //console.log(data);
             // handle error/failed response:
             if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
                 item_list.innerHTML += data['data'];
                 return;
             }
-            // data = data['data'];
-            // temp_div = document.createElement('div');
-            // item_list.innerHTML = '';
-            // processes an array of item meta documents
-            // for (i = 0; i < data.length; i++) {
-            //     temp_div = document.createElement('div');
-            //     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
-            //     for (const attribute of Object.keys(data[i])) {
-            //         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
-            //     }
-            //     temp_div.className = 'item_div';
-            //     item_list.append(temp_div);
-            // }
+            else {
+                all_items = structuredClone(data['data']);
+            }
+        })
+        // draw page using API return:
+        .then(function () {
+            // create item list
+            for (let i = 0; i < all_items.length; i++) {
+                console.log(all_items[i][0]);
+                let temp_div = document.createElement('div');
+                temp_div.className = 'item_div';
+                temp_div.innerHTML += '<b>' + all_items[i][0]['name'] + '</b><br><br>';
+                temp_div.innerHTML += 'keywords: ' +all_items[i][0]['keywords'];
+                temp_div.appendChild(document.createElement('br'));
+                temp_div.innerHTML += '# of occurences: ' + (all_items[i].length - 1);
+                temp_div.appendChild(document.createElement('br'));
+                temp_div.innerHTML += 'created: ' + all_items[i][0]['date_created'];
+                div_items.append(temp_div);
+            }
+            // draw bubble graph using all items as datasets
+            // first, create datasets object
+            // draw_bubble_graph();
             // display view type navigation:
             nav_view_type.style.display = 'flex';
         })

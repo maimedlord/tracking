@@ -262,6 +262,7 @@ def item_create(item_obj):
 @login_required
 def item_doc_refresh_list(item_name):
     db_response = db.get_item_docs(current_user.id_str, item_name)
+    print(db_response)
     if not db_response or len(db_response) == 1:
         return json.dumps({
             'status': 'fail',
@@ -274,14 +275,12 @@ def item_doc_refresh_list(item_name):
 
 
 #
-@app.route('/item_get_all/')
+@app.route('/get_items_all/')
 @login_required
-def item_get_all():
+def get_items_all():
     db_response = None
     try:
-        print('beginning of try')
         db_response = db.get_all_items_for_user(current_user.id_str)
-        print('end of try')
     except:
         pass
     else:
@@ -290,7 +289,6 @@ def item_get_all():
                 'status': 'fail',
                 'data': 'Not sure what happened...'
             })
-        print(db_response)
         return json.dumps({
             'status': 'success',
             'data': db_response
