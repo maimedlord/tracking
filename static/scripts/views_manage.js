@@ -74,8 +74,9 @@ function get_items() {
                 // skipping meta object at [0]
                 let xyz_array = [];
                 let color_array = [];
-                for (let ii = 1; ii < all_items[i][ii]; ii++) {
-                    let temp_date = new Date(all_items[i][ii]['time_noticed']);
+                console.log(all_items[i][1]);
+                for (let ii = 1; ii < all_items[i].length; ii++) {
+                    let temp_date = new Date(all_items[i][ii]['time noticed']);
                     xyz_array.push({
                         x: temp_date,
                         y: temp_date.getHours() + (temp_date.getMinutes() / 60),
@@ -85,7 +86,7 @@ function get_items() {
                 }
                 GRAPH_DATA_OBJECT['datasets'].push(
                     {
-                        label: 'some label here... ' + i.toString(),
+                        label: all_items[i][0]['name'],
                         data: xyz_array,
                         backgroundColor: color_array
                     }

@@ -75,6 +75,7 @@ function get_item_docs() {
             // notice skipping meta doc in front of array
             for (let i = 1; i < ITEM_DOCS.length; i++) {
                 let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
+                console.log('item_manage', ITEM_DOCS[i]['time noticed']);
                 GRAPH_DATA_OBJECT['datasets'][0]['data'].push({
                     x: temp_date,
                     y: temp_date.getHours() + (temp_date.getMinutes() / 60),
