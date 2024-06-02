@@ -1,3 +1,5 @@
+//let div_api_response = document.getElementById('api_response');
+
 // create_button
 create_on = false;
 document.getElementById('create_button').onclick=function (){
@@ -47,6 +49,13 @@ document.getElementById('submit_create_item').onclick=function (){
     let item_color = document.getElementById('color').value;
     let item_keywords = document.getElementById('keywords').value;
     let item_name = document.getElementById('name').value;
+    div_api_response = document.getElementById('api_response');
+    // needs better validation
+    if (item_color.length != 7 | item_keywords == '' | item_name.length < 1) {
+        div_api_response.textContent = 'All fields must be filled out...';
+        div_api_response.style.display = 'flex';
+        return;
+    }
     console.log(item_color);
     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
@@ -73,9 +82,8 @@ document.getElementById('submit_create_item').onclick=function (){
         })
         .then(data => {
             //responseMessage.textContent = data;
-            api_response = document.getElementById('api_response')
-            api_response.textContent = data;
-            api_response.style.display = 'flex';
+            div_api_response.textContent = data;
+            div_api_response.style.display = 'flex';
         })
         .catch(error => {
             console.error('Error:', error);

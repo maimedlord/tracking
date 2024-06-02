@@ -4,7 +4,7 @@ let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_graph = document.getElementById('button_view_graph');
 let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
-let div_view_graph = document.getElementById('div_view_graph');
+//let div_view_graph = document.getElementById('div_view_graph');
 let GRAPH_DATA_OBJECT = {
                 datasets: [
                     // {
@@ -53,12 +53,12 @@ function get_items() {
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
                 temp_div.style.borderColor = all_items[i][0]['color'];
-                temp_div.innerHTML += '<b>' + all_items[i][0]['name'] + '</b><br><br>';
-                temp_div.innerHTML += 'keywords: ' +all_items[i][0]['keywords'];
+                temp_div.innerHTML += '<div class="center_span">' + '<b>' + all_items[i][0]['name'] + '</b>' + '</div>' + '<br>';
+                temp_div.innerHTML += '<b>keywords:</b> ' +all_items[i][0]['keywords'];
                 temp_div.appendChild(document.createElement('br'));
-                temp_div.innerHTML += '# of occurences: ' + (all_items[i].length - 1);
+                temp_div.innerHTML += '<b>occurences:</b> ' + (all_items[i].length - 1);
                 temp_div.appendChild(document.createElement('br'));
-                temp_div.innerHTML += 'created: ' + all_items[i][0]['date_created'];
+                temp_div.innerHTML += '<b>created:</b> ' + all_items[i][0]['date_created'];
                 div_items.append(temp_div);
             }
             // draw bubble graph using all items as datasets
@@ -90,7 +90,7 @@ function get_items() {
                 );
             }
             // enable graph view div
-            div_view_graph.style.display = 'flex';
+            //div_view_graph.style.display = 'flex';
             // draw_bubble_graph();
             draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HERE...', DATE_TOMORROW, null);
             // display view type navigation:
@@ -159,12 +159,12 @@ window.onload=function () {
  */
 
 button_view_calendar.onclick=function () {
-    div_view_graph.style.display = 'none';
     nav_graph_buttons.style.display = 'none';
+    GRAPH_CANVAS.style.display = 'none';
     div_view_calendar.style.display = 'flex';
 }
 button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
-    div_view_graph.style.display = 'flex';
+    GRAPH_CANVAS.style.display = 'initial';
     nav_graph_buttons.style.display = 'flex';
 }

@@ -1,12 +1,10 @@
 #base_footer {
-    background-color: mediumspringgreen;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
 }
 #base_nav {
-    background-color: darkkhaki;
     display: flex;
     flex-direction: row;
     font-weight: bold;

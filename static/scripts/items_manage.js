@@ -94,7 +94,7 @@ document.getElementById('submit_create_item').onclick=function (){
         })
         .then(data => {
             //responseMessage.textContent = data;
-            api_response = document.getElementById('api_response');
+            div_api_response = document.getElementById('api_response');
             api_response.textContent = data;
             api_response.style.display = 'flex';
             refresh_item_list();
