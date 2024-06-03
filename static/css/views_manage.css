@@ -1,3 +1,13 @@
+#button_view_generate {
+    background-color: #BFDDE0;
+    height: 30px;
+    width: 100px;
+}
+#button_view_save {
+    background-color: darkorange;
+    height: 30px;
+    width: 100px;
+}
 .center_span {
     text-align: center;
     text-decoration: underline;
@@ -59,6 +69,15 @@
 }
 #view_item_bucket {
     background-color: beige;
+    display: none;
+    flex-direction: row;
+    gap: 20px;
+}
+#view_item_bucket_msg {
+    display: none;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
 }
 .view_type_button {
     align-items: center;

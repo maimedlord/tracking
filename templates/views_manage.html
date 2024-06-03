@@ -56,8 +56,15 @@
             views_saved
         </div>
         <div id="view_item_bucket">
-            view_item_bucket
+            <form id="view_create" method="post" name="view_create">
+                <label>
+                    item names and keywords to view (separate with comma): <input autocomplete="off" id="view_create_input" name="view_create_input" required type="text">
+                </label>
+            </form>
+            <div id="button_view_generate">generate view</div>
+            <div id="button_view_save">save view</div>
         </div>
+        <div id="view_item_bucket_msg"></div>
         <div id="items"></div>
     </div>
 {% endblock %}

@@ -1,10 +1,12 @@
 //
 let all_items = "";
 let button_view_calendar = document.getElementById('button_view_calendar');
+let button_view_generate = document.getElementById('button_view_generate');
 let button_view_graph = document.getElementById('button_view_graph');
 let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
 //let div_view_graph = document.getElementById('div_view_graph');
+let FOUND_MAPPINGS = [];
 let GRAPH_DATA_OBJECT = {
                 datasets: [
                     // {
@@ -16,6 +18,9 @@ let GRAPH_DATA_OBJECT = {
             };
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
+let SKIP_CHARS = ['', ' ', ','];
+let view_create_input = document.getElementById('view_create_input');
+let view_item_bucket = document.getElementById('view_item_bucket');
 
 // refresh item list
 function get_items() {
@@ -96,6 +101,7 @@ function get_items() {
             // display view type navigation:
             nav_view_type.style.display = 'flex';
             nav_graph_buttons.style.display = 'flex';
+            view_item_bucket.style.display = 'flex';
         })
         .then(function () {
             //
@@ -155,7 +161,7 @@ window.onload=function () {
 }
 
 /*
-    onclicks
+    onclick
  */
 
 button_view_calendar.onclick=function () {
@@ -163,8 +169,57 @@ button_view_calendar.onclick=function () {
     GRAPH_CANVAS.style.display = 'none';
     div_view_calendar.style.display = 'flex';
 }
+button_view_generate
 button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
     GRAPH_CANVAS.style.display = 'initial';
     nav_graph_buttons.style.display = 'flex';
+}
+
+/*
+    keydown
+ */
+view_create_input.oninput=function (e) {
+    FOUND_MAPPINGS = [];
+    //console.log(e);
+    let temp_array = view_create_input.value.split(',');
+    //console.log(temp_array);
+    //console.log('all items object: ', all_items);
+    for (let i = 0; i < temp_array.length; i++) {
+        //console.log('typeof: ', typeof temp_array[i]);
+        let input_string = temp_array[i].toLowerCase().trim();
+        console.log('input string: ', input_string.toLowerCase().trim());
+        //check if match in name
+        //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
+        for (let ii = 0; ii < all_items.length; ii++) {
+            let check_name = all_items[ii][0]['name'].toLowerCase().trim();
+            //console.log(input_string, check_name);
+            //console.log('this item: ', all_items[ii][0]);
+            // check if name matches
+            if (input_string == check_name) {
+                FOUND_MAPPINGS += check_name;
+                //console.log('here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                continue;
+            }
+            // check if keyword matches
+            let check_keywords = all_items[ii][0]['keywords'].split(',');
+            //console.log('check keywords: ', check_keywords);
+            for (let iii = 0; iii < check_keywords.length; iii++) {
+                let check_string = check_keywords[iii].toLowerCase().trim();
+                console.log(input_string + ' ---------- ' + check_string);
+                //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
+                if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
+                    console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
+                    // don't add if it already exists
+                    console.log('DOES FOUND MAPPINGS HAVE', FOUND_MAPPINGS.indexOf(check_name));
+                    if (FOUND_MAPPINGS.indexOf(check_name) < 0) {
+                        FOUND_MAPPINGS += check_name;
+                        console.log('but why here');
+                        console.log(check_string)
+                    }
+                }
+            }
+        }
+    }
+    console.log('end of oninput', FOUND_MAPPINGS);
 }
