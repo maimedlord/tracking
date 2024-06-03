@@ -6,7 +6,7 @@ let button_view_graph = document.getElementById('button_view_graph');
 let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
 //let div_view_graph = document.getElementById('div_view_graph');
-let FOUND_MAPPINGS = [];
+let FOUND_NAMES = [];
 let GRAPH_DATA_OBJECT = {
                 datasets: [
                     // {
@@ -16,6 +16,7 @@ let GRAPH_DATA_OBJECT = {
                     // }
                 ],
             };
+let GDO_TEMPLATE = structuredClone(GRAPH_DATA_OBJECT);
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
 let SKIP_CHARS = ['', ' ', ','];
@@ -151,13 +152,74 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
     );
 }
 
+//
+function get_datasets_from_items(item_obj_arr) {
+    for (let i = 0; i < item_obj_arr.length; i++) {
+        console.log(item_obj_arr[i]);
+    }
+    GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
+    // draw bubble graph using all items as datasets
+    for (let i = 0; i < item_obj_arr.length; i++) {
+        if (item_obj_arr[i].length < 2) {
+            continue;
+        }
+        // skipping meta object at [0]
+        let xyz_array = [];
+        let color_array = [];
+        for (let ii = 1; ii < item_obj_arr[i].length; ii++) {
+            let temp_date = new Date(item_obj_arr[i][ii]['time noticed']);
+            xyz_array.push({
+                x: temp_date,
+                y: temp_date.getHours() + (temp_date.getMinutes() / 60),
+                r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
+            });
+            color_array.push(hexToRgb(item_obj_arr[i][ii]['color']));
+            console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
+        }
+        GRAPH_DATA_OBJECT['datasets'].push(
+            {
+                label: item_obj_arr[i][0]['name'],
+                data: xyz_array,
+                backgroundColor: color_array,
+                borderColor: item_obj_arr[i][0]['color'],
+                borderWidth: BORDER_WIDTH
+            }
+        );
+    }
+    // enable graph view div
+    //div_view_graph.style.display = 'flex';
+    // draw_bubble_graph();
+    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HEREdfdfgs...', DATE_TOMORROW, null);
+    // display view type navigation:
+    nav_view_type.style.display = 'flex';
+    nav_graph_buttons.style.display = 'flex';
+    view_item_bucket.style.display = 'flex';
+}
+
+// ...
+function get_items_subset(item_names_arr) {
+    let return_items = [];
+    for (let i = 0; i < all_items.length; i++) {
+        let check_name = all_items[i][0]['name'].trim().toLowerCase();
+        if (item_names_arr.indexOf(check_name) > -1) {
+            console.log('right here - ', check_name);
+            return_items += structuredClone(all_items[i]);
+        }
+    }
+    if (return_items.length > 0) {
+        console.log('teh items', return_items);
+        return return_items;
+    }
+    return {};
+}
+
 /*
     onload
  */
 
 window.onload=function () {
     get_items();
-    console.log(hexToRgb('#00ff55'));
+    //console.log(hexToRgb('#00ff55'));
 }
 
 /*
@@ -180,7 +242,7 @@ button_view_graph.onclick=function () {
     keydown
  */
 view_create_input.oninput=function (e) {
-    FOUND_MAPPINGS = [];
+    FOUND_NAMES = [];
     //console.log(e);
     let temp_array = view_create_input.value.split(',');
     //console.log(temp_array);
@@ -197,7 +259,7 @@ view_create_input.oninput=function (e) {
             //console.log('this item: ', all_items[ii][0]);
             // check if name matches
             if (input_string == check_name) {
-                FOUND_MAPPINGS += check_name;
+                FOUND_NAMES += check_name;
                 //console.log('here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                 continue;
             }
@@ -206,20 +268,22 @@ view_create_input.oninput=function (e) {
             //console.log('check keywords: ', check_keywords);
             for (let iii = 0; iii < check_keywords.length; iii++) {
                 let check_string = check_keywords[iii].toLowerCase().trim();
-                console.log(input_string + ' ---------- ' + check_string);
+                //console.log(input_string + ' ---------- ' + check_string);
                 //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
                 if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
-                    console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
+                    //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
                     // don't add if it already exists
-                    console.log('DOES FOUND MAPPINGS HAVE', FOUND_MAPPINGS.indexOf(check_name));
-                    if (FOUND_MAPPINGS.indexOf(check_name) < 0) {
-                        FOUND_MAPPINGS += check_name;
-                        console.log('but why here');
+                    //console.log('DOES FOUND MAPPINGS HAVE', FOUND_NAMES.indexOf(check_name));
+                    if (FOUND_NAMES.indexOf(check_name) < 0) {
+                        FOUND_NAMES += check_name;
+                        //console.log('but why here');
                         console.log(check_string)
                     }
                 }
             }
         }
     }
-    console.log('end of oninput', FOUND_MAPPINGS);
+    let response = get_datasets_from_items(get_items_subset(FOUND_NAMES));
+    console.log(response);
+    console.log('end of oninput', FOUND_NAMES);
 }
