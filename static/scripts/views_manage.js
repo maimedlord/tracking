@@ -3,11 +3,13 @@ let all_items = "";
 let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_generate = document.getElementById('button_view_generate');
 let button_view_graph = document.getElementById('button_view_graph');
+let DEL_KEY_TEXT = 'deleteContentBackward';
 let div_items = document.getElementById('items');
 let div_view_calendar = document.getElementById('div_view_calendar');
 //let div_view_graph = document.getElementById('div_view_graph');
-let FOUND_NAMES = [];
-let GRAPH_DATA_OBJECT = {
+let VIEW_NAMES = [];
+let VIEWS_SAVED = document.getElementById('views_saved');
+let GDO_TEMPLATE = {
                 datasets: [
                     // {
                     //     label: 'some label here...',
@@ -16,17 +18,102 @@ let GRAPH_DATA_OBJECT = {
                     // }
                 ],
             };
-let GDO_TEMPLATE = structuredClone(GRAPH_DATA_OBJECT);
+let GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
 let SKIP_CHARS = ['', ' ', ','];
 let view_create_input = document.getElementById('view_create_input');
 let view_item_bucket = document.getElementById('view_item_bucket');
 
+// draw bubble graph
+function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
+    THE_CHART.destroy();
+    THE_CHART = new Chart(
+        GRAPH_CANVAS,
+        {
+            type: 'bubble',
+            data: data_objects,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {position: 'top'},
+                    title: {
+                        display: true,
+                        text: 'text here. HMMMMMM'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                //day: 'MMM DD YYY'
+                            },
+                            unit: 'day'
+                        },
+                        max: x_max,
+                        min: x_min
+                    },
+                    y: {
+                        min: 0,
+                        max: 24,
+                        type: 'linear',
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        }
+    );
+}
+
+//
+function get_datasets_from_items(item_obj_arr) {
+    // destroy existing object and prep to be filled
+    GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
+    // draw bubble graph using all items as datasets
+    for (let i = 0; i < item_obj_arr.length; i++) {
+        if (item_obj_arr[i].length < 2) {
+            continue;
+        }
+        // skipping meta object at [0]
+        let xyz_array = [];
+        let color_array = [];
+        for (let ii = 1; ii < item_obj_arr[i].length; ii++) {
+            let temp_date = new Date(item_obj_arr[i][ii]['time noticed']);
+            xyz_array.push({
+                x: temp_date,
+                y: temp_date.getHours() + (temp_date.getMinutes() / 60),
+                r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
+            });
+            color_array.push(hexToRgb(item_obj_arr[i][ii]['color']));
+            console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
+        }
+        GRAPH_DATA_OBJECT['datasets'].push(
+            {
+                label: item_obj_arr[i][0]['name'],
+                data: xyz_array,
+                backgroundColor: color_array,
+                borderColor: item_obj_arr[i][0]['color'],
+                borderWidth: BORDER_WIDTH
+            }
+        );
+    }
+    // enable graph view div
+    //div_view_graph.style.display = 'flex';
+    // draw_bubble_graph();
+    //draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HEREdfdfgs...', DATE_TOMORROW, null);
+    // display view type navigation:
+    nav_view_type.style.display = 'flex';
+    nav_graph_buttons.style.display = 'flex';
+    view_item_bucket.style.display = 'flex';
+    return GRAPH_DATA_OBJECT;
+}
+
 // refresh item list
 function get_items() {
     let item_list = document.getElementById('items');
-
     const api_url = 'http://127.0.0.1:5000/get_items_all';
 
     fetch(api_url, {method: 'GET'})
@@ -109,93 +196,6 @@ function get_items() {
         })
 }
 
-// draw bubble graph
-function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        GRAPH_CANVAS,
-        {
-            type: 'bubble',
-            data: data_objects,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: 'text here. HMMMMMM'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            displayFormats: {
-                                //day: 'MMM DD YYY'
-                            },
-                            unit: 'day'
-                        },
-                        max: x_max,
-                        min: x_min
-                    },
-                    y: {
-                        min: 0,
-                        max: 24,
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                }
-            }
-        }
-    );
-}
-
-//
-function get_datasets_from_items(item_obj_arr) {
-    for (let i = 0; i < item_obj_arr.length; i++) {
-        console.log(item_obj_arr[i]);
-    }
-    GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
-    // draw bubble graph using all items as datasets
-    for (let i = 0; i < item_obj_arr.length; i++) {
-        if (item_obj_arr[i].length < 2) {
-            continue;
-        }
-        // skipping meta object at [0]
-        let xyz_array = [];
-        let color_array = [];
-        for (let ii = 1; ii < item_obj_arr[i].length; ii++) {
-            let temp_date = new Date(item_obj_arr[i][ii]['time noticed']);
-            xyz_array.push({
-                x: temp_date,
-                y: temp_date.getHours() + (temp_date.getMinutes() / 60),
-                r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
-            });
-            color_array.push(hexToRgb(item_obj_arr[i][ii]['color']));
-            console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
-        }
-        GRAPH_DATA_OBJECT['datasets'].push(
-            {
-                label: item_obj_arr[i][0]['name'],
-                data: xyz_array,
-                backgroundColor: color_array,
-                borderColor: item_obj_arr[i][0]['color'],
-                borderWidth: BORDER_WIDTH
-            }
-        );
-    }
-    // enable graph view div
-    //div_view_graph.style.display = 'flex';
-    // draw_bubble_graph();
-    draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HEREdfdfgs...', DATE_TOMORROW, null);
-    // display view type navigation:
-    nav_view_type.style.display = 'flex';
-    nav_graph_buttons.style.display = 'flex';
-    view_item_bucket.style.display = 'flex';
-}
-
 // ...
 function get_items_subset(item_names_arr) {
     let return_items = [];
@@ -210,12 +210,39 @@ function get_items_subset(item_names_arr) {
     return return_items;
 }
 
+//
+function get_views() {
+    const api_url = 'http://127.0.0.1:5000/get_views_saved';
+
+    fetch(api_url, {method: 'GET'})
+        .then(response => {
+            if (!response) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // NEED TO HANDLE ALL RETURNS
+            //responseMessage.textContent = data;
+            // convert response from string to JSON
+            data = JSON.parse(data);
+            data = data['data'].split(':');
+            for (let i = 0; i < data.length; i++) {
+                temp_div = document.createElement('div');
+                temp_div.className = 'view';
+                temp_div.innerHTML = data[i];
+                VIEWS_SAVED.append(temp_div);
+            }
+        })
+}
+
 /*
     onload
  */
 
 window.onload=function () {
     get_items();
+    get_views();
     //console.log(hexToRgb('#00ff55'));
 }
 
@@ -239,7 +266,14 @@ button_view_graph.onclick=function () {
     keydown
  */
 view_create_input.oninput=function (e) {
-    FOUND_NAMES = [];
+    // redraw all items if item bucket input is emptied
+    if (e['inputType'] == DEL_KEY_TEXT && this.value == "") {
+        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), 'what is this bud', DATE_TOMORROW, null);
+        return;
+    }
+    // not empty - get on with it
+    let view_names_before = structuredClone(VIEW_NAMES);
+    VIEW_NAMES = [];
     //console.log(e);
     let temp_array = view_create_input.value.split(',');
     //console.log(temp_array);
@@ -256,8 +290,7 @@ view_create_input.oninput=function (e) {
             //console.log('this item: ', all_items[ii][0]);
             // check if name matches
             if (input_string == check_name) {
-                FOUND_NAMES += check_name;
-                //console.log('here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                VIEW_NAMES += check_name;
                 continue;
             }
             // check if keyword matches
@@ -270,9 +303,9 @@ view_create_input.oninput=function (e) {
                 if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
                     //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
                     // don't add if it already exists
-                    //console.log('DOES FOUND MAPPINGS HAVE', FOUND_NAMES.indexOf(check_name));
-                    if (FOUND_NAMES.indexOf(check_name) < 0) {
-                        FOUND_NAMES += check_name;
+                    //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
+                    if (VIEW_NAMES.indexOf(check_name) < 0) {
+                        VIEW_NAMES += check_name;
                         //console.log('but why here');
                         //console.log(check_string)
                     }
@@ -280,8 +313,13 @@ view_create_input.oninput=function (e) {
             }
         }
     }
-    let response = get_datasets_from_items(get_items_subset(FOUND_NAMES));
-    console.log('response: ', response);
-    console.log('end of oninput', FOUND_NAMES);
-    console.log('-----------------------------------------------------------')
+    // only redraw graph if input changes
+    if (view_names_before != VIEW_NAMES) {
+        // redraw graph with chosen items
+        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(VIEW_NAMES)), 'asdfasdfasdfasdfasdf', DATE_TOMORROW, null);
+    }
+
+    // console.log('response: ', response);
+    // console.log('end of oninput', VIEW_NAMES);
+    // console.log('-----------------------------------------------------------')
 }

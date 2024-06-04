@@ -23,7 +23,6 @@ meta_coll = 'tc_meta'
 meta_doc_amt = 1
 
 db_item_prefix = 't_item_'
-# db_view_prefix = 't_view_'
 collection_prefix = 'tc_'
 
 
@@ -107,6 +106,13 @@ def get_item_template_attributes():
 
 
 # RETURNS:
+def get_views_saved(id_str: str):
+    database = mongo_client[db_item_prefix + id_str]
+    views_array = database[meta_coll].find().sort('_id', 1).limit(1)
+    return list(views_array)
+
+
+# RETURNS:
 # STRANGE: adds a hash, '#', back to item_obj's color value as it was stripped in javascript
 def item_create(id_str: str, item_obj):
     item_obj = json.loads(item_obj)
@@ -155,7 +161,8 @@ def user_create(test_user_template):
     new_collection = new_db[collection_prefix + 'meta']
     db_write = new_collection.insert_one({
         'date_created': datetime.utcnow(),
-        'user_id_obj': db_write.inserted_id
+        'user_id_obj': db_write.inserted_id,
+        'views_saved': []
     })
     # new_db = mongo_client[db_view_prefix + str(id_obj)]
     # new_collection = new_db[collection_prefix + 'meta']
@@ -218,10 +225,12 @@ def user_set_logout_date(username: str):
 
 
 # RETURNS:
-# def view_create(id_str: str, views_arr: list[str]):
-#     database = mongo_client[db_view_prefix + id_str]
-#     print(database)
-#     pass
+def view_create(id_str: str, views_str: str):
+    database = mongo_client[db_item_prefix + id_str]
+    meta = database[meta_coll]
+    # only updates if unique
+    return meta.update_one({'user_id_obj': ObjectId(id_str)}, {'$addToSet': {'views_saved': views_str}})
+
 
 # MAIN
 

@@ -295,6 +295,32 @@ def get_items_all():
         'data': 'Not sure what happened...'
     })
 
+
+@app.route('/get_views_saved', methods=['GET'])
+@login_required
+def get_views_saved():
+    db_response = None
+    try:
+        db_response = db.get_views_saved(current_user.id_str)
+    except:
+        pass
+    else:
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': ':'.join(db_response[0]['views_saved'])
+            })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened in the finals...'
+    })
+
+
 # INCOMPLETE NEED WORK NOW
 @app.route('/item_refresh_list')
 @login_required
@@ -315,6 +341,32 @@ def item_refresh_list():
 @login_required
 def item_track_api(item_obj):
     pass
+
+
+@app.route('/view_create/<items_str>', methods=['GET', 'POST'])
+@login_required
+def view_create(items_str):
+    db_response = None
+    try:
+        db_response = db.view_create(current_user.id_str, items_str)
+        print('try: db_response', db_response)
+    except:
+        pass
+    else:
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': db_response.acknowledged
+            })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened in the end...'
+    })
 
 
 @app.route('/test_api/<input1>/<input2>')
