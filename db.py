@@ -23,7 +23,7 @@ meta_coll = 'tc_meta'
 meta_doc_amt = 1
 
 db_item_prefix = 't_item_'
-db_view_prefix = 't_view_'
+# db_view_prefix = 't_view_'
 collection_prefix = 'tc_'
 
 
@@ -157,11 +157,11 @@ def user_create(test_user_template):
         'date_created': datetime.utcnow(),
         'user_id_obj': db_write.inserted_id
     })
-    new_db = mongo_client[db_view_prefix + str(id_obj)]
-    new_collection = new_db[collection_prefix + 'meta']
-    db_write = new_collection.insert_one({
-        'date_create': datetime.utcnow()
-    })
+    # new_db = mongo_client[db_view_prefix + str(id_obj)]
+    # new_collection = new_db[collection_prefix + 'meta']
+    # db_write = new_collection.insert_one({
+    #     'date_create': datetime.utcnow()
+    # })
     return db_write
 
 
@@ -173,7 +173,7 @@ def user_delete(id_str):
     # delete user's items:
     mongo_client.drop_database(db_item_prefix + id_str)
     # delete user's views:
-    mongo_client.drop_database(db_view_prefix + id_str)
+    # mongo_client.drop_database(db_view_prefix + id_str)
     # delete user's user record:
     c_delete = c_users.delete_one({'_id': id_exists['_id']})
     return c_delete
@@ -218,10 +218,10 @@ def user_set_logout_date(username: str):
 
 
 # RETURNS:
-def view_create(id_str: str, views_arr: list[str]):
-    database = mongo_client[db_view_prefix + id_str]
-    print(database)
-    pass
+# def view_create(id_str: str, views_arr: list[str]):
+#     database = mongo_client[db_view_prefix + id_str]
+#     print(database)
+#     pass
 
 # MAIN
 

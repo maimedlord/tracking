@@ -200,17 +200,14 @@ function get_datasets_from_items(item_obj_arr) {
 function get_items_subset(item_names_arr) {
     let return_items = [];
     for (let i = 0; i < all_items.length; i++) {
-        let check_name = all_items[i][0]['name'].trim().toLowerCase();
-        if (item_names_arr.indexOf(check_name) > -1) {
-            console.log('right here - ', check_name);
-            return_items += structuredClone(all_items[i]);
+        if (item_names_arr.indexOf(all_items[i][0]['name']) > -1) {
+            //console.log('index of value: ', item_names_arr.indexOf(all_items[i][0]['name']));
+            return_items.push(all_items[i]);
+            //console.log('inside get_items_subset - indexOf: ', all_items[i]);
         }
     }
-    if (return_items.length > 0) {
-        console.log('teh items', return_items);
-        return return_items;
-    }
-    return {};
+    //console.log('return items array before return: ', return_items);
+    return return_items;
 }
 
 /*
@@ -277,13 +274,14 @@ view_create_input.oninput=function (e) {
                     if (FOUND_NAMES.indexOf(check_name) < 0) {
                         FOUND_NAMES += check_name;
                         //console.log('but why here');
-                        console.log(check_string)
+                        //console.log(check_string)
                     }
                 }
             }
         }
     }
     let response = get_datasets_from_items(get_items_subset(FOUND_NAMES));
-    console.log(response);
+    console.log('response: ', response);
     console.log('end of oninput', FOUND_NAMES);
+    console.log('-----------------------------------------------------------')
 }

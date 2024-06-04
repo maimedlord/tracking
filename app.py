@@ -230,10 +230,10 @@ def logout():
     return redirect('/index')
 
 
-@app.route('/view_create/<view_obj>')
-@login_required
-def view_create(view_obj):
-    pass
+# @app.route('/view_create/<view_obj>')
+# @login_required
+# def view_create(view_obj):
+#     pass
 
 
 @app.route('/views_manage')
