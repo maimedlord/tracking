@@ -1,3 +1,6 @@
+.align_self_center {
+    align-self: center;
+}
 #base_footer {
     display: flex;
     flex-direction: row;

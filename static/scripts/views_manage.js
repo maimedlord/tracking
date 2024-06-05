@@ -206,6 +206,7 @@ function get_items() {
         // draw page using API return:
         .then(function () {
             // create item list
+            div_items.innerHTML = '<h3 class="align_self_center" style="margin-left: 8px;margin-right: 10px">your items:</h3>';
             let temp_div = document.createElement('div');
             temp_div.className = 'item_div';
             temp_div.id = 'item_div_all_items';
@@ -305,10 +306,10 @@ function get_views() {
             data = JSON.parse(data);
             data = data['data'].split(':');
             if (data.length < 1 || data == '') {
-                VIEWS_SAVED.innerHTML = '<h3>no saved views:</h3>';
+                VIEWS_SAVED.innerHTML = '<h3 class="align_self_center">no saved views:</h3>';
             }
             else {
-                VIEWS_SAVED.innerHTML = '<h3>saved views:</h3>';
+                VIEWS_SAVED.innerHTML = '<h3 class="align_self_center">saved views:</h3>';
                 //VIEWS_SAVED.textContent = 'saved views: ';
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
