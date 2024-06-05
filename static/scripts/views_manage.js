@@ -305,7 +305,7 @@ function get_views() {
             data = JSON.parse(data);
             data = data['data'].split(':');
             if (data.length < 1 || data == '') {
-                VIEWS_SAVED.innerHTML = 'no saved views...';
+                VIEWS_SAVED.innerHTML = '<h3>no saved views:</h3>';
             }
             else {
                 VIEWS_SAVED.innerHTML = '<h3>saved views:</h3>';
