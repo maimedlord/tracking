@@ -302,6 +302,7 @@ def get_views_saved():
     db_response = None
     try:
         db_response = db.get_views_saved(current_user.id_str)
+        print(db_response)
     except:
         pass
     else:

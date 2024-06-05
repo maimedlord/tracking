@@ -1,7 +1,7 @@
 //
 let all_items = "";
 let button_view_calendar = document.getElementById('button_view_calendar');
-let button_view_generate = document.getElementById('button_view_generate');
+let button_view_save = document.getElementById('button_view_save');
 let button_view_graph = document.getElementById('button_view_graph');
 let DEL_KEY_TEXT = 'deleteContentBackward';
 let div_items = document.getElementById('items');
@@ -109,6 +109,47 @@ function get_datasets_from_items(item_obj_arr) {
     nav_graph_buttons.style.display = 'flex';
     view_item_bucket.style.display = 'flex';
     return GRAPH_DATA_OBJECT;
+}
+
+//
+function get_item_names_from_input(temp_array) {
+    let view_names = []
+    for (let i = 0; i < temp_array.length; i++) {
+        //console.log('typeof: ', typeof temp_array[i]);
+        let input_string = temp_array[i].toLowerCase().trim();
+        console.log('input string: ', input_string.toLowerCase().trim());
+        //check if match in name
+        //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
+        for (let ii = 0; ii < all_items.length; ii++) {
+            let check_name = all_items[ii][0]['name'].toLowerCase().trim();
+            //console.log(input_string, check_name);
+            //console.log('this item: ', all_items[ii][0]);
+            // check if name matches
+            if (input_string == check_name) {
+                view_names += check_name;
+                continue;
+            }
+            // check if keyword matches
+            let check_keywords = all_items[ii][0]['keywords'].split(',');
+            //console.log('check keywords: ', check_keywords);
+            for (let iii = 0; iii < check_keywords.length; iii++) {
+                let check_string = check_keywords[iii].toLowerCase().trim();
+                //console.log(input_string + ' ---------- ' + check_string);
+                //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
+                if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
+                    //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
+                    // don't add if it already exists
+                    //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
+                    if (view_names.indexOf(check_name) < 0) {
+                        view_names += check_name;
+                        //console.log('but why here');
+                        //console.log(check_string)
+                    }
+                }
+            }
+        }
+    }
+    return view_names;
 }
 
 // refresh item list
@@ -227,11 +268,18 @@ function get_views() {
             // convert response from string to JSON
             data = JSON.parse(data);
             data = data['data'].split(':');
-            for (let i = 0; i < data.length; i++) {
-                temp_div = document.createElement('div');
-                temp_div.className = 'view';
-                temp_div.innerHTML = data[i];
-                VIEWS_SAVED.append(temp_div);
+            if (data.length < 1 || data == '') {
+                VIEWS_SAVED.innerHTML = 'no saved views...';
+            }
+            else {
+                VIEWS_SAVED.innerHTML = '';
+                for (let i = 0; i < data.length; i++) {
+                    let temp_div = document.createElement('div');
+                    temp_div.className = 'view';
+                    temp_div.onclick = '';
+                    temp_div.innerHTML = data[i];
+                    VIEWS_SAVED.append(temp_div);
+            }
             }
         })
 }
@@ -255,11 +303,31 @@ button_view_calendar.onclick=function () {
     GRAPH_CANVAS.style.display = 'none';
     div_view_calendar.style.display = 'flex';
 }
-button_view_generate
 button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
     GRAPH_CANVAS.style.display = 'initial';
     nav_graph_buttons.style.display = 'flex';
+}
+button_view_save.onclick=function () {
+    const api_url = 'http://127.0.0.1:5000/view_create/' + view_create_input.value;
+
+    fetch(api_url, {method: 'GET'})
+        .then(response => {
+            if (!response) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // NEED TO HANDLE ALL RETURNS
+            //responseMessage.textContent = data;
+            // convert response from string to JSON
+            //data = JSON.parse(data);
+            console.log('view_save button: ', data);
+            get_views();
+            // empty text input so that current saved value doesn't conflict with next value saved
+            //view_create_input.value = '';
+        })
 }
 
 /*
@@ -273,46 +341,47 @@ view_create_input.oninput=function (e) {
     }
     // not empty - get on with it
     let view_names_before = structuredClone(VIEW_NAMES);
-    VIEW_NAMES = [];
+    // VIEW_NAMES = [];
     //console.log(e);
     let temp_array = view_create_input.value.split(',');
+    VIEW_NAMES = get_item_names_from_input(temp_array);
     //console.log(temp_array);
     //console.log('all items object: ', all_items);
-    for (let i = 0; i < temp_array.length; i++) {
-        //console.log('typeof: ', typeof temp_array[i]);
-        let input_string = temp_array[i].toLowerCase().trim();
-        console.log('input string: ', input_string.toLowerCase().trim());
-        //check if match in name
-        //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
-        for (let ii = 0; ii < all_items.length; ii++) {
-            let check_name = all_items[ii][0]['name'].toLowerCase().trim();
-            //console.log(input_string, check_name);
-            //console.log('this item: ', all_items[ii][0]);
-            // check if name matches
-            if (input_string == check_name) {
-                VIEW_NAMES += check_name;
-                continue;
-            }
-            // check if keyword matches
-            let check_keywords = all_items[ii][0]['keywords'].split(',');
-            //console.log('check keywords: ', check_keywords);
-            for (let iii = 0; iii < check_keywords.length; iii++) {
-                let check_string = check_keywords[iii].toLowerCase().trim();
-                //console.log(input_string + ' ---------- ' + check_string);
-                //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
-                if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
-                    //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
-                    // don't add if it already exists
-                    //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
-                    if (VIEW_NAMES.indexOf(check_name) < 0) {
-                        VIEW_NAMES += check_name;
-                        //console.log('but why here');
-                        //console.log(check_string)
-                    }
-                }
-            }
-        }
-    }
+    // for (let i = 0; i < temp_array.length; i++) {
+    //     //console.log('typeof: ', typeof temp_array[i]);
+    //     let input_string = temp_array[i].toLowerCase().trim();
+    //     console.log('input string: ', input_string.toLowerCase().trim());
+    //     //check if match in name
+    //     //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
+    //     for (let ii = 0; ii < all_items.length; ii++) {
+    //         let check_name = all_items[ii][0]['name'].toLowerCase().trim();
+    //         //console.log(input_string, check_name);
+    //         //console.log('this item: ', all_items[ii][0]);
+    //         // check if name matches
+    //         if (input_string == check_name) {
+    //             VIEW_NAMES += check_name;
+    //             continue;
+    //         }
+    //         // check if keyword matches
+    //         let check_keywords = all_items[ii][0]['keywords'].split(',');
+    //         //console.log('check keywords: ', check_keywords);
+    //         for (let iii = 0; iii < check_keywords.length; iii++) {
+    //             let check_string = check_keywords[iii].toLowerCase().trim();
+    //             //console.log(input_string + ' ---------- ' + check_string);
+    //             //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
+    //             if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
+    //                 //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
+    //                 // don't add if it already exists
+    //                 //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
+    //                 if (VIEW_NAMES.indexOf(check_name) < 0) {
+    //                     VIEW_NAMES += check_name;
+    //                     //console.log('but why here');
+    //                     //console.log(check_string)
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     // only redraw graph if input changes
     if (view_names_before != VIEW_NAMES) {
         // redraw graph with chosen items
