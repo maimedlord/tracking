@@ -18,50 +18,57 @@
         <div id="div_view_calendar">
             the calendar view
         </div>
-        <div id="nav_graph_buttons">
-            <div class="graph_buttons" id="graph_button_all_time">
-                All time
+        <div id="view_buttons">
+            <div id="nav_graph_buttons">
+                <div class="graph_buttons" id="graph_button_all_time">
+                    All time
+                </div>
+                <div class="graph_buttons" id="graph_button_all_time_today">
+                    All time to today
+                </div>
+                <div class="graph_buttons" id="graph_button_today">
+                    Today
+                </div>
+                <div class="graph_buttons" id="graph_button_last_week">
+                    last week
+                </div>
+                <div class="graph_buttons" id="graph_button_last_month">
+                    last month
+                </div>
+                <div class="graph_buttons" id="graph_button_last_qtr">
+                    last qtr
+                </div>
+                <div class="graph_buttons" id="graph_button_last_year">
+                    last year
+                </div>
+                <div class="graph_buttons">
+                    range?
+                </div>
             </div>
-            <div class="graph_buttons" id="graph_button_all_time_today">
-                All time to today
-            </div>
-            <div class="graph_buttons" id="graph_button_today">
-                Today
-            </div>
-            <div class="graph_buttons" id="graph_button_last_week">
-                last week
-            </div>
-            <div class="graph_buttons" id="graph_button_last_month">
-                last month
-            </div>
-            <div class="graph_buttons" id="graph_button_last_qtr">
-                last qtr
-            </div>
-            <div class="graph_buttons" id="graph_button_last_year">
-                last year
-            </div>
-            <div class="graph_buttons">
-                range?
+            <div id="nav_view_type">
+                <div class="view_type_button" id="button_view_graph">
+                    graph view button
+                </div>
+                <div class="view_type_button" id="button_view_calendar">
+                    calendar view button
+                </div>
             </div>
         </div>
-        <div id="nav_view_type">
-            <div class="view_type_button" id="button_view_graph">
-                graph view button
-            </div>
-            <div class="view_type_button" id="button_view_calendar">
-                calendar view button
-            </div>
+
         </div>
-        <div id="views_saved"></div>
-        <div id="view_item_bucket">
-            <form id="view_create" method="post" name="view_create">
-                <label>
-                    item names and keywords to view (separate with comma): <input autocomplete="off" id="view_create_input" name="view_create_input" required type="text">
-                </label>
-            </form>
+        <div id="root_views_saved">
+            <div id="views_saved"></div>
+            <div id="view_item_bucket">
+                <div class="text-align">item names and keywords to view:<br><i>(separate with comma)</i></div>
+                <form id="view_create" method="post" name="view_create">
+                    <label>
+                        <input autocomplete="off" id="view_create_input" name="view_create_input" required size="35" type="text">
+                    </label>
+                </form>
             <div id="button_view_save">save view</div>
         </div>
         <div id="view_item_bucket_msg"></div>
+        </div>
         <div id="items"></div>
     </div>
 {% endblock %}

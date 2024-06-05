@@ -5,6 +5,7 @@ let button_view_save = document.getElementById('button_view_save');
 let button_view_graph = document.getElementById('button_view_graph');
 let DEL_KEY_TEXT = 'deleteContentBackward';
 let div_items = document.getElementById('items');
+let div_view_buttons = document.getElementById('view_buttons');
 let div_view_calendar = document.getElementById('div_view_calendar');
 //let div_view_graph = document.getElementById('div_view_graph');
 let VIEW_NAMES = [];
@@ -259,8 +260,7 @@ function get_items() {
             // draw_bubble_graph();
             draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HERE...', DATE_TOMORROW, null);
             // display view type navigation:
-            nav_view_type.style.display = 'flex';
-            nav_graph_buttons.style.display = 'flex';
+            div_view_buttons.style.display = 'flex';
             view_item_bucket.style.display = 'flex';
         })
         .then(function () {
@@ -308,8 +308,8 @@ function get_views() {
                 VIEWS_SAVED.innerHTML = 'no saved views...';
             }
             else {
-                VIEWS_SAVED.innerHTML = '';
-                VIEWS_SAVED.textContent = 'saved views: ';
+                VIEWS_SAVED.innerHTML = '<h3>saved views:</h3>';
+                //VIEWS_SAVED.textContent = 'saved views: ';
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
                     temp_div.className = 'view';
