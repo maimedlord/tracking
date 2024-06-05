@@ -25,6 +25,35 @@ let SKIP_CHARS = ['', ' ', ','];
 let view_create_input = document.getElementById('view_create_input');
 let view_item_bucket = document.getElementById('view_item_bucket');
 
+//
+function delete_view(view_name) {
+    const api_url = 'http://127.0.0.1:5000/view_delete/' + view_name;
+
+    fetch(api_url, {method: 'GET'})
+        .then(response => {
+            if (!response) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // NEED TO HANDLE ALL RETURNS
+            //responseMessage.textContent = data;
+            // convert response from string to JSON
+            //data = JSON.parse(data);
+            //console.log(data);
+            // handle error/failed response:
+            if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
+                item_list.innerHTML += data['data'];
+                return;
+            }
+            else {
+                console.log('delete_view data obj: ',  data);
+                get_views();
+            }
+        })
+}
+
 // draw bubble graph
 function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
     THE_CHART.destroy();
@@ -39,7 +68,7 @@ function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
                     legend: {position: 'top'},
                     title: {
                         display: true,
-                        text: 'text here. HMMMMMM'
+                        text: title_text
                     }
                 },
                 scales: {
@@ -115,15 +144,11 @@ function get_datasets_from_items(item_obj_arr) {
 function get_item_names_from_input(temp_array) {
     let view_names = []
     for (let i = 0; i < temp_array.length; i++) {
-        //console.log('typeof: ', typeof temp_array[i]);
         let input_string = temp_array[i].toLowerCase().trim();
         console.log('input string: ', input_string.toLowerCase().trim());
         //check if match in name
-        //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
         for (let ii = 0; ii < all_items.length; ii++) {
             let check_name = all_items[ii][0]['name'].toLowerCase().trim();
-            //console.log(input_string, check_name);
-            //console.log('this item: ', all_items[ii][0]);
             // check if name matches
             if (input_string == check_name) {
                 view_names += check_name;
@@ -131,25 +156,23 @@ function get_item_names_from_input(temp_array) {
             }
             // check if keyword matches
             let check_keywords = all_items[ii][0]['keywords'].split(',');
-            //console.log('check keywords: ', check_keywords);
             for (let iii = 0; iii < check_keywords.length; iii++) {
                 let check_string = check_keywords[iii].toLowerCase().trim();
-                //console.log(input_string + ' ---------- ' + check_string);
-                //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
                 if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
-                    //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
                     // don't add if it already exists
-                    //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
                     if (view_names.indexOf(check_name) < 0) {
                         view_names += check_name;
-                        //console.log('but why here');
-                        //console.log(check_string)
                     }
                 }
             }
         }
     }
     return view_names;
+}
+
+//
+function get_item_view(item_name) {
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(item_name)), item_name, DATE_TOMORROW, null);
 }
 
 // refresh item list
@@ -182,10 +205,18 @@ function get_items() {
         // draw page using API return:
         .then(function () {
             // create item list
+            let temp_div = document.createElement('div');
+            temp_div.className = 'item_div';
+            temp_div.id = 'item_div_all_items';
+            temp_div.setAttribute('onclick', 'set_view_all_items()');
+            temp_div.innerHTML += '<div class="center_span">' + '<b>' + 'all items' + '</b>' + '</div>' + '<br>';
+            div_items.append(temp_div);
+            // add items to list
             for (let i = 0; i < all_items.length; i++) {
                 //console.log(all_items[i][0]);
-                let temp_div = document.createElement('div');
+                temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
+                temp_div.setAttribute('onclick', 'get_item_view(\'' + all_items[i][0]['name'] + '\')');
                 temp_div.style.borderColor = all_items[i][0]['color'];
                 temp_div.innerHTML += '<div class="center_span">' + '<b>' + all_items[i][0]['name'] + '</b>' + '</div>' + '<br>';
                 temp_div.innerHTML += '<b>keywords:</b> ' +all_items[i][0]['keywords'];
@@ -211,7 +242,7 @@ function get_items() {
                         r: parseInt(all_items[i][ii]['intensity']) / 2
                     });
                     color_array.push(hexToRgb(all_items[i][ii]['color']));
-                    console.log('hex to rbg: ', hexToRgb(all_items[i][ii]['color']));
+                    //console.log('hex to rbg: ', hexToRgb(all_items[i][ii]['color']));
                 }
                 GRAPH_DATA_OBJECT['datasets'].push(
                     {
@@ -278,17 +309,28 @@ function get_views() {
             }
             else {
                 VIEWS_SAVED.innerHTML = '';
+                VIEWS_SAVED.textContent = 'saved views: ';
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
                     temp_div.className = 'view';
-                    console.log(data[i]);
+                    let temp_div_del = document.createElement('div');
+                    temp_div_del.className = 'button_view_delete';
+                    temp_div_del.setAttribute('onclick', 'delete_view(\'' + data[i] + '\')');
+                    temp_div_del.textContent = 'DELETE THIS VIEW';
+                    //console.log(data[i]);
                     temp_div.setAttribute('onclick', 'get_saved_view(\'' + data[i] + '\')');
                     temp_div.textContent = data[i];
+                    temp_div.append(temp_div_del);
                     VIEWS_SAVED.append(temp_div);
                     //draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(data[i])), 'ummmmm. oh boi', DATE_TOMORROW, null)
             }
             }
         })
+}
+
+//
+function set_view_all_items() {
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), 'all items', DATE_TOMORROW, null);
 }
 
 // TEST FUNCTION

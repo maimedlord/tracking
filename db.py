@@ -232,6 +232,13 @@ def view_create(id_str: str, views_str: str):
     return meta.update_one({'user_id_obj': ObjectId(id_str)}, {'$addToSet': {'views_saved': views_str}})
 
 
+# RETURNS:
+def view_delete(id_str: str, view_str: str):
+    database = mongo_client[db_item_prefix + id_str]
+    meta = database[meta_coll]
+    return meta.update_one({'user_id_obj': ObjectId(id_str)}, {'$pull': {'views_saved': view_str}})
+
+
 # MAIN
 
 if __name__ == '__main__':

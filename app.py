@@ -302,7 +302,6 @@ def get_views_saved():
     db_response = None
     try:
         db_response = db.get_views_saved(current_user.id_str)
-        print(db_response)
     except:
         pass
     else:
@@ -350,7 +349,33 @@ def view_create(items_str):
     db_response = None
     try:
         db_response = db.view_create(current_user.id_str, items_str)
-        print('try: db_response', db_response)
+        print('try: db_response create', db_response)
+    except:
+        pass
+    else:
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': db_response.acknowledged
+            })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened in the end...'
+    })
+
+
+@app.route('/view_delete/<view_name>', methods=['GET', 'POST'])
+@login_required
+def view_delete(view_name):
+    db_response = None
+    try:
+        db_response = db.view_delete(current_user.id_str, view_name)
+        print('try: db_response delete', db_response)
     except:
         pass
     else:
