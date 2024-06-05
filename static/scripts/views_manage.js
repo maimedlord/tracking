@@ -276,13 +276,19 @@ function get_views() {
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
                     temp_div.className = 'view';
-                    temp_div.onclick = '';
-                    temp_div.innerHTML = data[i];
+                    temp_div.setAttribute('onclick', 'test_function()');
+                    temp_div.textContent = data[i];
                     VIEWS_SAVED.append(temp_div);
+                    //draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(data[i])), 'ummmmm. oh boi', DATE_TOMORROW, null)
             }
             }
         })
 }
+
+// TEST FUNCTION
+// function test_function() {
+//     return 'test function return';
+// }
 
 /*
     onload
