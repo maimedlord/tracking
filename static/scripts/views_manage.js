@@ -252,6 +252,11 @@ function get_items_subset(item_names_arr) {
 }
 
 //
+function get_saved_view(view_string) {
+     draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), 'asdddddd', DATE_TOMORROW, null);
+}
+
+//
 function get_views() {
     const api_url = 'http://127.0.0.1:5000/get_views_saved';
 
@@ -276,7 +281,8 @@ function get_views() {
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
                     temp_div.className = 'view';
-                    temp_div.setAttribute('onclick', 'test_function()');
+                    console.log(data[i]);
+                    temp_div.setAttribute('onclick', 'get_saved_view(\'' + data[i] + '\')');
                     temp_div.textContent = data[i];
                     VIEWS_SAVED.append(temp_div);
                     //draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(data[i])), 'ummmmm. oh boi', DATE_TOMORROW, null)
@@ -286,9 +292,10 @@ function get_views() {
 }
 
 // TEST FUNCTION
-// function test_function() {
-//     return 'test function return';
-// }
+function test_function(view_string) {
+    console.log(view_string);
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), 'asdddddd', DATE_TOMORROW, null);
+}
 
 /*
     onload
