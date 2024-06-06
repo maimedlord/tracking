@@ -263,6 +263,8 @@ function get_items() {
             // display view type navigation:
             div_view_buttons.style.display = 'flex';
             view_item_bucket.style.display = 'flex';
+            button_view_graph.style.backgroundColor = 'lightblue';
+            document.getElementById('graph_button_all_time_today').style.backgroundColor = 'lightblue';
         })
         .then(function () {
             //
@@ -363,6 +365,7 @@ button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
     GRAPH_CANVAS.style.display = 'initial';
     nav_graph_buttons.style.display = 'flex';
+    button_view_graph.style.backgroundColor = 'lightblue';
 }
 button_view_save.onclick=function () {
     const api_url = 'http://127.0.0.1:5000/view_create/' + view_create_input.value;
