@@ -130,10 +130,6 @@ function get_datasets_from_items(item_obj_arr) {
             }
         );
     }
-    // enable graph view div
-    //div_view_graph.style.display = 'flex';
-    // draw_bubble_graph();
-    //draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HEREdfdfgs...', DATE_TOMORROW, null);
     // display view type navigation:
     nav_view_type.style.display = 'flex';
     nav_graph_buttons.style.display = 'flex';
@@ -173,7 +169,7 @@ function get_item_names_from_input(temp_array) {
 
 //
 function get_item_view(item_name) {
-    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(item_name)), item_name, DATE_TOMORROW, null);
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(item_name)), CURRENT_TIME_STR + item_name, DATE_TOMORROW, null);
 }
 
 // refresh item list
@@ -258,8 +254,11 @@ function get_items() {
             }
             // enable graph view div
             //div_view_graph.style.display = 'flex';
+            //
+            CURRENT_TIME_STR = 'all time to today: ';
+            CURRENT_VIEW_STR = 'all items'
             // draw_bubble_graph();
-            draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'SOME TITLE TEXT HERE...', DATE_TOMORROW, null);
+            draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, null);
             // display view type navigation:
             div_view_buttons.style.display = 'flex';
             view_item_bucket.style.display = 'flex';
@@ -276,9 +275,7 @@ function get_items_subset(item_names_arr) {
     let return_items = [];
     for (let i = 0; i < all_items.length; i++) {
         if (item_names_arr.indexOf(all_items[i][0]['name']) > -1) {
-            //console.log('index of value: ', item_names_arr.indexOf(all_items[i][0]['name']));
             return_items.push(all_items[i]);
-            //console.log('inside get_items_subset - indexOf: ', all_items[i]);
         }
     }
     //console.log('return items array before return: ', return_items);
@@ -287,7 +284,8 @@ function get_items_subset(item_names_arr) {
 
 //
 function get_saved_view(view_string) {
-     draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), 'asdddddd', DATE_TOMORROW, null);
+    CURRENT_VIEW_STR = 'saved view: ' + view_string;
+     draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, null);
 }
 
 //
@@ -325,15 +323,14 @@ function get_views() {
                     temp_div.textContent = data[i];
                     temp_div.append(temp_div_del);
                     VIEWS_SAVED.append(temp_div);
-                    //draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(data[i])), 'ummmmm. oh boi', DATE_TOMORROW, null)
-            }
+                }
             }
         })
 }
 
 //
 function set_view_all_items() {
-    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), 'all items', DATE_TOMORROW, null);
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), CURRENT_TIME_STR + 'all items', DATE_TOMORROW, null);
 }
 
 // TEST FUNCTION
@@ -395,7 +392,7 @@ button_view_save.onclick=function () {
 view_create_input.oninput=function (e) {
     // redraw all items if item bucket input is emptied
     if (e['inputType'] == DEL_KEY_TEXT && this.value == "") {
-        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), 'what is this bud', DATE_TOMORROW, null);
+        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), CURRENT_TIME_STR + ' all items', DATE_TOMORROW, null);
         return;
     }
     // not empty - get on with it
