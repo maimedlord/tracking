@@ -118,7 +118,7 @@ function get_datasets_from_items(item_obj_arr) {
                 r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
             });
             color_array.push(hexToRgb(item_obj_arr[i][ii]['color']));
-            console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
+            //console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
         }
         GRAPH_DATA_OBJECT['datasets'].push(
             {
@@ -404,50 +404,10 @@ view_create_input.oninput=function (e) {
     //console.log(e);
     let temp_array = view_create_input.value.split(',');
     VIEW_NAMES = get_item_names_from_input(temp_array);
-    //console.log(temp_array);
-    //console.log('all items object: ', all_items);
-    // for (let i = 0; i < temp_array.length; i++) {
-    //     //console.log('typeof: ', typeof temp_array[i]);
-    //     let input_string = temp_array[i].toLowerCase().trim();
-    //     console.log('input string: ', input_string.toLowerCase().trim());
-    //     //check if match in name
-    //     //console.log(temp_array[i].replace(/ /g, "").toLowerCase());
-    //     for (let ii = 0; ii < all_items.length; ii++) {
-    //         let check_name = all_items[ii][0]['name'].toLowerCase().trim();
-    //         //console.log(input_string, check_name);
-    //         //console.log('this item: ', all_items[ii][0]);
-    //         // check if name matches
-    //         if (input_string == check_name) {
-    //             VIEW_NAMES += check_name;
-    //             continue;
-    //         }
-    //         // check if keyword matches
-    //         let check_keywords = all_items[ii][0]['keywords'].split(',');
-    //         //console.log('check keywords: ', check_keywords);
-    //         for (let iii = 0; iii < check_keywords.length; iii++) {
-    //             let check_string = check_keywords[iii].toLowerCase().trim();
-    //             //console.log(input_string + ' ---------- ' + check_string);
-    //             //console.log('SKIP CHARS: ', SKIP_CHARS.indexOf(check_string));
-    //             if (SKIP_CHARS.indexOf(check_string) < 0 && input_string == check_string) {
-    //                 //console.log('found same keyword string: ' + '->' + input_string +'<->' + check_string + '<-');
-    //                 // don't add if it already exists
-    //                 //console.log('DOES FOUND MAPPINGS HAVE', VIEW_NAMES.indexOf(check_name));
-    //                 if (VIEW_NAMES.indexOf(check_name) < 0) {
-    //                     VIEW_NAMES += check_name;
-    //                     //console.log('but why here');
-    //                     //console.log(check_string)
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
     // only redraw graph if input changes
     if (view_names_before != VIEW_NAMES) {
         // redraw graph with chosen items
         draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(VIEW_NAMES)), 'asdfasdfasdfasdfasdf', DATE_TOMORROW, null);
     }
 
-    // console.log('response: ', response);
-    // console.log('end of oninput', VIEW_NAMES);
-    // console.log('-----------------------------------------------------------')
 }

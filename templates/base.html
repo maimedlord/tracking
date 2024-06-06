@@ -14,27 +14,27 @@
     <div id="base_nav">
         {% if not current_user.is_authenticated %}
             <div>
-             <a href="{{ url_for('create_account') }}">create account</a>
+             <a href="{{ url_for('create_account') }}"><h2>create account</h2></a>
             </div>
             <div>
-                 <a href="{{ url_for('login') }}">login</a>
+                 <a href="{{ url_for('login') }}"><h2>login</h2></a>
             </div>
         {% else %}
             <div>
-             <a href="{{ url_for('logout') }}">logout</a>
+             <a href="{{ url_for('logout') }}"><h2>logout</h2></a>
             </div>
             <div>
-                 <a href="{{ url_for('account') }}">account</a>
+                 <a href="{{ url_for('account') }}"><h2>account</h2></a>
             </div>
             <div>
-                 <a href="{{ url_for('console') }}">console</a>
+                 <a href="{{ url_for('console') }}"><h2>console</h2></a>
             </div>
         {% endif %}
     </div>
     {% block body %}
     {% endblock %}
     <div id="base_footer">
-        <div>tracking 2024</div>
+        <div>tracking © 2024</div>
     </div>
     {% block javascript_footer %}
     {% endblock %}
