@@ -142,7 +142,6 @@ function get_item_names_from_input(temp_array) {
     let view_names = []
     for (let i = 0; i < temp_array.length; i++) {
         let input_string = temp_array[i].toLowerCase().trim();
-        console.log('input string: ', input_string.toLowerCase().trim());
         //check if match in name
         for (let ii = 0; ii < all_items.length; ii++) {
             let check_name = all_items[ii][0]['name'].toLowerCase().trim();
@@ -169,7 +168,7 @@ function get_item_names_from_input(temp_array) {
 
 //
 function get_item_view(item_name) {
-    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(item_name)), CURRENT_TIME_STR + item_name, DATE_TOMORROW, null);
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(item_name)), CURRENT_TIME_STR + item_name, CURRENT_GRAPH_END_TIME, CURRENT_GRAPH_START_TIME);
 }
 
 // refresh item list
@@ -284,8 +283,7 @@ function get_items_subset(item_names_arr) {
 
 //
 function get_saved_view(view_string) {
-    CURRENT_VIEW_STR = 'saved view: ' + view_string;
-     draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, null);
+     draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(get_item_names_from_input(view_string.split(',')))), CURRENT_TIME_STR + 'saved view: ' + view_string, CURRENT_GRAPH_END_TIME, CURRENT_GRAPH_START_TIME);
 }
 
 //
@@ -330,7 +328,7 @@ function get_views() {
 
 //
 function set_view_all_items() {
-    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), CURRENT_TIME_STR + 'all items', DATE_TOMORROW, null);
+    draw_bubble_graph(CANVAS_ID, get_datasets_from_items(all_items), CURRENT_TIME_STR + 'all items', CURRENT_GRAPH_END_TIME, CURRENT_GRAPH_START_TIME);
 }
 
 // TEST FUNCTION
@@ -357,11 +355,14 @@ button_view_calendar.onclick=function () {
     nav_graph_buttons.style.display = 'none';
     GRAPH_CANVAS.style.display = 'none';
     div_view_calendar.style.display = 'flex';
+    button_view_calendar.style.backgroundColor = 'lightblue';
+    button_view_graph.style.backgroundColor = '';
 }
 button_view_graph.onclick=function () {
     div_view_calendar.style.display = 'none';
     GRAPH_CANVAS.style.display = 'initial';
     nav_graph_buttons.style.display = 'flex';
+    button_view_calendar.style.backgroundColor = '';
     button_view_graph.style.backgroundColor = 'lightblue';
 }
 button_view_save.onclick=function () {
@@ -404,7 +405,7 @@ view_create_input.oninput=function (e) {
     // only redraw graph if input changes
     if (view_names_before != VIEW_NAMES) {
         // redraw graph with chosen items
-        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(VIEW_NAMES)), 'asdfasdfasdfasdfasdf', DATE_TOMORROW, null);
+        draw_bubble_graph(CANVAS_ID, get_datasets_from_items(get_items_subset(VIEW_NAMES)), CURRENT_TIME_STR, DATE_TOMORROW, null);
     }
 
 }

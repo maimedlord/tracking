@@ -13,6 +13,7 @@
 }
 #base_nav {
     background-color: white;
+    box-shadow: 0px 5px 3px dimgray;
     display: flex;
     flex-direction: row;
     font-weight: bold;
@@ -23,6 +24,9 @@
 body {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+}
+.box_shadow_top_bottom {
+    box-shadow: inset 0px 3px 3px dimgray, 0px 5px 3px dimgray;
 }
 .text-align {
     text-align: center;
