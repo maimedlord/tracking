@@ -2,6 +2,7 @@ let button_create_item = document.getElementById('button_create_item');
 let button_create_item_submit = document.getElementById('button_create_item_submit');
 let button_refresh_list = document.getElementById('button_refresh_list');
 let button_track_item = document.getElementById('button_track_item');
+let choose_item = document.getElementById('choose_item');
 let create_item_input = document.getElementById('create_item_input');
 let track_item_input = document.getElementById('track_item_input');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
@@ -33,6 +34,7 @@ function refresh_item_list() {
             else {
                 data = data['data'];
                 item_list.innerHTML = '';
+                choose_item.innerHTML = '';
                 // processes an array of item meta documents
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
@@ -52,6 +54,11 @@ function refresh_item_list() {
                     temp_div.appendChild(document.createElement('br'));
                     temp_div.className = 'item_div';
                     item_list.append(temp_div);
+                    //
+                    temp_div = document.createElement('option');
+                    temp_div.value = data[i]['item_name'];
+                    temp_div.textContent = data[i]['item_name'];
+                    choose_item.append(temp_div);
                 }
             }
         })
@@ -124,7 +131,6 @@ button_create_item.onclick=async () => {
 }
 button_create_item_submit.onclick=async () => {
     button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
-
     let item_name = document.getElementById('name').value;
     let item_keywords = document.getElementById('keywords').value;
     let item_color = document.getElementById('color').value;

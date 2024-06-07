@@ -19,25 +19,35 @@
         </div>
     </div>
     <div class="box_shadow_top_bottom" id="create_item_input">
-{#        <form id="item_create" method="post" name="item_create">#}
-            <label>
-                <input autocomplete="off" id="name" placeholder="item name" name="name" size="40" required type="text">
-            </label>
-            <br>
-            <label>
-                <input autocomplete="off" id="keywords" placeholder="keywords,separated by,commas" name="keywords" size="40" type="text">
-            </label>
-            <br>
-            <label>
-                <input autocomplete="off" id="color" name="color" type="color">
-            </label>
-            <br>
-            <div class="box_shadow_lr" id="button_create_item_submit">create item</div>
-{#        </form>#}
+        <label>
+            <input autocomplete="off" id="name" placeholder="item name" name="name" required type="text">
+        </label>
+        <br>
+        <label>
+            <input autocomplete="off" id="keywords" placeholder="keywords,separated by,commas" name="keywords" type="text">
+        </label>
+        <br>
+        <label>
+            <input autocomplete="off" id="color" name="color" type="color">
+        </label>
+        <br>
+        <div class="box_shadow_lr" id="button_create_item_submit">create item</div>
         <br>
     </div>
-    <div id="track_item_input">
-        track item here
+    <div class="box_shadow_top_bottom" id="track_item_input">
+        <label>
+            <select id="choose_item" name="choose_item"></select>
+        </label>
+        <br>
+        {% for attribute in item_attributes %}
+            <label>
+                <input autocomplete="off" id="{{ attribute }}" name="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
+            </label>
+            <br>
+        {% endfor %}
+        <div class="box_shadow_lr" id="button_track_item_submit">
+            track item
+        </div>
     </div>
     <div id="api_response"></div>
     <div class="titles">your trackable items:</div>

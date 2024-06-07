@@ -14,7 +14,6 @@
 
 }
 #button_create_item_submit {
-    background-color: deepskyblue;
     border: orange solid 2px;
     border-radius: 5px;
     font-size: larger;
@@ -24,8 +23,12 @@
 #button_refresh_list {
 
 }
-#button_track_item {
-
+#button_track_item_submit {
+    border: orange solid 2px;
+    border-radius: 5px;
+    font-size: larger;
+    font-weight: bold;
+    padding: 10px;
 }
 #create_item_input {
     align-items: center;
@@ -40,6 +43,7 @@
 }
 input {
     text-align: center;
+    width: 300px;
 }
 .item_buttons {
     align-items: center;
@@ -76,6 +80,10 @@ input {
     gap: 30px;
     margin-top: 20px;
 }
+#notes {
+    height: 50px;
+    width: 300px;
+}
 .titles {
     display: flex;
     flex-direction: column;
@@ -85,10 +93,9 @@ input {
 }
 #track_item_input {
     align-items: center;
-    background-color: cornflowerblue;
     display: none;
     flex-direction: column;
-    gap: 10px;
     justify-content: center;
+    padding: 20px;
     margin-top: 20px;
 }

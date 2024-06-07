@@ -158,8 +158,9 @@ def item_manage(item_name):
 @app.route('/items_manage')
 @login_required
 def items_manage():
+    item_attributes = db.get_item_template_attributes()
     #item_names = db.get_collection_names(current_user.id_str)
-    return render_template('items_manage.html')
+    return render_template('items_manage.html', item_attributes=item_attributes)
 
 
 @app.route('/item_track/<item_name>', methods=['GET', 'POST'])
