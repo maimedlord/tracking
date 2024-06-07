@@ -64,12 +64,13 @@ input {
     width: 350px;
 }
 #item_list {
-    background-color: gray;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    margin-top: 20px;
+    padding: 20px;
     width: 100%;
 }
 #nav_items {
@@ -81,7 +82,7 @@ input {
     margin-top: 20px;
 }
 #notes {
-    height: 50px;
+    height: 75px;
     width: 300px;
 }
 .titles {

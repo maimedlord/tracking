@@ -341,7 +341,20 @@ def item_refresh_list():
 @app.route('/item_track_api/<item_obj>', methods=['GET', 'POST'])
 @login_required
 def item_track_api(item_obj):
-    pass
+    db_response = None
+    try:
+        pass
+        #db_response = db.item_track('', current_user.id_str, item_obj)
+    except:
+        pass
+    else:
+        pass
+    print('item track api: ', item_obj)
+    return item_obj
+    # return json.dumps({
+    #     'status': 'fail',
+    #     'data': 'There are no items to refresh finally...'
+    # })
 
 
 @app.route('/view_create/<items_str>', methods=['GET', 'POST'])

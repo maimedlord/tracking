@@ -1,9 +1,12 @@
+let api_response = document.getElementById('api_response');
 let button_create_item = document.getElementById('button_create_item');
 let button_create_item_submit = document.getElementById('button_create_item_submit');
 let button_refresh_list = document.getElementById('button_refresh_list');
 let button_track_item = document.getElementById('button_track_item');
+let button_track_item_submit = document.getElementById('button_track_item_submit');
 let choose_item = document.getElementById('choose_item');
 let create_item_input = document.getElementById('create_item_input');
+let intensity = document.getElementById('intensity');
 let track_item_input = document.getElementById('track_item_input');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
@@ -34,7 +37,7 @@ function refresh_item_list() {
             else {
                 data = data['data'];
                 item_list.innerHTML = '';
-                choose_item.innerHTML = '';
+                choose_item.innerHTML = '<option value="" disabled selected>select item</option>';
                 // processes an array of item meta documents
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
@@ -58,6 +61,7 @@ function refresh_item_list() {
                     temp_div = document.createElement('option');
                     temp_div.value = data[i]['item_name'];
                     temp_div.textContent = data[i]['item_name'];
+                    temp_div.title = data[i]['item_name'];
                     choose_item.append(temp_div);
                 }
             }
@@ -183,6 +187,52 @@ button_track_item.onclick=async () => {
     track_item_input.style.display = 'flex';
     await sleep(1000);
     button_track_item.style.boxShadow = '3px 3px 0px black';
+}
+button_track_item_submit.onclick=async () => {
+    //
+    if (parseInt(intensity.value) < 1 || parseInt(intensity.value) > 100 || intensity.value == "") {
+        api_response.textContent = 'the \'intensity\' field cannot be blank and must be between 1 and 100';
+        api_response.style.display = 'flex';
+        return;
+    }
+    const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
+        // cannot include '#' as it messes with python decoder
+        'color': document.getElementById('color').value.replace('#', ''),
+        'feeling after': document.getElementById('feeling after').value,
+        'feeling before': document.getElementById('feeling before').value,
+        'intensity': intensity.value,
+        'notes': document.getElementById('notes').value,
+        'response method': document.getElementById('response method').value,
+        'time duration': document.getElementById('time duration').value,
+        'time noticed': document.getElementById('time noticed').value
+    });
+    console.log(api_url);
+    // NEED validate input
+    // const request_options = {
+    //     method: 'POST',
+    //     body: {
+    //         'name': item_name,
+    //         'keywords': item_keywords
+    //     }
+    // };
+
+    fetch(api_url, {method: 'POST'})
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('fetsched data: ', data);
+            //responseMessage.textContent = data;
+            api_response.textContent = data;
+            api_response.style.display = 'flex';
+            refresh_item_list();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 /*
