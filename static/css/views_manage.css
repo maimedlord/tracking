@@ -1,5 +1,6 @@
 body {
-    background-image: linear-gradient(180deg, grey, white, lightgray, grey);
+    background-color: ghostwhite;
+    /*background-image: linear-gradient(180deg, cornflowerblue, white, lightgray, greenyellow);*/
 }
 .button_view_delete {
     background-color: red;

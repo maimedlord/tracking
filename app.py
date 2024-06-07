@@ -213,7 +213,7 @@ def login():
         if not is_safe_url(next):
             return abort(400)
         #return redirect(url_for('account'))
-        return redirect('/console')
+        return redirect('/items_manage')
     return render_template('login.html')
 
 

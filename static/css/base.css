@@ -25,6 +25,9 @@ body {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
 }
+.box_shadow_lr {
+    box-shadow: 3px 3px 0px black;
+}
 .box_shadow_top_bottom {
     box-shadow: inset 0px 3px 3px dimgray, 0px 5px 3px dimgray;
 }

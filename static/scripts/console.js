@@ -45,7 +45,7 @@ document.getElementById('create_view_button').onclick=function (){
     }
 }
 // submit_create_item
-document.getElementById('submit_create_item').onclick=function (){
+document.getElementById('button_create_item_submit').onclick=function (){
     let item_color = document.getElementById('color').value;
     let item_keywords = document.getElementById('keywords').value;
     let item_name = document.getElementById('name').value;

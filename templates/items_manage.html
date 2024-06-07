@@ -7,31 +7,39 @@
 {% endblock %}
 {% block body %}
     {{ message_correction }}
-    <div id="r_dev">
-        REFRESH LIST NOW
+    <div id="nav_items">
+        <div class="box_shadow_lr item_buttons" id="button_refresh_list">
+            REFRESH LIST NOW
+        </div>
+        <div class="box_shadow_lr item_buttons" id="button_create_item">
+            CREATE ITEM
+        </div>
+        <div class="box_shadow_lr item_buttons" id="button_track_item">
+            TRACK ITEM
+        </div>
     </div>
-    <div id="create_item_button">
-        CREATE ITEM
-    </div>
-    <div id="create_item_input">
-        <form id="item_create" method="post" name="item_create">
+    <div class="box_shadow_top_bottom" id="create_item_input">
+{#        <form id="item_create" method="post" name="item_create">#}
             <label>
-                name: <input autocomplete="off" id="name" name="name" required type="text">
+                <input autocomplete="off" id="name" placeholder="item name" name="name" size="40" required type="text">
             </label>
             <br>
             <label>
-                keywords: <input autocomplete="off" id="keywords" name="keywords" type="text">
+                <input autocomplete="off" id="keywords" placeholder="keywords,separated by,commas" name="keywords" size="40" type="text">
             </label>
             <br>
             <label>
-                color: <input autocomplete="off" id="color" name="color" type="color">
+                <input autocomplete="off" id="color" name="color" type="color">
             </label>
             <br>
-            <div id="submit_create_item">create item</div>
-        </form>
+            <div class="box_shadow_lr" id="button_create_item_submit">create item</div>
+{#        </form>#}
         <br>
-        <div id="api_response"></div>
     </div>
+    <div id="track_item_input">
+        track item here
+    </div>
+    <div id="api_response"></div>
     <div class="titles">your trackable items:</div>
     <div id="item_list">
     </div>

@@ -1,3 +1,11 @@
+let button_create_item = document.getElementById('button_create_item');
+let button_create_item_submit = document.getElementById('button_create_item_submit');
+let button_refresh_list = document.getElementById('button_refresh_list');
+let button_track_item = document.getElementById('button_track_item');
+let create_item_input = document.getElementById('create_item_input');
+let track_item_input = document.getElementById('track_item_input');
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
 // refresh item list
 function refresh_item_list() {
     item_list = document.getElementById('item_list');
@@ -54,7 +62,7 @@ function refresh_item_list() {
 
 // create_item_button
 create_item_on = false;
-document.getElementById('create_item_button').onclick=function (){
+document.getElementById('button_create_item').onclick=function (){
     if (!create_item_on) {
         document.getElementById('create_item_input').style.display = 'flex';
         create_item_on = true;
@@ -65,7 +73,58 @@ document.getElementById('create_item_button').onclick=function (){
     }
 }
 // submit_create_item
-document.getElementById('submit_create_item').onclick=function (){
+// document.getElementById('button_create_item_submit').onclick=function (){
+//     let item_name = document.getElementById('name').value;
+//     let item_keywords = document.getElementById('keywords').value;
+//     let item_color = document.getElementById('color').value;
+//     console.log(item_color);
+//     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
+//         // cannot include '#' as it messes with python decoder
+//         'color': item_color.substr(1, item_color.length),
+//         'keywords': item_keywords,
+//         'name': item_name
+//     });
+//     // NEED validate input
+//     // const request_options = {
+//     //     method: 'POST',
+//     //     body: {
+//     //         'name': item_name,
+//     //         'keywords': item_keywords
+//     //     }
+//     // };
+//
+//     fetch(api_url, {method: 'POST'})
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.text();
+//         })
+//         .then(data => {
+//             //responseMessage.textContent = data;
+//             div_api_response = document.getElementById('api_response');
+//             api_response.textContent = data;
+//             api_response.style.display = 'flex';
+//             refresh_item_list();
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// }
+
+/*
+    onclicks
+ */
+button_create_item.onclick=async () => {
+    button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
+    track_item_input.style.display = 'none';
+    create_item_input.style.display = 'flex';
+    await sleep(1000);
+    button_create_item.style.boxShadow = '3px 3px 0px black';
+}
+button_create_item_submit.onclick=async () => {
+    button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
+
     let item_name = document.getElementById('name').value;
     let item_keywords = document.getElementById('keywords').value;
     let item_color = document.getElementById('color').value;
@@ -102,11 +161,27 @@ document.getElementById('submit_create_item').onclick=function (){
         .catch(error => {
             console.error('Error:', error);
         });
+
+    await sleep(1000);
+    button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+}
+button_refresh_list.onclick=async () => {
+    button_refresh_list.style.boxShadow = 'inset 3px 3px 0px black';
+    refresh_item_list();
+    await sleep(1000);
+    button_refresh_list.style.boxShadow = '3px 3px 0px black';
+}
+button_track_item.onclick=async () => {
+    button_track_item.style.boxShadow = 'inset 3px 3px 0px black';
+    create_item_input.style.display = 'none';
+    track_item_input.style.display = 'flex';
+    await sleep(1000);
+    button_track_item.style.boxShadow = '3px 3px 0px black';
 }
 
-document.getElementById('r_dev').onclick=function (){
-    refresh_item_list();
-}
+/*
+    onload
+ */
 
 window.onload=function () {
     refresh_item_list();
