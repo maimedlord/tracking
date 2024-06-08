@@ -138,7 +138,7 @@ button_create_item_submit.onclick=async () => {
     let item_name = document.getElementById('name').value;
     let item_keywords = document.getElementById('keywords').value;
     let item_color = document.getElementById('color').value;
-    console.log(item_color);
+    //console.log(item_color);
     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'color': item_color.substr(1, item_color.length),
@@ -162,11 +162,17 @@ button_create_item_submit.onclick=async () => {
             return response.text();
         })
         .then(data => {
-            //responseMessage.textContent = data;
-            div_api_response = document.getElementById('api_response');
-            api_response.textContent = data;
-            api_response.style.display = 'flex';
-            refresh_item_list();
+            data = JSON.parse(data);
+            if (typeof data === 'object' && data['status'] == 'success') {
+                api_response.textContent = item_name + ' was successfully created!';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
+            else {
+                api_response.textContent = 'there was an error creating your item...';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -195,8 +201,10 @@ button_track_item_submit.onclick=async () => {
         api_response.style.display = 'flex';
         return;
     }
+    let item_name = document.getElementById('choose_item').value
     const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
+        'item name': item_name,
         'color': document.getElementById('color').value.replace('#', ''),
         'feeling after': document.getElementById('feeling after').value,
         'feeling before': document.getElementById('feeling before').value,
@@ -206,7 +214,7 @@ button_track_item_submit.onclick=async () => {
         'time duration': document.getElementById('time duration').value,
         'time noticed': document.getElementById('time noticed').value
     });
-    console.log(api_url);
+    //console.log(api_url);
     // NEED validate input
     // const request_options = {
     //     method: 'POST',
@@ -224,11 +232,18 @@ button_track_item_submit.onclick=async () => {
             return response.text();
         })
         .then(data => {
-            console.log('fetsched data: ', data);
-            //responseMessage.textContent = data;
-            api_response.textContent = data;
-            api_response.style.display = 'flex';
-            refresh_item_list();
+             data = JSON.parse(data);
+             if (typeof data === 'object' && data['status'] == 'success') {
+                api_response.textContent = item_name + ' was successfully tracked!';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
+            else {
+                api_response.textContent = 'there was an error tracking your item...';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
+
         })
         .catch(error => {
             console.error('Error:', error);

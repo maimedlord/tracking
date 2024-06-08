@@ -13,7 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 {% endblock %}
 {% block body %}
-    <div class="box_shadow_top_bottom" id="root_views_mangage">
+    <div id="root_body">
+        <div class="box_shadow_top_bottom" id="root_views_mangage">
         <canvas id="item_graph_canvas"></canvas>
         <div id="div_view_calendar">
             no calendar view yet...
@@ -58,20 +59,21 @@
             </div>
         </div>
     </div>
-    <div class="box_shadow_top_bottom" id="root_views_saved">
-        <div id="views_saved"></div>
-        <div id="view_item_bucket">
-            <div class="text-align">item names and keywords to view:<br><i>(separate with comma)</i></div>
-            <form id="view_create" method="post" name="view_create">
-                <label>
-                    <input autocomplete="off" id="view_create_input" name="view_create_input" required size="35" type="text">
-                </label>
-            </form>
-            <div id="button_view_save">save view</div>
+        <div class="box_shadow_top_bottom" id="root_views_saved">
+            <div id="views_saved"></div>
+            <div id="view_item_bucket">
+                <div class="text-align">item names and keywords to view:<br><i>(separate with comma)</i></div>
+                <form id="view_create" method="post" name="view_create">
+                    <label>
+                        <input autocomplete="off" id="view_create_input" name="view_create_input" required size="35" type="text">
+                    </label>
+                </form>
+                <div id="button_view_save">save view</div>
+            </div>
+            <div id="view_item_bucket_msg"></div>
         </div>
-        <div id="view_item_bucket_msg"></div>
+        <div class="box_shadow_top_bottom" id="items"></div>
     </div>
-    <div class="box_shadow_top_bottom" id="items"></div>
 {% endblock %}
 {% block javascript_footer %}
     <script src="{{ url_for('static', filename='scripts/shared_code.js') }}"></script>

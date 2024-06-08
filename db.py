@@ -116,26 +116,32 @@ def get_views_saved(id_str: str):
 # STRANGE: adds a hash, '#', back to item_obj's color value as it was stripped in javascript
 def item_create(id_str: str, item_obj):
     item_obj = json.loads(item_obj)
+    print(item_obj)
     if item_obj['name'] in get_collection_names(id_str):
+        print('buthow')
         return None
+    print('yoish')
     # add '#' back to color hex
     item_obj['color'] = '#' + item_obj['color']
+    print('herish')
     database = mongo_client[db_item_prefix + id_str]
     # test if database exists?
     item_coll = database[item_obj['name']]
     item_obj['date_created'] = datetime.utcnow()
+    print('end of db')
     return item_coll.insert_one(item_obj)
 
 
 # RETURNS:
 def item_track(item_name: str, id_str: str, item_obj):
+    # alter+modify data as necessary
+    if item_obj['time noticed'] == '':
+        item_obj['time noticed'] = datetime.utcnow()
+    else:
+        item_obj['time noticed'] = datetime.strptime(item_obj['time noticed'], datetime_format)
+    item_obj['color'] = '#' + item_obj['color']
     # swap out blank values for null
     for attribute in item_obj.keys():
-        if attribute == 'time noticed':
-            if item_obj[attribute] == '':
-                item_obj[attribute] = datetime.utcnow()
-            else:
-                item_obj[attribute] = datetime.strptime(item_obj[attribute], datetime_format)
         if item_obj[attribute] == '':
             item_obj[attribute] = None
     database = mongo_client[db_item_prefix + id_str]

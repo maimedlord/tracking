@@ -250,10 +250,26 @@ def views_manage():
 @login_required
 def item_create(item_obj):
     # NEEDS INPUT VALIDATION
-    db_response = db.item_create(current_user.id_str, item_obj)
-    if not db_response:
-        return 'your item could not be created. perhaps it already exists?'
-    return 'Your item has been created!'
+    db_response = None
+    try:
+        db_response = db.item_create(current_user.id_str, item_obj)
+    except:
+        pass
+    else:
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': db_response.acknowledged
+            })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened...'
+    })
 
 
 @app.route('/item_doc_refresh_list/<item_name>', methods=['GET', 'POST'])
@@ -342,13 +358,23 @@ def item_refresh_list():
 @login_required
 def item_track_api(item_obj):
     db_response = None
+    item_obj = json.loads(item_obj)
     try:
-        pass
-        #db_response = db.item_track('', current_user.id_str, item_obj)
+        db_response = db.item_track(item_obj['item name'], current_user.id_str, item_obj)
+        del item_obj['item name']
     except:
         pass
     else:
-        pass
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': db_response.acknowledged
+            })
     print('item track api: ', item_obj)
     return item_obj
     # return json.dumps({
