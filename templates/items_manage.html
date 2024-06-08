@@ -41,7 +41,7 @@
         <br>
         {% for attribute in item_attributes %}
             <label>
-                <input autocomplete="off" id="{{ attribute }}" name="{{ attribute }}" title="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
+                <input autocomplete="off" class="track_item_form_input" id="{{ attribute }}" name="{{ attribute }}" title="{{ attribute }}" value="{{ item_attributes[attribute]['value'] }}" placeholder="{{ item_attributes[attribute]['placeholder'] }}" type="{{ item_attributes[attribute]['type'] }}">
             </label>
             <br>
         {% endfor %}

@@ -83,50 +83,12 @@ document.getElementById('button_create_item').onclick=function (){
         create_item_on = false;
     }
 }
-// submit_create_item
-// document.getElementById('button_create_item_submit').onclick=function (){
-//     let item_name = document.getElementById('name').value;
-//     let item_keywords = document.getElementById('keywords').value;
-//     let item_color = document.getElementById('color').value;
-//     console.log(item_color);
-//     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
-//         // cannot include '#' as it messes with python decoder
-//         'color': item_color.substr(1, item_color.length),
-//         'keywords': item_keywords,
-//         'name': item_name
-//     });
-//     // NEED validate input
-//     // const request_options = {
-//     //     method: 'POST',
-//     //     body: {
-//     //         'name': item_name,
-//     //         'keywords': item_keywords
-//     //     }
-//     // };
-//
-//     fetch(api_url, {method: 'POST'})
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.text();
-//         })
-//         .then(data => {
-//             //responseMessage.textContent = data;
-//             div_api_response = document.getElementById('api_response');
-//             api_response.textContent = data;
-//             api_response.style.display = 'flex';
-//             refresh_item_list();
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// }
 
 /*
     onclicks
  */
 button_create_item.onclick=async () => {
+    api_response.style.display = 'none';
     button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
     track_item_input.style.display = 'none';
     create_item_input.style.display = 'flex';
@@ -136,9 +98,19 @@ button_create_item.onclick=async () => {
 button_create_item_submit.onclick=async () => {
     button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
     let item_name = document.getElementById('name').value;
+    item_name = item_name.trim();
     let item_keywords = document.getElementById('keywords').value;
+    item_keywords = item_keywords.trim();
     let item_color = document.getElementById('color').value;
-    //console.log(item_color);
+    // validate input:
+    if (item_name.length < 1 || item_keywords.length < 1) {
+        api_response.textContent = 'The item name and keywords cannot be blank';
+        api_response.style.display = 'flex';
+        await sleep(1000);
+        button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+        return;
+    }
+
     const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'color': item_color.substr(1, item_color.length),
@@ -182,12 +154,14 @@ button_create_item_submit.onclick=async () => {
     button_create_item_submit.style.boxShadow = '3px 3px 0px black';
 }
 button_refresh_list.onclick=async () => {
+    api_response.style.display = 'none';
     button_refresh_list.style.boxShadow = 'inset 3px 3px 0px black';
     refresh_item_list();
     await sleep(1000);
     button_refresh_list.style.boxShadow = '3px 3px 0px black';
 }
 button_track_item.onclick=async () => {
+    api_response.style.display = 'none';
     button_track_item.style.boxShadow = 'inset 3px 3px 0px black';
     create_item_input.style.display = 'none';
     track_item_input.style.display = 'flex';
@@ -202,6 +176,11 @@ button_track_item_submit.onclick=async () => {
         return;
     }
     let item_name = document.getElementById('choose_item').value
+    if (item_name == '') {
+        api_response.textContent = 'an item must be chosen';
+        api_response.style.display = 'flex';
+        return;
+    }
     const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'item name': item_name,
@@ -243,7 +222,11 @@ button_track_item_submit.onclick=async () => {
                 api_response.style.display = 'flex';
                 refresh_item_list();
             }
-
+            // reset track item inputs to default values
+            track_item_inputs = document.getElementsByClassName('track_item_form_input');
+            for (let i = 0; i < track_item_inputs.length; i++) {
+                track_item_inputs[i].value = '';
+            }
         })
         .catch(error => {
             console.error('Error:', error);
