@@ -41,6 +41,8 @@ function refresh_item_list() {
                 // processes an array of item meta documents
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
+                    temp_div.style.borderColor = data[i]['color'];
+                    console.log(data[i]['color']);
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
