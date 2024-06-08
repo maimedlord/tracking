@@ -82,6 +82,7 @@ body {
     gap: 20px;
     margin-top: 20px;
     max-width: 1600px;
+    padding: 20px;
     width: 100%;
 }
 #nav_graph_buttons {
@@ -123,11 +124,13 @@ body {
 }
 #root_views_saved {
     background-color: white;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;
     max-width: 1600px;
+    padding: 20px;
     width: 100%;
 }
 .view {

@@ -8,6 +8,7 @@
     flex-direction: row;
     justify-content: space-around;
     margin-top: 20px;
+    padding: 20px;
     width: 100%;
 }
 #base_nav {
@@ -24,6 +25,9 @@
 body {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+}
+.border_box {
+    box-sizing: border-box;
 }
 .box_shadow_lr {
     box-shadow: 3px 3px 0px black;
