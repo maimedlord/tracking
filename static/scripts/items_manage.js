@@ -70,10 +70,6 @@ function refresh_item_list() {
                     item_div_nav.append(link_manage);
                     item_div_nav.append(link_track);
                     temp_div.append(item_div_nav);
-                    // temp_div.appendChild(link_manage);
-                    // temp_div.appendChild(document.createElement('br'));
-                    // temp_div.appendChild(link_track);
-                    // temp_div.appendChild(document.createElement('br'));
                     temp_div.className = 'item_div';
                     item_list.append(temp_div);
                     //

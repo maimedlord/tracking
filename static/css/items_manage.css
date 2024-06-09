@@ -67,6 +67,7 @@ input {
     flex-direction: column;
     justify-content: center;
     padding: 5px 5px 5px 5px;
+    text-align: center;
     width: 350px;
 }
 .item_div_nav {
@@ -74,7 +75,7 @@ input {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    padding: 5px 0px 5px 0px;
+    padding: 10px 0px 10px 0px;
     width: 100%;
 }
 #item_list {
