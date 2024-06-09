@@ -10,6 +10,12 @@ let intensity = document.getElementById('intensity');
 let track_item_input = document.getElementById('track_item_input');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
+//
+async function btn_pop_back(element) {
+    await sleep(1000);
+    element.style.boxShadow = '3px 3px 0px black';
+}
+
 // refresh item list
 function refresh_item_list() {
     item_list = document.getElementById('item_list');
@@ -36,27 +42,38 @@ function refresh_item_list() {
             //
             else {
                 data = data['data'];
-                console.log(data);
+                //console.log(data);
                 item_list.innerHTML = '';
                 choose_item.innerHTML = '<option value="" disabled selected>select item</option>';
                 // processes an array of item meta documents
                 for (let i = 0; i < data.length; i++) {
+                    let item_div_nav = document.createElement('div');
+                    item_div_nav.className = 'item_div_nav';
                     let temp_div = document.createElement('div');
-                    //temp_div.style.borderColor = data[i]['color'];
+                    let nav_div_mv = document.createElement('div');
+                    nav_div_mv.className = 'nav_div_mv';
+                    nav_div_mv.textContent = 'manage or view this item';
+                    let nav_div_tracking = document.createElement('div');
+                    nav_div_tracking.className = 'nav_div_tracking';
+                    nav_div_tracking.textContent = 'track this item';
+                    temp_div.style.borderColor = data[i]['color'];
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
                     }
                     link_manage = document.createElement('a');
                     link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
-                    link_manage.innerHTML += 'manage, view this item';
+                    link_manage.append(nav_div_mv);/////
                     link_track = document.createElement('a');
                     link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
-                    link_track.innerHTML += 'track this item';
-                    temp_div.appendChild(link_manage);
-                    temp_div.appendChild(document.createElement('br'));
-                    temp_div.appendChild(link_track);
-                    temp_div.appendChild(document.createElement('br'));
+                    link_track.append(nav_div_tracking);
+                    item_div_nav.append(link_manage);
+                    item_div_nav.append(link_track);
+                    temp_div.append(item_div_nav);
+                    // temp_div.appendChild(link_manage);
+                    // temp_div.appendChild(document.createElement('br'));
+                    // temp_div.appendChild(link_track);
+                    // temp_div.appendChild(document.createElement('br'));
                     temp_div.className = 'item_div';
                     item_list.append(temp_div);
                     //
@@ -94,8 +111,9 @@ button_create_item.onclick=async () => {
     button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
     track_item_input.style.display = 'none';
     create_item_input.style.display = 'flex';
-    await sleep(1000);
-    button_create_item.style.boxShadow = '3px 3px 0px black';
+    // await sleep(1000);
+    // button_create_item.style.boxShadow = '3px 3px 0px black';
+    btn_pop_back(button_create_item);
 }
 button_create_item_submit.onclick=async () => {
     button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
@@ -103,13 +121,14 @@ button_create_item_submit.onclick=async () => {
     item_name = item_name.trim();
     let item_keywords = document.getElementById('keywords').value;
     item_keywords = item_keywords.trim();
-    let item_color = document.getElementById('color').value;
+    let item_color = document.getElementById('item_color').value;
     // validate input:
     if (item_name.length < 1 || item_keywords.length < 1) {
         api_response.textContent = 'The item name and keywords cannot be blank';
         api_response.style.display = 'flex';
-        await sleep(1000);
-        button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+        // await sleep(1000);
+        // button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+        btn_pop_back(button_create_item_submit);
         return;
     }
 
@@ -153,43 +172,52 @@ button_create_item_submit.onclick=async () => {
             console.error('Error:', error);
         });
 
-    await sleep(1000);
-    button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+    // await sleep(1000);
+    // button_create_item_submit.style.boxShadow = '3px 3px 0px black';
+    btn_pop_back(button_create_item_submit);
 }
 button_refresh_list.onclick=async () => {
     api_response.style.display = 'none';
     button_refresh_list.style.boxShadow = 'inset 3px 3px 0px black';
     refresh_item_list();
-    await sleep(1000);
-    button_refresh_list.style.boxShadow = '3px 3px 0px black';
+    // await sleep(1000);
+    // button_refresh_list.style.boxShadow = '3px 3px 0px black';
+    btn_pop_back(button_refresh_list);
 }
 button_track_item.onclick=async () => {
     api_response.style.display = 'none';
     button_track_item.style.boxShadow = 'inset 3px 3px 0px black';
     create_item_input.style.display = 'none';
     track_item_input.style.display = 'flex';
-    await sleep(1000);
-    button_track_item.style.boxShadow = '3px 3px 0px black';
+    // await sleep(1000);
+    // button_track_item.style.boxShadow = '3px 3px 0px black';
+    btn_pop_back(button_track_item);
 }
 button_track_item_submit.onclick=async () => {
+    button_track_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
     //
     if (parseInt(intensity.value) < 1 || parseInt(intensity.value) > 100 || intensity.value == "") {
         api_response.textContent = 'the \'intensity\' field cannot be blank and must be between 1 and 100';
         api_response.style.display = 'flex';
+        // await sleep(1000);
+        // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
+        btn_pop_back(button_track_item_submit);
         return;
     }
-    let item_color = document.getElementById('item_color').value;
-    console.log('item color: ', item_color);
     let item_name = document.getElementById('choose_item').value;
     if (item_name == '') {
         api_response.textContent = 'an item must be chosen';
         api_response.style.display = 'flex';
+        // await sleep(1000);
+        // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
+        btn_pop_back(button_track_item_submit);
         return;
     }
+    let color = document.getElementById('color').value;
     const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'item name': item_name,
-        'color': item_color.substr(1, item_color.length),
+        'color': color.substr(1, color.length),
         'feeling after': document.getElementById('feeling after').value,
         'feeling before': document.getElementById('feeling before').value,
         'intensity': intensity.value,
@@ -198,7 +226,6 @@ button_track_item_submit.onclick=async () => {
         'time duration': document.getElementById('time duration').value,
         'time noticed': document.getElementById('time noticed').value
     });
-    console.log(api_url);
     // NEED validate input
     // const request_options = {
     //     method: 'POST',
@@ -208,34 +235,37 @@ button_track_item_submit.onclick=async () => {
     //     }
     // };
 
-    // fetch(api_url, {method: 'POST'})
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-    //         return response.text();
-    //     })
-    //     .then(data => {
-    //          data = JSON.parse(data);
-    //          if (typeof data === 'object' && data['status'] == 'success') {
-    //             api_response.textContent = item_name + ' was successfully tracked!';
-    //             api_response.style.display = 'flex';
-    //             refresh_item_list();
-    //         }
-    //         else {
-    //             api_response.textContent = 'there was an error tracking your item...';
-    //             api_response.style.display = 'flex';
-    //             refresh_item_list();
-    //         }
-    //         // reset track item inputs to default values
-    //         track_item_inputs = document.getElementsByClassName('track_item_form_input');
-    //         for (let i = 0; i < track_item_inputs.length; i++) {
-    //             //track_item_inputs[i].value = '';
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //     });
+    fetch(api_url, {method: 'POST'})
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+             data = JSON.parse(data);
+             if (typeof data === 'object' && data['status'] == 'success') {
+                api_response.textContent = item_name + ' was successfully tracked!';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
+            else {
+                api_response.textContent = 'there was an error tracking your item...';
+                api_response.style.display = 'flex';
+                refresh_item_list();
+            }
+            // reset track item inputs to default values
+            track_item_inputs = document.getElementsByClassName('track_item_form_input');
+            for (let i = 0; i < track_item_inputs.length; i++) {
+                track_item_inputs[i].value = '';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    // await sleep(1000);
+    // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
+    btn_pop_back(button_track_item_submit);
 }
 
 /*
