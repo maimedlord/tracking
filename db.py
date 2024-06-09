@@ -83,6 +83,7 @@ def get_item_metas(id_str: str):
         #print('item meta doc', item_meta_doc[0])
         num_of_docs = database[item_name].count_documents({}) - meta_doc_amt
         item_obj = {
+            'color': item_meta_doc[0]['color'],
             'item_name': item_name,
             'item_count': num_of_docs,
             'date_created': datetime.strftime(item_meta_doc[0]['date_created'], datetime_format),

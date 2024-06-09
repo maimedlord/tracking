@@ -36,13 +36,13 @@ function refresh_item_list() {
             //
             else {
                 data = data['data'];
+                console.log(data);
                 item_list.innerHTML = '';
                 choose_item.innerHTML = '<option value="" disabled selected>select item</option>';
                 // processes an array of item meta documents
                 for (let i = 0; i < data.length; i++) {
                     let temp_div = document.createElement('div');
-                    temp_div.style.borderColor = data[i]['color'];
-                    console.log(data[i]['color']);
+                    //temp_div.style.borderColor = data[i]['color'];
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
@@ -119,6 +119,7 @@ button_create_item_submit.onclick=async () => {
         'keywords': item_keywords,
         'name': item_name
     });
+    console.log(api_url);
     // NEED validate input
     // const request_options = {
     //     method: 'POST',
@@ -177,7 +178,9 @@ button_track_item_submit.onclick=async () => {
         api_response.style.display = 'flex';
         return;
     }
-    let item_name = document.getElementById('choose_item').value
+    let item_color = document.getElementById('item_color').value;
+    console.log('item color: ', item_color);
+    let item_name = document.getElementById('choose_item').value;
     if (item_name == '') {
         api_response.textContent = 'an item must be chosen';
         api_response.style.display = 'flex';
@@ -186,7 +189,7 @@ button_track_item_submit.onclick=async () => {
     const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'item name': item_name,
-        'color': document.getElementById('color').value.replace('#', ''),
+        'color': item_color.substr(1, item_color.length),
         'feeling after': document.getElementById('feeling after').value,
         'feeling before': document.getElementById('feeling before').value,
         'intensity': intensity.value,
@@ -195,7 +198,7 @@ button_track_item_submit.onclick=async () => {
         'time duration': document.getElementById('time duration').value,
         'time noticed': document.getElementById('time noticed').value
     });
-    //console.log(api_url);
+    console.log(api_url);
     // NEED validate input
     // const request_options = {
     //     method: 'POST',
@@ -205,34 +208,34 @@ button_track_item_submit.onclick=async () => {
     //     }
     // };
 
-    fetch(api_url, {method: 'POST'})
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-             data = JSON.parse(data);
-             if (typeof data === 'object' && data['status'] == 'success') {
-                api_response.textContent = item_name + ' was successfully tracked!';
-                api_response.style.display = 'flex';
-                refresh_item_list();
-            }
-            else {
-                api_response.textContent = 'there was an error tracking your item...';
-                api_response.style.display = 'flex';
-                refresh_item_list();
-            }
-            // reset track item inputs to default values
-            track_item_inputs = document.getElementsByClassName('track_item_form_input');
-            for (let i = 0; i < track_item_inputs.length; i++) {
-                track_item_inputs[i].value = '';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    // fetch(api_url, {method: 'POST'})
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.text();
+    //     })
+    //     .then(data => {
+    //          data = JSON.parse(data);
+    //          if (typeof data === 'object' && data['status'] == 'success') {
+    //             api_response.textContent = item_name + ' was successfully tracked!';
+    //             api_response.style.display = 'flex';
+    //             refresh_item_list();
+    //         }
+    //         else {
+    //             api_response.textContent = 'there was an error tracking your item...';
+    //             api_response.style.display = 'flex';
+    //             refresh_item_list();
+    //         }
+    //         // reset track item inputs to default values
+    //         track_item_inputs = document.getElementsByClassName('track_item_form_input');
+    //         for (let i = 0; i < track_item_inputs.length; i++) {
+    //             //track_item_inputs[i].value = '';
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //     });
 }
 
 /*
