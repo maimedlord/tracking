@@ -14,7 +14,7 @@ const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
 const DATE_YESTERDAY = new Date().setDate(DATE_TODAY.getDate() - 1);
 let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
-
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const opacity_amt_8 = '0.08';
 const opacity_amt_40 = '0.40';
 const opacity_amt_65 = '0.65';

@@ -7,7 +7,7 @@ let button_track_item_submit = document.getElementById('button_track_item_submit
 let choose_item = document.getElementById('choose_item');
 let create_item_input = document.getElementById('create_item_input');
 let intensity = document.getElementById('intensity');
-const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 let track_item_input = document.getElementById('track_item_input');
 
 //
@@ -60,24 +60,29 @@ function refresh_item_list() {
                     item_div_nav.className = 'item_div_nav';
                     let temp_div = document.createElement('div');
                     let nav_div_mv = document.createElement('div');
-                    nav_div_mv.className = 'nav_div_mv box_shadow_lr';
+                    nav_div_mv.className = 'box_shadow_lr';
+                    nav_div_mv.id = 'nav_div_mv'
                     nav_div_mv.textContent = 'manage or view this item';
                     let nav_div_tracking = document.createElement('div');
-                    nav_div_tracking.className = 'nav_div_tracking box_shadow_lr';
+                    nav_div_tracking.className = 'box_shadow_lr';
+                    nav_div_tracking.id = 'nav_div_tracking'
+                    nav_div_tracking.setAttribute('onclick', 'set_track_item(\'' + data[i]['item_name'] + '\')');
                     nav_div_tracking.textContent = 'track this item';
                     temp_div.style.borderColor = data[i]['color'];
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
                     }
-                    link_manage = document.createElement('a');
-                    link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
-                    link_manage.append(nav_div_mv);/////
-                    link_track = document.createElement('a');
-                    link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
-                    link_track.append(nav_div_tracking);
-                    item_div_nav.append(link_manage);
-                    item_div_nav.append(link_track);
+                    // link_manage = document.createElement('a');
+                    // link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
+                    // link_manage.append(nav_div_mv);/////
+                    // link_track = document.createElement('a');
+                    // link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
+                    // link_track.append(nav_div_tracking);
+                    // item_div_nav.append(link_manage);
+                    // item_div_nav.append(link_track);
+                    item_div_nav.append(nav_div_mv);
+                    item_div_nav.append(nav_div_tracking);
                     temp_div.append(item_div_nav);
                     temp_div.className = 'item_div';
                     item_list.append(temp_div);
@@ -93,6 +98,13 @@ function refresh_item_list() {
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+//
+function set_track_item(item_name) {
+    choose_item.value = item_name;
+    track_item_input.style.display = 'flex';
+    console.log('herere');
 }
 
 // create_item_button

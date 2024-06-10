@@ -22,7 +22,7 @@ let GDO_TEMPLATE = {
 let GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
-const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+// const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 let SKIP_CHARS = ['', ' ', ','];
 let view_create_input = document.getElementById('view_create_input');
 let view_item_bucket = document.getElementById('view_item_bucket');
