@@ -62,6 +62,7 @@ function refresh_item_list() {
                     let nav_div_mv = document.createElement('div');
                     nav_div_mv.className = 'box_shadow_lr';
                     nav_div_mv.id = 'nav_div_mv'
+                    nav_div_mv.setAttribute('onclick', 'location.href=\'/item_manage/' + data[i]['item_name'] + '\'');
                     nav_div_mv.textContent = 'manage or view this item';
                     let nav_div_tracking = document.createElement('div');
                     nav_div_tracking.className = 'box_shadow_lr';
@@ -73,14 +74,6 @@ function refresh_item_list() {
                     for (const attribute of Object.keys(data[i])) {
                         temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
                     }
-                    // link_manage = document.createElement('a');
-                    // link_manage.setAttribute('href', 'http://127.0.0.1:5000/item_manage/' + data[i]['item_name']);
-                    // link_manage.append(nav_div_mv);/////
-                    // link_track = document.createElement('a');
-                    // link_track.setAttribute('href', 'http://127.0.0.1:5000/item_track/' + data[i]['item_name']);
-                    // link_track.append(nav_div_tracking);
-                    // item_div_nav.append(link_manage);
-                    // item_div_nav.append(link_track);
                     item_div_nav.append(nav_div_mv);
                     item_div_nav.append(nav_div_tracking);
                     temp_div.append(item_div_nav);

@@ -79,6 +79,28 @@ body {
     text-align: center;
     width: 100px;
 }
+.flex_row_space_between {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+.inline {
+    display: inline-block;
+}
+#nav_sort_by {
+    align-items: center;
+    display: flex;
+    color: red;
+    flex-direction: row;
+    font-weight: bold;
+    justify-content: center;
+}
 .text-align {
     text-align: center;
+}
+.width_full {
+    width: 100%;
 }

@@ -1,9 +1,13 @@
 //
 let all_items = "";
+let button_delete_no = document.getElementById('button_delete_no');
+let button_delete_yes = document.getElementById('button_delete_yes');
 let button_view_calendar = document.getElementById('button_view_calendar');
 let button_view_save = document.getElementById('button_view_save');
 let button_view_graph = document.getElementById('button_view_graph');
 let DEL_KEY_TEXT = 'deleteContentBackward';
+let delete_view_item_name = document.getElementById('delete_view_item_name');
+let div_delete_view_popup = document.getElementById('delete_view_popup');
 let div_items = document.getElementById('items');
 let div_view_buttons = document.getElementById('view_buttons');
 let div_view_calendar = document.getElementById('div_view_calendar');
@@ -38,9 +42,14 @@ async function btn_pop_back(element, parent_element) {
 }
 
 //
-function delete_view(view_name) {
-    const api_url = 'http://127.0.0.1:5000/view_delete/' + view_name;
+function close_div(div_element_name) {
+    document.getElementById(div_element_name).style.display = 'none';
+}
 
+//
+function delete_view(view_name) {
+    div_delete_view_popup.style.display = 'none';
+    const api_url = 'http://127.0.0.1:5000/view_delete/' + view_name;
     fetch(api_url, {method: 'GET'})
         .then(response => {
             if (!response) {
@@ -60,10 +69,17 @@ function delete_view(view_name) {
                 return;
             }
             else {
-                console.log('delete_view data obj: ',  data);
                 get_views();
             }
         })
+}
+
+//
+function delete_view_popup(view_name) {
+    delete_view_item_name.textContent = view_name;
+    button_delete_no.setAttribute('onclick', 'close_div(\'' + div_delete_view_popup.id + '\')')
+    button_delete_yes.setAttribute('onclick', 'delete_view(\'' + view_name + '\')');
+    div_delete_view_popup.style.display = 'flex';
 }
 
 //
@@ -281,7 +297,7 @@ function get_views() {
                     temp_div.className = 'view';
                     let temp_div_del = document.createElement('div');
                     temp_div_del.className = 'button_view_delete';
-                    temp_div_del.setAttribute('onclick', 'delete_view(\'' + data[i] + '\')');
+                    temp_div_del.setAttribute('onclick', 'delete_view_popup(\'' + data[i] + '\')');
                     temp_div_del.textContent = 'DELETE THIS VIEW';
                     //console.log(data[i]);
                     temp_div.setAttribute('onclick', 'get_saved_view(\'' + data[i] + '\')');

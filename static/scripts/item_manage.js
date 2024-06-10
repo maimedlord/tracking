@@ -4,6 +4,7 @@ let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
 
 // global element variables
+let back_to_all_items = document.getElementById('back_to_all_items');
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let item_doc_list = document.getElementById('item_doc_list');
 
@@ -42,13 +43,68 @@ function get_item_docs() {
         .then(function () {
             // populate list of docs making sure to skip meta object at front of array
             for (let i = 1; i < ITEM_DOCS.length; i++) {
+                let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
-                temp_div.style.borderColor = ITEM_DOCS[i]['color'];
-                temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
-                for (attribute of Object.keys(ITEM_DOCS[i])) {
-                    temp_div.innerHTML += attribute + ': ' + ITEM_DOCS[i][attribute] + '<br>';
-                }
+                Object.keys(ITEM_DOCS[i]).forEach((key) => {
+                    if (ITEM_DOCS[i][key]) {
+                        if (key == 'color') {
+                            temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
+                            temp_div.style.borderColor = ITEM_DOCS[i]['color'];
+                            temp_div.innerHTML += '<div class="width_full" style="background-color:' + ITEM_DOCS[i]['color'] + ';">' + 'color: ' + ITEM_DOCS[i]['color'] + '</div>';
+                        }
+                        else if (key == 'intensity') {
+                            temp_div.innerHTML += 'intensity: ' + ITEM_DOCS[i]['intensity'] + '<br>';
+                        }
+                        else if (key == 'time noticed') {
+                            temp_div.innerHTML += 'time tracked: ' + temp_date + '<br>';
+                        }
+                        else if (key == 'time duration') {
+                            temp_div.innerHTML += 'time duration: ' + ITEM_DOCS[i]['time duration'] + '<br>';
+                        }
+                        else if (key == 'response method') {
+                            temp_div.innerHTML += 'response method: ' + ITEM_DOCS[i]['response method'] + '<br>';
+                        }
+                        else if (key == 'feeling before') {
+                            temp_div.innerHTML += 'feeling before: ' + ITEM_DOCS[i]['feeling before'] + '<br>';
+                        }
+                        else if (key == 'feeling after') {
+                            temp_div.innerHTML += 'feeling after: ' + ITEM_DOCS[i]['feeling after'] + '<br>';
+                        }
+                        else if (key == 'notes') {
+                            temp_div.innerHTML += 'notes:<br>' + '<div class="border_box notes_box">' + ITEM_DOCS[i]['notes'] + '</div>';
+                        }
+                    }
+                })
+
+                // for (let ii = 0; ii <= Object.keys(ITEM_DOCS[i]).length; ii++) {
+                //     if (!ITEM_DOCS[i][Object.keys(ITEM_DOCS[i])[ii]]) {
+                //         continue;
+                //     }
+                //     console.log(ITEM_DOCS[i][Object.keys(ITEM_DOCS[i])[ii]]);
+                //     console.log(ITEM_DOCS[i][Object.keys(ITEM_DOCS[i])[ii]]);
+                //     if (ITEM_DOCS[i]) {
+                //
+                //     }
+                // }
+
+                // for (let ii = 0; ii <) {
+                //
+                // }
+                //
+                // let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
+                // let temp_div = document.createElement('div');
+                // temp_div.className = 'item_div';
+                // temp_div.style.borderColor = ITEM_DOCS[i]['color'];
+                // temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
+                // temp_div.innerHTML += 'color: ' + ITEM_DOCS[i]['color'] + '<br>';
+                // temp_div.innerHTML += 'time tracked: ' + temp_date + '<br>';
+                // temp_div.innerHTML += 'time duration: ' + ITEM_DOCS[i]['time duration'] + '<br>';
+                // temp_div.innerHTML += 'intensity: ' + ITEM_DOCS[i]['intensity'] + '<br>';
+                // temp_div.innerHTML += 'feeling before: ' + ITEM_DOCS[i]['feeling before'] + '<br>';
+                // temp_div.innerHTML += 'feeling after: ' + ITEM_DOCS[i]['feeling after'] + '<br>';
+                // temp_div.innerHTML += 'response method: ' + ITEM_DOCS[i]['response method'] + '<br>';
+                // temp_div.innerHTML += 'notes: ' + ITEM_DOCS[i]['notes'] + '<br>';
                 item_doc_list.append(temp_div);
             }
             /* draw chart */
@@ -65,7 +121,6 @@ function get_item_docs() {
             // notice skipping meta doc in front of array
             for (let i = 1; i < ITEM_DOCS.length; i++) {
                 let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
-                console.log('item_manage', ITEM_DOCS[i]['time noticed']);
                 GRAPH_DATA_OBJECT['datasets'][0]['data'].push({
                     x: temp_date,
                     y: temp_date.getHours() + (temp_date.getMinutes() / 60),
@@ -95,3 +150,6 @@ window.onload=function () {
 /*
     onclicks
  */
+back_to_all_items.onclick=function () {
+    back_to_all_items.style.boxShadow = 'inset 3px 3px 0px black';
+}

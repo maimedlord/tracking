@@ -1,3 +1,12 @@
+#back_to_all_items {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px;
+    text-align: center;
+    width: 80px;
+}
 .graph_buttons {
     align-items: center;
     background-color: white;
@@ -14,11 +23,13 @@
     width: 80px;
 }
 #item_doc_list {
+    align-items: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    padding: 15px;
     width: 100%;
 }
 .item_div {
@@ -36,6 +47,8 @@
 }
 #item_graph_canvas {
     background-color: white;
+    max-height: 75vh;
+    max-width: 1600px;
 }
 #item_graph_div {
     width: 100%;
@@ -46,6 +59,13 @@
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+    max-width: 1600px;
+    width: 100%;
+}
+.notes_box {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    width: 100%;
 }
 #root_item_manage {
     display: flex;
@@ -54,4 +74,16 @@
     gap: 20px;
     justify-content: center;
     width: 100%
+}
+#statistics {
+
+}
+#sub_nav {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px auto 0 auto;
+    max-width: 1600px;
+    width: 100%;
 }
