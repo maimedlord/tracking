@@ -173,6 +173,7 @@ body {
     background-color: white;
     border-radius: 5px;
     box-shadow: black 2px 2px 0px;
+    cursor: pointer;
     display: flex;
     height: 40px;
     flex-direction: column;

@@ -14,13 +14,28 @@ const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
 const DATE_YESTERDAY = new Date().setDate(DATE_TODAY.getDate() - 1);
 let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
+
 const opacity_amt_8 = '0.08';
-let opacity_amt_65 = '0.65';
+const opacity_amt_40 = '0.40';
+const opacity_amt_65 = '0.65';
 let THE_CHART = new Chart(GRAPH_CANVAS);
 
 /*
 
  */
+
+async function btn_pop_back(element, parent_element) {
+    element.style.boxShadow = 'inset 3px 3px 0px black';
+    await sleep(1000);
+    element.style.boxShadow = '3px 3px 0px black';
+    console.log('inthebutnpopback: ', element.id);
+    await sleep(250);
+    if (parent_element) {
+        parent_element.style.display = 'none';
+    }
+}
+
+
 
 // RETURNS:
 // function close_div(div_element_name) {
@@ -82,7 +97,6 @@ function redraw_graph_buttons(div_id) {
     elements = document.getElementsByClassName('graph_buttons');
     for (let i = 0; i <= elements.length; i++) {
         if (elements[i]) {
-            console.log(elements[i].innerHTML);
             elements[i].style.backgroundColor = BTN_CLR_OFF;
         }
     }
@@ -94,6 +108,7 @@ function redraw_graph_buttons(div_id) {
  */
 
 document.getElementById('graph_button_all_time').onclick=function() {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'all time: ';
     CURRENT_GRAPH_END_TIME = null;
@@ -101,6 +116,7 @@ document.getElementById('graph_button_all_time').onclick=function() {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, null, null);
 }
 document.getElementById('graph_button_all_time_today').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'all time to today: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;
@@ -108,6 +124,7 @@ document.getElementById('graph_button_all_time_today').onclick=function () {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, null);
 }
 document.getElementById('graph_button_last_month').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last month: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;
@@ -115,6 +132,7 @@ document.getElementById('graph_button_last_month').onclick=function () {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_MONTH);
 }
 document.getElementById('graph_button_last_qtr').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last qtr: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;
@@ -122,6 +140,7 @@ document.getElementById('graph_button_last_qtr').onclick=function () {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_QTR);
 }
 document.getElementById('graph_button_today').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'today: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;
@@ -129,6 +148,7 @@ document.getElementById('graph_button_today').onclick=function () {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_YESTERDAY);
 }
 document.getElementById('graph_button_last_week').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last week: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;
@@ -136,6 +156,7 @@ document.getElementById('graph_button_last_week').onclick=function () {
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_WEEK);
 }
 document.getElementById('graph_button_last_year').onclick=function () {
+    btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last year: ';
     CURRENT_GRAPH_END_TIME = DATE_TOMORROW;

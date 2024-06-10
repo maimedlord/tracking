@@ -7,11 +7,12 @@ let button_track_item_submit = document.getElementById('button_track_item_submit
 let choose_item = document.getElementById('choose_item');
 let create_item_input = document.getElementById('create_item_input');
 let intensity = document.getElementById('intensity');
-let track_item_input = document.getElementById('track_item_input');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+let track_item_input = document.getElementById('track_item_input');
 
 //
 async function btn_pop_back(element, parent_element) {
+    element.style.boxShadow = 'inset 3px 3px 0px black';
     await sleep(1000);
     element.style.boxShadow = '3px 3px 0px black';
     await sleep(250);
@@ -112,7 +113,7 @@ document.getElementById('button_create_item').onclick=function (){
  */
 button_create_item.onclick=async () => {
     //api_response.style.display = 'none';
-    button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
+    //button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
     track_item_input.style.display = 'none';
     create_item_input.style.display = 'flex';
     // await sleep(1000);
@@ -120,7 +121,7 @@ button_create_item.onclick=async () => {
     btn_pop_back(button_create_item);
 }
 button_create_item_submit.onclick=async () => {
-    button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
+    //button_create_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
     let item_name = document.getElementById('name').value;
     item_name = item_name.trim();
     let item_keywords = document.getElementById('keywords').value;
@@ -186,7 +187,7 @@ button_refresh_list.onclick=async () => {
     refresh_item_list();
     // await sleep(1000);
     // button_refresh_list.style.boxShadow = '3px 3px 0px black';
-    btn_pop_back(button_refresh_list);
+    btn_pop_back(button_refresh_list, null);
 }
 button_track_item.onclick=async () => {
     //api_response.style.display = 'none';
@@ -195,7 +196,7 @@ button_track_item.onclick=async () => {
     track_item_input.style.display = 'flex';
     // await sleep(1000);
     // button_track_item.style.boxShadow = '3px 3px 0px black';
-    btn_pop_back(button_track_item);
+    btn_pop_back(button_track_item, null);
 }
 button_track_item_submit.onclick=async () => {
     button_track_item_submit.style.boxShadow = 'inset 3px 3px 0px black';
