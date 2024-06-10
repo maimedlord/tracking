@@ -11,9 +11,17 @@ let track_item_input = document.getElementById('track_item_input');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
 //
-async function btn_pop_back(element) {
+async function btn_pop_back(element, parent_element) {
     await sleep(1000);
     element.style.boxShadow = '3px 3px 0px black';
+    await sleep(250);
+    if (parent_element) {
+        parent_element.style.display = 'none';
+    }
+}
+
+function close_div(div_element_name) {
+    document.getElementById(div_element_name).style.display = 'none';
 }
 
 // refresh item list
@@ -51,10 +59,10 @@ function refresh_item_list() {
                     item_div_nav.className = 'item_div_nav';
                     let temp_div = document.createElement('div');
                     let nav_div_mv = document.createElement('div');
-                    nav_div_mv.className = 'nav_div_mv';
+                    nav_div_mv.className = 'nav_div_mv box_shadow_lr';
                     nav_div_mv.textContent = 'manage or view this item';
                     let nav_div_tracking = document.createElement('div');
-                    nav_div_tracking.className = 'nav_div_tracking';
+                    nav_div_tracking.className = 'nav_div_tracking box_shadow_lr';
                     nav_div_tracking.textContent = 'track this item';
                     temp_div.style.borderColor = data[i]['color'];
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
@@ -103,7 +111,7 @@ document.getElementById('button_create_item').onclick=function (){
     onclicks
  */
 button_create_item.onclick=async () => {
-    api_response.style.display = 'none';
+    //api_response.style.display = 'none';
     button_create_item.style.boxShadow = 'inset 3px 3px 0px black';
     track_item_input.style.display = 'none';
     create_item_input.style.display = 'flex';
@@ -124,7 +132,7 @@ button_create_item_submit.onclick=async () => {
         api_response.style.display = 'flex';
         // await sleep(1000);
         // button_create_item_submit.style.boxShadow = '3px 3px 0px black';
-        btn_pop_back(button_create_item_submit);
+        btn_pop_back(button_create_item_submit, create_item_input);
         return;
     }
 
@@ -170,7 +178,7 @@ button_create_item_submit.onclick=async () => {
 
     // await sleep(1000);
     // button_create_item_submit.style.boxShadow = '3px 3px 0px black';
-    btn_pop_back(button_create_item_submit);
+    btn_pop_back(button_create_item_submit, create_item_input);
 }
 button_refresh_list.onclick=async () => {
     api_response.style.display = 'none';
@@ -181,7 +189,7 @@ button_refresh_list.onclick=async () => {
     btn_pop_back(button_refresh_list);
 }
 button_track_item.onclick=async () => {
-    api_response.style.display = 'none';
+    //api_response.style.display = 'none';
     button_track_item.style.boxShadow = 'inset 3px 3px 0px black';
     create_item_input.style.display = 'none';
     track_item_input.style.display = 'flex';
@@ -197,7 +205,7 @@ button_track_item_submit.onclick=async () => {
         api_response.style.display = 'flex';
         // await sleep(1000);
         // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
-        btn_pop_back(button_track_item_submit);
+        btn_pop_back(button_track_item_submit, track_item_input);
         return;
     }
     let item_name = document.getElementById('choose_item').value;
@@ -206,7 +214,7 @@ button_track_item_submit.onclick=async () => {
         api_response.style.display = 'flex';
         // await sleep(1000);
         // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
-        btn_pop_back(button_track_item_submit);
+        btn_pop_back(button_track_item_submit, track_item_input);
         return;
     }
     let color = document.getElementById('color').value;
@@ -261,7 +269,7 @@ button_track_item_submit.onclick=async () => {
         });
     // await sleep(1000);
     // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
-    btn_pop_back(button_track_item_submit);
+    btn_pop_back(button_track_item_submit, track_item_input);
 }
 
 /*

@@ -13,29 +13,43 @@
 <body>
     <div id="base_nav">
         {% if not current_user.is_authenticated %}
-            <div>
-             <a href="{{ url_for('create_account') }}"><h2>create account</h2></a>
-            </div>
-            <div>
-                 <a href="{{ url_for('login') }}"><h2>login</h2></a>
-            </div>
+             <a href="{{ url_for('create_account') }}">
+                 <div class="div_top_nav_item">
+                     <h2>create account</h2>
+                 </div>
+             </a>
+            <a href="{{ url_for('login') }}">
+                 <div class="div_top_nav_item">
+                     <h2>login</h2>
+                 </div>
+            </a>
         {% else %}
-            <div>
-                <a href="{{ url_for('logout') }}"><h2>logout</h2></a>
-            </div>
-            <div>
-                <a href="{{ url_for('account') }}"><h2>account</h2></a>
-            </div>
-            <div>
-                <a href="{{ url_for('views_manage') }}"><h2>views</h2></a>
-            </div>
-            <div>
-                <a href="{{ url_for('items_manage') }}"><h2>items</h2></a>
-            </div>
+            <a href="{{ url_for('logout') }}">
+                <div class="div_top_nav_item">
+                     <h2>logout</h2>
+                 </div>
+            </a>
+            <a href="{{ url_for('account') }}">
+                <div class="div_top_nav_item">
+                     <h2>account</h2>
+                 </div>
+            </a>
+            <a href="{{ url_for('views_manage') }}">
+                <div class="div_top_nav_item">
+                     <h2>views</h2>
+                 </div>
+            </a>
+            <a href="{{ url_for('items_manage') }}">
+                <div class="div_top_nav_item">
+                     <h2>items</h2>
+                 </div>
+            </a>
         {% endif %}
     </div>
+    <div id="div_header_padding"></div>
     {% block body %}
     {% endblock %}
+    <div id="div_footer_padding"></div>
     <div class="border_box " id="base_footer">
         <div>tracking © 2024 by alex haas</div>
     </div>

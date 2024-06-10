@@ -14,17 +14,67 @@ const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
 const DATE_YESTERDAY = new Date().setDate(DATE_TODAY.getDate() - 1);
 let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
-let OPACITY_AMT = '0.65';
+const opacity_amt_8 = '0.08';
+let opacity_amt_65 = '0.65';
 let THE_CHART = new Chart(GRAPH_CANVAS);
 
 /*
 
  */
 
+// RETURNS:
+// function close_div(div_element_name) {
+//     console.log('inclosediv: ', div_element_name)
+//     document.getElementById(div_element_name).style.display = 'none';
+// }
+
+// RETURNS: void
+function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
+    THE_CHART.destroy();
+    THE_CHART = new Chart(
+        GRAPH_CANVAS,
+        {
+            type: 'bubble',
+            data: data_objects,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {position: 'top'},
+                    title: {
+                        display: true,
+                        text: title_text
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                //day: 'MMM DD YYY'
+                            },
+                            unit: 'day'
+                        },
+                        max: x_max,
+                        min: x_min
+                    },
+                    y: {
+                        min: 0,
+                        max: 24,
+                        type: 'linear',
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        }
+    );
+}
+
 // RETURNS: string
-function hexToRgb(hex) {
+function hexToRgb(hex, opacity_amt) {
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return 'rgba(' + parseInt(result[1], 16) + ',' + parseInt(result[2], 16) + ',' + parseInt(result[3], 16) + ',' + OPACITY_AMT + ')';
+  return 'rgba(' + parseInt(result[1], 16) + ',' + parseInt(result[2], 16) + ',' + parseInt(result[3], 16) + ',' + opacity_amt + ')';
 }
 
 // RETURNS: void

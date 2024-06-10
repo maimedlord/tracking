@@ -4,8 +4,8 @@ let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
 
 // global element variables
-let DIV_BUTTONS = document.getElementById('nav_graph_buttons');
-let DIV_LIST_ITEM_DOCS = document.getElementById('item_doc_list');
+let nav_graph_buttons = document.getElementById('nav_graph_buttons');
+let item_doc_list = document.getElementById('item_doc_list');
 
 /*
 runs on page load via window.onload
@@ -25,7 +25,7 @@ function get_item_docs() {
             data = JSON.parse(data);
             // handle error/failed response:
             if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
-                DIV_LIST_ITEM_DOCS.innerHTML += data['data'];
+                item_doc_list.innerHTML += data['data'];
                 return;
             }
             //
@@ -44,10 +44,12 @@ function get_item_docs() {
             for (let i = 1; i < ITEM_DOCS.length; i++) {
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
+                temp_div.style.borderColor = ITEM_DOCS[i]['color'];
+                temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
                 for (attribute of Object.keys(ITEM_DOCS[i])) {
                     temp_div.innerHTML += attribute + ': ' + ITEM_DOCS[i][attribute] + '<br>';
                 }
-                DIV_LIST_ITEM_DOCS.append(temp_div);
+                item_doc_list.append(temp_div);
             }
             /* draw chart */
             // prepare data object for chart
@@ -70,12 +72,12 @@ function get_item_docs() {
                     r: parseInt(ITEM_DOCS[i]['intensity']) / 2
                 });
                 //
-                GRAPH_DATA_OBJECT['datasets'][0]['backgroundColor'].push(hexToRgb(ITEM_DOCS[i]['color']));
+                GRAPH_DATA_OBJECT['datasets'][0]['backgroundColor'].push(hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_65));
             }
             // draw graph
             draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, 'for all time to today', DATE_TOMORROW, null);
             // display graph buttons
-            DIV_BUTTONS.style.display = 'flex';
+            nav_graph_buttons.style.display = 'flex';
         })
         .catch(error => {
             console.error('Error:', error);
@@ -89,46 +91,6 @@ window.onload=function () {
 /*
 ...
  */
-
-// draw bubble graph
-function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        GRAPH_CANVAS,
-        {
-            type: 'bubble',
-            data: data_objects,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: ITEM_DOCS[0]['name'] + ' bubble chart ' + title_text
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        },
-                        max: x_max,
-                        min: x_min
-                    },
-                    y: {
-                        min: 0,
-                        max: 24,
-                        //type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                }
-            }
-        }
-    );
-}
 
 /*
     onclicks

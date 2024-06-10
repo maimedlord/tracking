@@ -20,6 +20,7 @@ let GDO_TEMPLATE = {
                 ],
             };
 let GRAPH_DATA_OBJECT = structuredClone(GDO_TEMPLATE);
+const opacity_amount = '0.65';
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
 let SKIP_CHARS = ['', ' ', ','];
@@ -55,48 +56,48 @@ function delete_view(view_name) {
         })
 }
 
-// draw bubble graph
-function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
-    THE_CHART.destroy();
-    THE_CHART = new Chart(
-        GRAPH_CANVAS,
-        {
-            type: 'bubble',
-            data: data_objects,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {position: 'top'},
-                    title: {
-                        display: true,
-                        text: title_text
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            displayFormats: {
-                                //day: 'MMM DD YYY'
-                            },
-                            unit: 'day'
-                        },
-                        max: x_max,
-                        min: x_min
-                    },
-                    y: {
-                        min: 0,
-                        max: 24,
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                }
-            }
-        }
-    );
-}
+// // draw bubble graph
+// function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
+//     THE_CHART.destroy();
+//     THE_CHART = new Chart(
+//         GRAPH_CANVAS,
+//         {
+//             type: 'bubble',
+//             data: data_objects,
+//             options: {
+//                 responsive: true,
+//                 plugins: {
+//                     legend: {position: 'top'},
+//                     title: {
+//                         display: true,
+//                         text: title_text
+//                     }
+//                 },
+//                 scales: {
+//                     x: {
+//                         type: 'time',
+//                         time: {
+//                             displayFormats: {
+//                                 //day: 'MMM DD YYY'
+//                             },
+//                             unit: 'day'
+//                         },
+//                         max: x_max,
+//                         min: x_min
+//                     },
+//                     y: {
+//                         min: 0,
+//                         max: 24,
+//                         type: 'linear',
+//                         ticks: {
+//                             stepSize: 1
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     );
+// }
 
 //
 function get_datasets_from_items(item_obj_arr) {
@@ -117,7 +118,7 @@ function get_datasets_from_items(item_obj_arr) {
                 y: temp_date.getHours() + (temp_date.getMinutes() / 60),
                 r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
             });
-            color_array.push(hexToRgb(item_obj_arr[i][ii]['color']));
+            color_array.push(hexToRgb(item_obj_arr[i][ii]['color'], opacity_amt_65));
             //console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
         }
         GRAPH_DATA_OBJECT['datasets'].push(
