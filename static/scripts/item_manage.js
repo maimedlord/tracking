@@ -6,7 +6,7 @@ let ITEM_DOCS = "";
 // global element variables
 let back_to_all_items = document.getElementById('back_to_all_items');
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
-let item_doc_list = document.getElementById('item_doc_list');
+let item_doc_list = document.getElementById('item_list');
 
 /*
 runs on page load via window.onload
@@ -46,7 +46,7 @@ function get_item_docs() {
                 let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
-                Object.keys(ITEM_DOCS[i]).forEach((key) => {
+                for (key of Object.keys(ITEM_DOCS[i])) {
                     if (ITEM_DOCS[i][key]) {
                         if (key == 'color') {
                             temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
@@ -55,12 +55,15 @@ function get_item_docs() {
                         }
                         else if (key == 'intensity') {
                             temp_div.innerHTML += 'intensity: ' + ITEM_DOCS[i]['intensity'] + '<br>';
+                            temp_div.setAttribute('data-intensity', ITEM_DOCS[i]['intensity']);
                         }
                         else if (key == 'time noticed') {
                             temp_div.innerHTML += temp_date + '<br>';
+                            temp_div.setAttribute('data-date_tracked', String(temp_date.getTime()));
                         }
                         else if (key == 'time duration') {
                             temp_div.innerHTML += 'time duration: ' + ITEM_DOCS[i]['time duration'] + '<br>';
+                            temp_div.setAttribute('data-time_duration', ITEM_DOCS[i]['time duration']);
                         }
                         else if (key == 'response method') {
                             temp_div.innerHTML += 'response method: ' + ITEM_DOCS[i]['response method'] + '<br>';
@@ -73,9 +76,10 @@ function get_item_docs() {
                         }
                         else if (key == 'notes') {
                             temp_div.innerHTML += 'notes:<br>' + '<div class="border_box notes_box">' + ITEM_DOCS[i]['notes'] + '</div>';
+                            temp_div.setAttribute('data-note_length', ITEM_DOCS[i]['notes'].length);
                         }
                     }
-                })
+                }
                 item_doc_list.append(temp_div);
             }
             /* draw chart */
@@ -123,4 +127,34 @@ window.onload=function () {
  */
 back_to_all_items.onclick=function () {
     back_to_all_items.style.boxShadow = 'inset 3px 3px 0px black';
+}
+sort_items_input.onclick=function () {
+    // exit if empty input
+    if (sort_items_input.value == '') {
+        return;
+    }
+    let sorted_arr = Array.from(item_list.childNodes);
+    item_list.innerHTML = '';
+    if (sort_items_input.value == 'date,tracked,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.date_tracked - b.dataset.date_tracked);
+    }
+    else if (sort_items_input.value == 'date,tracked,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.date_tracked - a.dataset.date_tracked);
+    }
+    else if (sort_items_input.value == 'intensity,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.intensity - b.dataset.intensity);
+    }
+    else if (sort_items_input.value == 'intensity,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.intensity - a.dataset.intensity);
+    }
+    else if (sort_items_input.value == 'note,length,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.note_length - b.dataset.note_length);
+    }
+    else if (sort_items_input.value == 'note,length,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.note_length - a.dataset.note_length);
+    }
+    // redraw newly sorted items
+    for (element of sorted_arr) {
+        item_list.append(element);
+    }
 }

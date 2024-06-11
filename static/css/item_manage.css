@@ -22,7 +22,7 @@
     text-align: center;
     width: 80px;
 }
-#item_doc_list {
+#item_list {
     align-items: center;
     display: flex;
     flex-direction: row;

@@ -89,11 +89,11 @@ function refresh_item_list() {
                         }
                         else if (key == 'date_last_noticed') {
                             temp_div.innerHTML += 'last tracked: ' + temp_date_tracked + '<br>';
-                            temp_div.setAttribute('data-date_tracked', temp_date_tracked.getTime());
+                            temp_div.setAttribute('data-date_tracked', String(temp_date_tracked.getTime()));
                         }
                         else if (key == 'date_created') {
                             temp_div.innerHTML += 'created: ' + temp_date_created + '<br>';
-                            temp_div.setAttribute('data-date_created', temp_date_created.getTime());
+                            temp_div.setAttribute('data-date_created', String(temp_date_created.getTime()));
                         }
                     }
                     item_div_nav.append(nav_div_mv);

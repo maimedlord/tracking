@@ -54,8 +54,20 @@
                 range?
             </div>
         </div>
-        <div id="nav_sort_by">sort by latest/oldest, note length, intensity</div>
-        <div id="item_doc_list"></div>
+        <div id="nav_sort_by">
+            <label>
+                <select id="sort_items_input" name="sort_items_input" title="sort_items_input">
+                    <option disabled selected value="">sort by...</option>
+                    <option value="date,tracked,ascending" title="date tracked: ascending">date tracked: ascending</option>
+                    <option value="date,tracked,descending" title="date tracked: descending">date tracked: descending</option>
+                    <option value="intensity,ascending" title="intensity: ascending">intensity: ascending</option>
+                    <option value="intensity,descending" title="intensity: descending">intensity: descending</option>
+                    <option value="note,length,ascending" title="note length: ascending">note length: ascending</option>
+                    <option value="note,length,descending" title="note length: descending">note length: descending</option>
+                </select>
+            </label>
+        </div>
+        <div id="item_list"></div>
     </div>
 {% endblock %}
 {% block javascript_footer %}

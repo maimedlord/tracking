@@ -145,14 +145,14 @@ input {
     /*margin-top: 20px;*/
     padding: 20px;
 }
-#nav_sort_by {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-    width: 100%
-}
+/*#nav_sort_by {*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: center;*/
+/*    text-align: center;*/
+/*    width: 100%*/
+/*}*/
 #notes {
     height: 75px;
     width: 300px;
