@@ -69,10 +69,23 @@ function refresh_item_list() {
                     nav_div_tracking.id = 'nav_div_tracking'
                     nav_div_tracking.setAttribute('onclick', 'set_track_item(\'' + data[i]['item_name'] + '\')');
                     nav_div_tracking.textContent = 'track this item';
-                    temp_div.style.borderColor = data[i]['color'];
-                    temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b><br>';
-                    for (const attribute of Object.keys(data[i])) {
-                        temp_div.innerHTML += (attribute + ': ' + data[i][attribute] + '<br>');
+                    temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b>';
+                    console.log(data[i]);
+                    let temp_date = new Date(data[i]['date_created']);
+                    for (let key of Object.keys(data[i])) {
+                        if (key == 'color') {
+                            temp_div.style.borderColor = data[i]['color'];
+                            temp_div.innerHTML += '<div class="width_full" style="background-color:' + data[i]['color'] + ';">' + 'color: ' + data[i]['color'] + '</div>';
+                        }
+                        else if (key == 'keywords') {
+                            temp_div.innerHTML += 'keywords: ' + data[i][key] + '<br>';
+                        }
+                        else if (key == 'item_count') {
+                            temp_div.innerHTML += '# of times tracked: ' + data[i][key] + '<br>';
+                        }
+                        else if (key == 'date_created') {
+                            temp_div.innerHTML += 'created: ' + temp_date + '<br>';
+                        }
                     }
                     item_div_nav.append(nav_div_mv);
                     item_div_nav.append(nav_div_tracking);
