@@ -47,6 +47,7 @@ function get_item_docs() {
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
                 for (key of Object.keys(ITEM_DOCS[i])) {
+                    console.log(ITEM_DOCS[i]);
                     if (ITEM_DOCS[i][key]) {
                         if (key == 'color') {
                             temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], opacity_amt_8);
