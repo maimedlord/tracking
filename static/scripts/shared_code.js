@@ -35,8 +35,6 @@ async function btn_pop_back(element, parent_element) {
     }
 }
 
-
-
 // RETURNS:
 // function close_div(div_element_name) {
 //     console.log('inclosediv: ', div_element_name)
@@ -163,3 +161,39 @@ document.getElementById('graph_button_last_year').onclick=function () {
     CURRENT_GRAPH_START_TIME = DATE_LAST_YEAR;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_YEAR);
 }
+// sort_items_input.onclick=function () {
+//     // exit if empty input
+//     if (sort_items_input.value == '') {
+//         return;
+//     }
+//     let sorted_arr = Array.from(item_list.childNodes);
+//     item_list.innerHTML = '';
+//     if (sort_items_input.value == 'timestracked,ascending') {
+//         sorted_arr = sorted_arr.sort((a, b) => a.dataset.item_count - b.dataset.item_count);
+//     }
+//     else if (sort_items_input.value == 'timestracked,descending') {
+//         sorted_arr = sorted_arr.sort((a, b) => b.dataset.item_count - a.dataset.item_count);
+//     }
+//     else if (sort_items_input.value == 'date,created,ascending') {
+//         sorted_arr = sorted_arr.sort((a, b) => a.dataset.date_created - b.dataset.date_created);
+//     }
+//     else if (sort_items_input.value == 'date,created,descending') {
+//         sorted_arr = sorted_arr.sort((a, b) => b.dataset.date_created - a.dataset.date_created);
+//     }
+//     else if (sort_items_input.value == 'date,tracked,ascending') {
+//         sorted_arr = sorted_arr.sort((a, b) => a.dataset.date_tracked - b.dataset.date_tracked);
+//     }
+//     else if (sort_items_input.value == 'date,tracked,descending') {
+//         sorted_arr = sorted_arr.sort((a, b) => b.dataset.date_tracked - a.dataset.date_tracked);
+//     }
+//     else if (sort_items_input.value == 'name,ascending') {
+//         sorted_arr = sorted_arr.sort((a, b) => a.dataset.item_name.toLowerCase() - b.dataset.item_name.toLowerCase());
+//     }
+//     else if (sort_items_input.value == 'name,descending') {
+//         sorted_arr = sorted_arr.sort((a, b) => b.dataset.item_name.toLowerCase() - a.dataset.item_name.toLowerCase());
+//     }
+//     // redraw newly sorted items
+//     for (element of sorted_arr) {
+//         item_list.append(element);
+//     }
+// }

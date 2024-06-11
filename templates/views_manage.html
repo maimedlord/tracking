@@ -83,7 +83,28 @@
         </div>
         <div id="view_item_bucket_msg"></div>
     </div>
-    <div id="items"></div>
+    <div id="nav_sort_by">
+        <label>
+            <select id="sort_items_input" name="sort_items_input" title="sort_items_input">
+                <option disabled selected value="">sort by...</option>
+                <option value="timestracked,ascending" title="# of times tracked: ascending"># of times tracked: ascending</option>
+                <option value="timestracked,descending" title="# of times tracked: descending"># of times tracked: descending</option>
+                <option value="date,created,ascending" title="date created: ascending">date created: ascending</option>
+                <option value="date,created,descending" title="date created: descending">date created: descending</option>
+                <option value="date,tracked,ascending" title="date tracked: ascending">date tracked: ascending</option>
+                <option value="date,tracked,descending" title="date tracked: descending">date tracked: descending</option>
+                <option value="name,ascending" title="name: ascending">name: ascending</option>
+                <option value="name,descending" title="name: descending">name: descending</option>
+            </select>
+        </label>
+        <span style="color:red;font-weight:bold;margin-left: 20px;">
+            sorting by name is broken...
+        </span>
+    </div>
+    <div class="item_div" id="all_items" onclick="set_view_all_items()">
+        all items
+    </div>
+    <div id="item_list"></div>
 {% endblock %}
 {% block javascript_footer %}
     <script src="{{ url_for('static', filename='scripts/shared_code.js') }}"></script>

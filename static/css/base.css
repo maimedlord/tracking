@@ -1,6 +1,9 @@
 .align_self_center {
     align-self: center;
 }
+.align_self_start {
+    align-self: start;
+}
 #base_footer {
     background-color: white;
     bottom: 0px;
@@ -97,6 +100,9 @@ body {
     flex-direction: row;
     font-weight: bold;
     justify-content: center;
+}
+#sort_items_input {
+    width: 250px;
 }
 .text-align {
     text-align: center;

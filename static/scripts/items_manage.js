@@ -7,7 +7,9 @@ let button_track_item_submit = document.getElementById('button_track_item_submit
 let choose_item = document.getElementById('choose_item');
 let create_item_input = document.getElementById('create_item_input');
 let intensity = document.getElementById('intensity');
+let item_list = document.getElementById('item_list');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+let sort_items_input = document.getElementById('sort_items_input');
 let track_item_input = document.getElementById('track_item_input');
 
 //
@@ -70,8 +72,9 @@ function refresh_item_list() {
                     nav_div_tracking.setAttribute('onclick', 'set_track_item(\'' + data[i]['item_name'] + '\')');
                     nav_div_tracking.textContent = 'track this item';
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b>';
-                    console.log(data[i]);
-                    let temp_date = new Date(data[i]['date_created']);
+                    temp_div.setAttribute('data-item_name', data[i]['item_name']);
+                    let temp_date_created = new Date(data[i]['date_created']);
+                    let temp_date_tracked = new Date(data[i]['date_last_noticed']);
                     for (let key of Object.keys(data[i])) {
                         if (key == 'color') {
                             temp_div.style.borderColor = data[i]['color'];
@@ -82,9 +85,15 @@ function refresh_item_list() {
                         }
                         else if (key == 'item_count') {
                             temp_div.innerHTML += '# of times tracked: ' + data[i][key] + '<br>';
+                            temp_div.setAttribute('data-item_count', data[i][key]);
+                        }
+                        else if (key == 'date_last_noticed') {
+                            temp_div.innerHTML += 'last tracked: ' + temp_date_tracked + '<br>';
+                            temp_div.setAttribute('data-date_tracked', temp_date_tracked.getTime());
                         }
                         else if (key == 'date_created') {
-                            temp_div.innerHTML += 'created: ' + temp_date + '<br>';
+                            temp_div.innerHTML += 'created: ' + temp_date_created + '<br>';
+                            temp_div.setAttribute('data-date_created', temp_date_created.getTime());
                         }
                     }
                     item_div_nav.append(nav_div_mv);
@@ -289,6 +298,42 @@ button_track_item_submit.onclick=async () => {
     // await sleep(1000);
     // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
     btn_pop_back(button_track_item_submit, track_item_input);
+}
+sort_items_input.onclick=function () {
+    // exit if empty input
+    if (sort_items_input.value == '') {
+        return;
+    }
+    let sorted_arr = Array.from(item_list.childNodes);
+    item_list.innerHTML = '';
+    if (sort_items_input.value == 'timestracked,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.item_count - b.dataset.item_count);
+    }
+    else if (sort_items_input.value == 'timestracked,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.item_count - a.dataset.item_count);
+    }
+    else if (sort_items_input.value == 'date,created,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.date_created - b.dataset.date_created);
+    }
+    else if (sort_items_input.value == 'date,created,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.date_created - a.dataset.date_created);
+    }
+    else if (sort_items_input.value == 'date,tracked,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.date_tracked - b.dataset.date_tracked);
+    }
+    else if (sort_items_input.value == 'date,tracked,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.date_tracked - a.dataset.date_tracked);
+    }
+    else if (sort_items_input.value == 'name,ascending') {
+        sorted_arr = sorted_arr.sort((a, b) => a.dataset.item_name.toLowerCase() - b.dataset.item_name.toLowerCase());
+    }
+    else if (sort_items_input.value == 'name,descending') {
+        sorted_arr = sorted_arr.sort((a, b) => b.dataset.item_name.toLowerCase() - a.dataset.item_name.toLowerCase());
+    }
+    // redraw newly sorted items
+    for (element of sorted_arr) {
+        item_list.append(element);
+    }
 }
 
 /*
