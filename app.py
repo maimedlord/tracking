@@ -58,10 +58,10 @@ def write_to_app_log(message: str):
 @app.route('/index', methods=['GET', 'POST'])
 def index():  # put application's code here
     if current_user.is_authenticated:
-        return redirect('/console')
+        return redirect('/items_manage')
     if request.method == 'POST':
-        email = request.form['input_email']
-        password = request.form['input_password']
+        # email = request.form['input_email']
+        # password = request.form['input_password']
         session['email'] = request.form['input_email']
         session['password'] = request.form['input_password']
         if session['email'] and session['password']:

@@ -119,7 +119,6 @@ function refresh_item_list() {
 function set_track_item(item_name) {
     choose_item.value = item_name;
     track_item_input.style.display = 'flex';
-    console.log('herere');
 }
 
 // create_item_button

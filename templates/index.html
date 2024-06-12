@@ -6,20 +6,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 {% block body %}
-    welcome to tracking!
-    <br>
     {{ message }}
     <br>
     {{ current_user.username }}
-    <div id="index_login">
-        <div id="div_form_login">
-            <form id="form_login" method="post" name="form_login">
-                email: <input autocomplete="off" autofocus id="input_email" name="input_email" placeholder="email..." required type="email">
-                <br>
-                password: <input autocomplete="off" id="input_password" name="input_password" placeholder="password..." required type="password">
-                <br>
-                <button type="submit">submit</button>
-            </form>
-        </div>
+{#    <div id="index_login">#}
+    <div class="centered" id="div_form_login">
+        <form id="form_login" method="post" name="form_login">
+            email <input autocomplete="off" autofocus class="input_width" id="input_email" name="input_email" placeholder="email..." required type="email">
+            <br>
+            password <input autocomplete="off" class="input_width" id="input_password" name="input_password" placeholder="password..." required type="password">
+            <br>
+            <button class="box_shadow_lr" id="button_login" type="submit">
+                login
+            </button>
+        </form>
     </div>
+{#    </div>#}
 {% endblock %}

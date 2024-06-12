@@ -80,7 +80,7 @@ body {
     flex-grow: 1;
     justify-content: center;
     text-align: center;
-    width: 100px;
+    width: 200px;
 }
 .flex_row_space_between {
     align-items: center;

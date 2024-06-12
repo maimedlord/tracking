@@ -1,7 +1,22 @@
+#button_login {
+    background-color: white;
+    margin: 10px;
+}
 #div_form_login {
-    background-color: bisque;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     font-size: larger;
+    justify-content: center;
     margin: 20px auto 0px auto;
     text-align: center;
     width: 100%;
+}
+#form_login {
+    align-items: end;
+    display: flex;
+    flex-direction: column;
+}
+.input_width {
+    width: 250px;
 }
