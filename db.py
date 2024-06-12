@@ -60,7 +60,6 @@ def get_item_docs(id_str: str, item_name: str):
         return db_response
     db_response = list(db_response)
     for element in db_response:
-        #del element['_id']
         for key in element.keys():
             if key == '_id':
                 element[key] = str(element[key])
