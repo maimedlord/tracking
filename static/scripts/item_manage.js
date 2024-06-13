@@ -5,8 +5,55 @@ let ITEM_DOCS = "";
 
 // global element variables
 let back_to_all_items = document.getElementById('back_to_all_items');
+let button_delete_item = document.getElementById('button_delete_item');
+let delete_item_popup = document.getElementById('delete_item_popup');
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let item_doc_list = document.getElementById('item_list');
+
+async function btn_pop_back(element, parent_element) {
+    element.style.boxShadow = 'inset 3px 3px 0px black';
+    await sleep(1000);
+    element.style.boxShadow = '3px 3px 0px black';
+    await sleep(250);
+    if (parent_element) {
+        parent_element.style.display = 'none';
+    }
+}
+
+function close_div(div_element_name) {
+    document.getElementById(div_element_name).style.display = 'none';
+}
+
+function delete_item(item_name) {
+    // delete_item_popup.style.display = 'flex';
+    btn_pop_back(button_delete_yes, null);
+    const api_url = 'http://127.0.0.1:5000/delete_item/' + item_name;
+    fetch(api_url, {method: 'GET'})
+        .then(response => {
+            if (!response) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // NEED TO HANDLE ALL RETURNS
+            //responseMessage.textContent = data;
+            // convert response from string to JSON
+            //data = JSON.parse(data);
+            //console.log(data);
+            // handle error/failed response:
+            if (!typeof data == 'object' || (typeof data == 'object' && data['status'] != 'success')) {
+                item_list.innerHTML += data['data'];
+                return;
+            }
+            else {
+                // delete_item_popup.style.display = 'none';
+                data = JSON.stringify(data);
+                console.log('delete item api return', data);
+                window.location.href = URL_BASE + 'items_manage';
+            }
+        })
+}
 
 /*
 runs on page load via window.onload
@@ -115,19 +162,23 @@ function get_item_docs() {
         });
 }
 
+/*
+    onload
+ */
 window.onload=function () {
     get_item_docs();
 }
 
 /*
-...
- */
-
-/*
     onclicks
  */
 back_to_all_items.onclick=function () {
+    btn_pop_back(this, null);
     back_to_all_items.style.boxShadow = 'inset 3px 3px 0px black';
+}
+button_delete_item.onclick=function () {
+    btn_pop_back(this, null);
+    delete_item_popup.style.display = 'flex';
 }
 sort_items_input.onclick=function () {
     // exit if empty input

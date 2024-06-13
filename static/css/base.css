@@ -19,6 +19,18 @@
     width: 100%;
     /*z-index: -5;*/
 }
+#button_delete_no {
+    background-color: red;
+    color: white;
+    text-align: center;
+    width: 75px;
+}
+#button_delete_yes {
+    background-color: greenyellow;
+    color: black;
+    text-align: center;
+    width: 75px;
+}
 #div_header_padding {
     height: 75px;
     width: 100%;
@@ -30,9 +42,10 @@
     display: flex;
     flex-basis: 150px;
     flex-direction: row;
+    flex-wrap: wrap;
     font-weight: bold;
     font-size: large;
-    gap: 50px;
+    row-gap: 50px;
     justify-content: center;
     position: fixed;
     top: 0px;

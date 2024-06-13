@@ -26,6 +26,14 @@ db_item_prefix = 't_item_'
 collection_prefix = 'tc_'
 
 
+# RETURNS
+def delete_item(id_str: str, item_name: str):
+    database = mongo_client[db_item_prefix + id_str]
+    response = database.drop_collection(item_name)
+    print(response)
+    return response
+
+
 # RETURNS:
 def get_all_items_for_user(id_str: str):
     collection_names = get_collection_names(id_str)

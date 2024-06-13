@@ -1,11 +1,19 @@
 #back_to_all_items {
     align-items: center;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding: 5px;
     text-align: center;
     width: 80px;
+}
+#button_delete_item {
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
 }
 .graph_buttons {
     align-items: center;
@@ -21,6 +29,16 @@
     padding: 5px;
     text-align: center;
     width: 80px;
+}
+#delete_item_popup {
+    align-items: center;
+    background-color: white;
+    border: black solid 2px;
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
 }
 #item_list {
     align-items: center;
@@ -82,7 +100,7 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 20px auto 0 auto;
     max-width: 1600px;
     padding: 10px;

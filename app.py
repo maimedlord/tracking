@@ -244,7 +244,29 @@ def views_manage():
 
 
 # # # API ROUTES # # #
-
+@app.route('/delete_item/<item_name>', methods=['GET', 'POST'])
+@login_required
+def delete_item(item_name):
+    db_response = None;
+    try:
+        db_response = db.delete_item(current_user.id_str, item_name)
+    except:
+        pass
+    else:
+        if not db_response:
+            return json.dumps({
+                'status': 'fail',
+                'data': 'Not sure what happened or returned false no matter what...'
+            })
+        else:
+            return json.dumps({
+                'status': 'success',
+                'data': db_response
+            })
+    return json.dumps({
+        'status': 'fail',
+        'data': 'Not sure what happened at the finals...'
+    })
 
 @app.route('/item_create/<item_obj>', methods=['GET', 'POST'])
 @login_required
