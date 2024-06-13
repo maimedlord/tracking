@@ -28,7 +28,7 @@ body {
 }
 #button_view_save {
     align-items: center;
-    border: black dotted 2px;
+    border: black solid 2px;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
@@ -77,7 +77,7 @@ body {
 .graph_buttons {
     align-items: center;
     background-color: white;
-    border: black dotted 2px;
+    border: black solid 2px;
     border-radius: 5px;
     box-shadow: 3px 3px 0px black;
     cursor: pointer;
@@ -169,7 +169,7 @@ body {
 .view {
     align-items: center;
     background-color: white;
-    border: black dotted 2px;
+    border: black solid 2px;
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 3px 3px 0px black;

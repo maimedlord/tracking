@@ -64,6 +64,9 @@ body {
 .border_black_dotted {
     border: black dotted 2px;
 }
+.border_black_solid {
+    border: black solid 2px;
+}
 .box_shadow_inset_bottom_top {
     box-shadow: inset 0 3px 8px black, inset 0 -3px 8px black;
 }
