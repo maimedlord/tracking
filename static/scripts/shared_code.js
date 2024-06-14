@@ -13,17 +13,20 @@ const DATE_LAST_WEEK = new Date().setDate(DATE_TODAY.getDate() - 8);
 const DATE_LAST_YEAR = new Date().setDate(DATE_TODAY.getDate() - 365);
 const DATE_TOMORROW = new Date().setDate(DATE_TODAY.getDate() + 1);
 const DATE_YESTERDAY = new Date().setDate(DATE_TODAY.getDate() - 1);
+let GRAPH_BUTTON_ALL_TIME = document.getElementById('graph_button_all_time');
+let GRAPH_BUTTON_ALL_TIME_TODAY = document.getElementById('graph_button_all_time_today');
+let GRAPH_BUTTON_LAST_MONTH = document.getElementById('graph_button_last_month');
+let GRAPH_BUTTON_LAST_QTR = document.getElementById('graph_button_last_qtr');
+let GRAPH_BUTTON_LAST_WEEK = document.getElementById('graph_button_last_week');
+let GRAPH_BUTTON_LAST_YEAR = document.getElementById('graph_button_last_year');
+let GRAPH_BUTTON_TODAY = document.getElementById('graph_button_today');
 let GRAPH_CANVAS = document.getElementById('item_graph_canvas');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-const opacity_amt_8 = '0.08';
-const opacity_amt_40 = '0.40';
-const opacity_amt_65 = '0.65';
+const OPACITY_08 = '0.08';
+const OPACITY_40 = '0.40';
+const OPACITY_65 = '0.65';
 let THE_CHART = new Chart(GRAPH_CANVAS);
 const URL_BASE = 'http://127.0.0.1:5000/';
-
-/*
-
- */
 
 async function btn_pop_back(element, parent_element) {
     element.style.boxShadow = 'inset 3px 3px 0px black';
@@ -35,12 +38,6 @@ async function btn_pop_back(element, parent_element) {
         parent_element.style.display = 'none';
     }
 }
-
-// RETURNS:
-// function close_div(div_element_name) {
-//     console.log('inclosediv: ', div_element_name)
-//     document.getElementById(div_element_name).style.display = 'none';
-// }
 
 // RETURNS: void
 function draw_bubble_graph(canvas_id, data_objects, title_text, x_max, x_min) {
@@ -105,8 +102,7 @@ function redraw_graph_buttons(div_id) {
 /*
     onclicks
  */
-
-document.getElementById('graph_button_all_time').onclick=function() {
+GRAPH_BUTTON_ALL_TIME.onclick=function() {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'all time: ';
@@ -114,7 +110,7 @@ document.getElementById('graph_button_all_time').onclick=function() {
     CURRENT_GRAPH_START_TIME = null;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, null, null);
 }
-document.getElementById('graph_button_all_time_today').onclick=function () {
+GRAPH_BUTTON_ALL_TIME_TODAY.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'all time to today: ';
@@ -122,7 +118,7 @@ document.getElementById('graph_button_all_time_today').onclick=function () {
     CURRENT_GRAPH_START_TIME = null;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, null);
 }
-document.getElementById('graph_button_last_month').onclick=function () {
+GRAPH_BUTTON_LAST_MONTH.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last month: ';
@@ -130,7 +126,7 @@ document.getElementById('graph_button_last_month').onclick=function () {
     CURRENT_GRAPH_START_TIME = DATE_LAST_MONTH;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_MONTH);
 }
-document.getElementById('graph_button_last_qtr').onclick=function () {
+GRAPH_BUTTON_LAST_QTR.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last qtr: ';
@@ -138,7 +134,7 @@ document.getElementById('graph_button_last_qtr').onclick=function () {
     CURRENT_GRAPH_START_TIME = DATE_LAST_QTR;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_QTR);
 }
-document.getElementById('graph_button_today').onclick=function () {
+GRAPH_BUTTON_TODAY.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'today: ';
@@ -146,7 +142,7 @@ document.getElementById('graph_button_today').onclick=function () {
     CURRENT_GRAPH_START_TIME = DATE_TODAY;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_YESTERDAY);
 }
-document.getElementById('graph_button_last_week').onclick=function () {
+GRAPH_BUTTON_LAST_WEEK.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last week: ';
@@ -154,7 +150,7 @@ document.getElementById('graph_button_last_week').onclick=function () {
     CURRENT_GRAPH_START_TIME = DATE_LAST_WEEK;
     draw_bubble_graph(CANVAS_ID, GRAPH_DATA_OBJECT, CURRENT_TIME_STR + CURRENT_VIEW_STR, DATE_TOMORROW, DATE_LAST_WEEK);
 }
-document.getElementById('graph_button_last_year').onclick=function () {
+GRAPH_BUTTON_LAST_YEAR.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'last year: ';

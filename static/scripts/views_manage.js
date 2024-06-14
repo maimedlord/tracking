@@ -101,7 +101,7 @@ function get_datasets_from_items(item_obj_arr) {
                 y: temp_date.getHours() + (temp_date.getMinutes() / 60),
                 r: parseInt(item_obj_arr[i][ii]['intensity']) / 2
             });
-            color_array.push(hexToRgb(item_obj_arr[i][ii]['color'], opacity_amt_65));
+            color_array.push(hexToRgb(item_obj_arr[i][ii]['color'], OPACITY_65));
             //console.log('hex to rbg: ', hexToRgb(item_obj_arr[i][ii]['color']));
         }
         GRAPH_DATA_OBJECT['datasets'].push(
@@ -233,7 +233,7 @@ function get_items() {
                         y: temp_date.getHours() + (temp_date.getMinutes() / 60),
                         r: parseInt(all_items[i][ii]['intensity']) / 2
                     });
-                    color_array.push(hexToRgb(all_items[i][ii]['color'], opacity_amt_65));
+                    color_array.push(hexToRgb(all_items[i][ii]['color'], OPACITY_65));
                 }
                 GRAPH_DATA_OBJECT['datasets'].push(
                     {
