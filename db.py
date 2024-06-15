@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 from pymongo import MongoClient#, DESCENDING, ReturnDocument
 
-import db
+# import db
 from user import User
 from werkzeug.security import check_password_hash
 
@@ -36,12 +36,14 @@ def delete_item(id_str: str, item_name: str):
 
 # RETURNS:
 def get_all_items_for_user(id_str: str):
+    # database = mongo_client[db_item_prefix + id_str]
     collection_names = get_collection_names(id_str)
     if not collection_names:
         return None
     collection_rtn_arr = list()
     for coll_name in collection_names:
-        coll_docs = db.get_item_docs(id_str, coll_name)
+        # coll_docs = database.get_item_docs(id_str, coll_name)
+        coll_docs = get_item_docs(id_str, coll_name)
         # pull out the meta collection
         if coll_name != meta_coll:
             for index_num in range(len(coll_docs)):

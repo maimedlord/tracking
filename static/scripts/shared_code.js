@@ -32,7 +32,6 @@ async function btn_pop_back(element, parent_element) {
     element.style.boxShadow = 'inset 3px 3px 0px black';
     await sleep(1000);
     element.style.boxShadow = '3px 3px 0px black';
-    console.log('inthebutnpopback: ', element.id);
     await sleep(250);
     if (parent_element) {
         parent_element.style.display = 'none';

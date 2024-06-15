@@ -330,7 +330,7 @@ sort_items_input.onclick=function () {
         sorted_arr = sorted_arr.sort((a, b) => b.dataset.item_name.toLowerCase() - a.dataset.item_name.toLowerCase());
     }
     // redraw newly sorted items
-    for (element of sorted_arr) {
+    for (let element of sorted_arr) {
         item_list.append(element);
     }
 }
