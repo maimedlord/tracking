@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div id="root_views_saved">
+    <div class="border_box" id="root_views_saved">
         <div id="views_saved"></div>
         <div class="box_shadow_lr_higher centered" id="delete_view_popup">
             <div id="delete_view_item_name"></div>
@@ -83,7 +83,7 @@
         </div>
         <div id="view_item_bucket_msg"></div>
     </div>
-    <div id="nav_sort_by">
+    <div class="border_box" id="nav_sort_by">
         <label>
             <select id="sort_items_input" name="sort_items_input" title="sort_items_input">
                 <option disabled selected value="">sort by...</option>
@@ -104,7 +104,7 @@
     <div class="item_div" id="all_items" onclick="set_view_all_items()">
         all items
     </div>
-    <div id="item_list"></div>
+    <div class="border_box" id="item_list"></div>
 {% endblock %}
 {% block javascript_footer %}
     <script src="{{ url_for('static', filename='scripts/shared_code.js') }}"></script>

@@ -11,7 +11,7 @@
         {% endblock %}
     </head>
 <body>
-    <div id="base_nav">
+    <div class="border_box" id="base_nav">
         {% if not current_user.is_authenticated %}
              <a href="{{ url_for('create_account') }}">
                  <div class="div_top_nav_item">
@@ -46,10 +46,8 @@
             </a>
         {% endif %}
     </div>
-    <div id="div_header_padding"></div>
     {% block body %}
     {% endblock %}
-    <div id="div_footer_padding"></div>
     <div class="border_box " id="base_footer">
         <div>tracking © 2024 by alex haas</div>
     </div>

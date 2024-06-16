@@ -7,7 +7,7 @@
 {% endblock %}
 {% block body %}
     {{ message_correction }}
-    <div id="nav_items">
+    <div class="border_box" id="nav_items">
         <div class="box_shadow_lr item_buttons" id="button_refresh_list">
             REFRESH LIST NOW
         </div>
@@ -55,8 +55,8 @@
             track item
         </div>
     </div>
-    <div id="api_response"></div>
-    <div id="nav_sort_by">
+    <div class="border_box" id="api_response"></div>
+    <div class="border_box" id="nav_sort_by">
         <label>
             <select id="sort_items_input" name="sort_items_input" title="sort_items_input">
                 <option disabled selected value="">sort by...</option>
@@ -74,8 +74,9 @@
                 sorting by name is broken...
         </span>
     </div>
-    <div id="item_list"></div>
+    <div class="border_box" id="item_list"></div>
 {% endblock %}
 {% block javascript_footer %}
+{#    <script src="{{ url_for('static', filename='scripts/shared_code.js') }}"></script>#}
     <script src="{{ url_for('static', filename='scripts/items_manage.js') }}"></script>
 {% endblock %}

@@ -53,10 +53,11 @@ body {
     display: none;
     flex-direction: column;
     justify-content: center;
-    padding-top: 30px;
+    max-width: 500px;
+    padding: 30px;
     position: fixed;
     text-align: center;
-    width: 500px;
+    width: 90vw;
 }
 input {
     text-align: center;
@@ -84,9 +85,10 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 350px;
     padding: 5px 5px 5px 5px;
     text-align: center;
-    width: 350px;
+    /*width: 350px;*/
 }
 .item_div_nav {
     align-items: center;
@@ -105,6 +107,7 @@ input {
     gap: 20px;
     justify-content: center;
     /*margin-top: 20px;*/
+    margin-bottom: 50px;
     padding: 20px;
     width: 100%;
 }
@@ -146,14 +149,9 @@ input {
     /*margin-top: 20px;*/
     padding: 20px;
 }
-/*#nav_sort_by {*/
-/*    align-items: center;*/
-/*    display: flex;*/
-/*    flex-direction: row;*/
-/*    justify-content: center;*/
-/*    text-align: center;*/
-/*    width: 100%*/
-/*}*/
+#nav_sort_by {
+    padding: 0 10px 0 10px;
+}
 #notes {
     height: 75px;
     width: 300px;
@@ -173,6 +171,28 @@ input {
     display: none;
     flex-direction: column;
     justify-content: center;
+    max-width: 500px;
     padding: 30px;
-    width: 500px;
+    width: 90vw;
+}
+@media (max-width: 800px) {
+    #create_item_input {
+        padding: 30px 5px 5px 5px;
+    }
+    #nav_div_mv {
+        font-size: 0.7em;
+        width: 50px;
+    }
+    #nav_div_tracking {
+        font-size: 0.7em;
+        width: 50px;
+    }
+    #track_item_input {
+        padding: 30px 5px 5px 5px;
+    }
+}
+@media (max-width: 500px) {
+    .item_div {
+        max-width: 300px;
+    }
 }

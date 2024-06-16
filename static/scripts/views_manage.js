@@ -49,7 +49,7 @@ function close_div(div_element_name) {
 //
 function delete_view(view_name) {
     div_delete_view_popup.style.display = 'none';
-    const api_url = 'http://127.0.0.1:5000/view_delete/' + view_name;
+    const api_url = URL_BASE + 'view_delete/' + view_name;
     fetch(api_url, {method: 'GET'})
         .then(response => {
             if (!response) {
@@ -158,7 +158,7 @@ function get_item_view(item_name) {
 // refresh item list
 function get_items() {
     // let item_list = document.getElementById('items');
-    const api_url = 'http://127.0.0.1:5000/get_items_all';
+    const api_url = URL_BASE + 'get_items_all';
 
     fetch(api_url, {method: 'GET'})
         .then(response => {
@@ -282,7 +282,7 @@ function get_saved_view(view_string) {
 
 //
 function get_views() {
-    const api_url = 'http://127.0.0.1:5000/get_views_saved';
+    const api_url = URL_BASE + 'get_views_saved';
 
     fetch(api_url, {method: 'GET'})
         .then(response => {
@@ -360,7 +360,7 @@ button_view_graph.onclick=function () {
     button_view_graph.style.backgroundColor = 'lightblue';
 }
 button_view_save.onclick=function () {
-    const api_url = 'http://127.0.0.1:5000/view_create/' + view_create_input.value;
+    const api_url = URL_BASE + 'view_create/' + view_create_input.value;
 
     fetch(api_url, {method: 'GET'})
         .then(response => {

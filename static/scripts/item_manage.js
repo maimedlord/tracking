@@ -1,5 +1,5 @@
 // global variables
-const API_URL = 'http://127.0.0.1:5000/item_doc_refresh_list/' + g_item_name;
+const API_URL = URL_BASE + 'item_doc_refresh_list/' + g_item_name;
 let GRAPH_DATA_OBJECT = {};
 let ITEM_DOCS = "";
 
@@ -27,7 +27,7 @@ function close_div(div_element_name) {
 function delete_item(item_name) {
     // delete_item_popup.style.display = 'flex';
     btn_pop_back(button_delete_yes, null);
-    const api_url = 'http://127.0.0.1:5000/delete_item/' + item_name;
+    const api_url = URL_BASE + 'delete_item/' + item_name;
     fetch(api_url, {method: 'GET'})
         .then(response => {
             if (!response) {

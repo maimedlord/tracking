@@ -11,6 +11,8 @@ let item_list = document.getElementById('item_list');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 let sort_items_input = document.getElementById('sort_items_input');
 let track_item_input = document.getElementById('track_item_input');
+const URL_BASE = 'http://127.0.0.1:5000/';
+// const URL_BASE = 'https://alex-haas.com/';
 
 //
 async function btn_pop_back(element, parent_element) {
@@ -31,7 +33,7 @@ function close_div(div_element_name) {
 function refresh_item_list() {
     item_list = document.getElementById('item_list');
 
-    const api_url = 'http://127.0.0.1:5000/item_refresh_list';
+    const api_url = URL_BASE + 'item_refresh_list';
 
     fetch(api_url, {method: 'GET'})
         .then(response => {
@@ -163,13 +165,12 @@ button_create_item_submit.onclick=async () => {
         return;
     }
 
-    const api_url = 'http://127.0.0.1:5000/item_create/' + JSON.stringify({
+    const api_url = URL_BASE + 'item_create/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'color': item_color.substr(1, item_color.length),
         'keywords': item_keywords,
         'name': item_name
     });
-    console.log(api_url);
     // NEED validate input
     // const request_options = {
     //     method: 'POST',
@@ -245,7 +246,7 @@ button_track_item_submit.onclick=async () => {
         return;
     }
     let color = document.getElementById('color').value;
-    const api_url = 'http://127.0.0.1:5000/item_track_api/' + JSON.stringify({
+    const api_url = URL_BASE + 'item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'item name': item_name,
         'color': color.substr(1, color.length),

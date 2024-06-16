@@ -27,6 +27,7 @@ const OPACITY_40 = '0.40';
 const OPACITY_65 = '0.65';
 let THE_CHART = new Chart(GRAPH_CANVAS);
 const URL_BASE = 'http://127.0.0.1:5000/';
+// const URL_BASE = 'https://alex-haas.com/';
 
 async function btn_pop_back(element, parent_element) {
     element.style.boxShadow = 'inset 3px 3px 0px black';
@@ -101,7 +102,7 @@ function redraw_graph_buttons(div_id) {
 /*
     onclicks
  */
-GRAPH_BUTTON_ALL_TIME.onclick=function() {
+GRAPH_BUTTON_ALL_TIME.onclick=function () {
     btn_pop_back(this, null);
     redraw_graph_buttons(this.id);
     CURRENT_TIME_STR = 'all time: ';

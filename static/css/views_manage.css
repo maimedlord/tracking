@@ -115,8 +115,12 @@ body {
     /*margin-top: 20px;*/
     justify-content: center;
     /*max-width: 1600px;*/
+    margin-bottom: 50px;
     padding: 20px 5px 20px 5px;
     width: 100%;
+}
+#item_graph_canvas {
+    margin-top: 20px;
 }
 #nav_graph_buttons {
     display: flex;
@@ -189,6 +193,7 @@ body {
     align-items: center;
     display: none;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
 }
@@ -220,4 +225,9 @@ body {
     gap: 20px;
     justify-content: center;
     width: 100%;
+}
+@media (max-width: 800px) {
+    #nav_view_type {
+        gap: 20px;
+    }
 }
