@@ -150,7 +150,7 @@ def item_track(item_name: str, id_str: str, item_obj):
         item_obj['time noticed'] = datetime.utcnow()
     else:
         item_obj['time noticed'] = datetime.strptime(item_obj['time noticed'], datetime_format).utcnow()
-    print('at the end of the if else')
+    # print('at the end of the if else')
     item_obj['color'] = '#' + item_obj['color']
     # swap out blank values for null
     for attribute in item_obj.keys():
