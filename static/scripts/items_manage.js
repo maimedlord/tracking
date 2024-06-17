@@ -10,6 +10,7 @@ let intensity = document.getElementById('intensity');
 let item_list = document.getElementById('item_list');
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 let sort_items_input = document.getElementById('sort_items_input');
+const OFFSET_VALUE = new Date().getTimezoneOffset() * 60 * 1000;
 let track_item_input = document.getElementById('track_item_input');
 const URL_BASE = 'http://127.0.0.1:5000/';
 // const URL_BASE = 'https://alex-haas.com/';
@@ -75,8 +76,10 @@ function refresh_item_list() {
                     nav_div_tracking.textContent = 'track this item';
                     temp_div.innerHTML += '<b>' + data[i]['item_name'] + '</b>';
                     temp_div.setAttribute('data-item_name', data[i]['item_name']);
-                    let temp_date_created = new Date(data[i]['date_created']);
-                    let temp_date_tracked = new Date(data[i]['date_last_noticed']);
+                    let temp_date_created = new Date(new Date(data[i]['date_created']) - OFFSET_VALUE);
+                    let temp_date_tracked = new Date(new Date(data[i]['date_last_noticed']) - OFFSET_VALUE);
+                    // console.log('temp date tracked', temp_date_tracked);
+                    // console.log('minus offset value', new Date(temp_date_tracked.getTime() - OFFSET_VALUE));
                     for (let key of Object.keys(data[i])) {
                         if (key == 'color') {
                             temp_div.style.borderColor = data[i]['color'];
@@ -94,7 +97,7 @@ function refresh_item_list() {
                             temp_div.setAttribute('data-date_tracked', String(temp_date_tracked.getTime()));
                         }
                         else if (key == 'date_created') {
-                            temp_div.innerHTML += 'created: ' + temp_date_created + '<br>';
+                            temp_div.innerHTML += 'created: ' + (temp_date_created) + '<br>';
                             temp_div.setAttribute('data-date_created', String(temp_date_created.getTime()));
                         }
                     }

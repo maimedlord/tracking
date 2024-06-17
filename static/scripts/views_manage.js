@@ -28,6 +28,7 @@ let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let nav_view_type = document.getElementById('nav_view_type');
 // const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 let SKIP_CHARS = ['', ' ', ','];
+const OFFSET_VALUE = new Date().getTimezoneOffset() * 60 * 1000;
 let view_create_input = document.getElementById('view_create_input');
 let view_item_bucket = document.getElementById('view_item_bucket');
 
@@ -193,7 +194,7 @@ function get_items() {
             // item_list.append(temp_div);
             // add items to list
             for (let i = 0; i < all_items.length; i++) {
-                temp_date_created = new Date(all_items[i][0]['date_created']);
+                temp_date_created = new Date(new Date(all_items[i][0]['date_created']) - OFFSET_VALUE);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
                 temp_div.setAttribute('onclick', 'get_item_view(\'' + all_items[i][0]['name'] + '\')');
@@ -209,7 +210,7 @@ function get_items() {
                 temp_div.setAttribute('data-date_created', temp_date_created.getTime());
                 //
                 if (all_items[i].length > 1) {
-                    temp_date_tracked = new Date(all_items[i][all_items[i].length - 1]['time noticed']);
+                    temp_date_tracked = new Date(new Date(all_items[i][all_items[i].length - 1]['time noticed']) - OFFSET_VALUE);
                     temp_div.innerHTML += '<b>last tracked:</b> ' + temp_date_tracked;
                     temp_div.setAttribute('data-date_tracked', temp_date_tracked.getTime());
                 }
@@ -227,7 +228,7 @@ function get_items() {
                 let xyz_array = [];
                 let color_array = [];
                 for (let ii = 1; ii < all_items[i].length; ii++) {
-                    let temp_date = new Date(all_items[i][ii]['time noticed']);
+                    let temp_date = new Date(new Date(all_items[i][ii]['time noticed']) - OFFSET_VALUE);
                     xyz_array.push({
                         x: temp_date,
                         y: temp_date.getHours() + (temp_date.getMinutes() / 60),

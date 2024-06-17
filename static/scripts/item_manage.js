@@ -9,6 +9,7 @@ let button_delete_item = document.getElementById('button_delete_item');
 let delete_item_popup = document.getElementById('delete_item_popup');
 let nav_graph_buttons = document.getElementById('nav_graph_buttons');
 let item_doc_list = document.getElementById('item_list');
+const OFFSET_VALUE = new Date().getTimezoneOffset() * 60 * 1000;
 
 async function btn_pop_back(element, parent_element) {
     element.style.boxShadow = 'inset 3px 3px 0px black';
@@ -90,7 +91,7 @@ function get_item_docs() {
         .then(function () {
             // populate list of docs making sure to skip meta object at front of array
             for (let i = 1; i < ITEM_DOCS.length; i++) {
-                let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
+                let temp_date = new Date(new Date(ITEM_DOCS[i]['time noticed']) - OFFSET_VALUE);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
                 for (key of Object.keys(ITEM_DOCS[i])) {
@@ -143,7 +144,7 @@ function get_item_docs() {
             };
             // notice skipping meta doc in front of array
             for (let i = 1; i < ITEM_DOCS.length; i++) {
-                let temp_date = new Date(ITEM_DOCS[i]['time noticed']);
+                let temp_date = new Date(new Date(ITEM_DOCS[i]['time noticed']) - OFFSET_VALUE);
                 GRAPH_DATA_OBJECT['datasets'][0]['data'].push({
                     x: temp_date,
                     y: temp_date.getHours() + (temp_date.getMinutes() / 60),
