@@ -251,7 +251,8 @@ button_track_item_submit.onclick=async () => {
     let color = document.getElementById('color').value;
     let time_noticed = '';
     if (document.getElementById('time noticed').value != '') {
-        let time_noticed = new Date(new Date(document.getElementById('time noticed').value) - OFFSET_VALUE).toISOString().substring(0,19);
+        console.log('offset value', OFFSET_VALUE);
+        time_noticed = new Date(new Date(document.getElementById('time noticed').value) + OFFSET_VALUE).toISOString().substring(0,16);
     }
     const api_url = URL_BASE + 'item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder

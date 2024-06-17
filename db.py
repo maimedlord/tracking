@@ -13,6 +13,7 @@ from werkzeug.security import check_password_hash
 
 mongo_client = MongoClient()
 
+# datetime_format = '%Y-%m-%dT%H:%M:%S'
 datetime_format = '%Y-%m-%dT%H:%M'
 #datetime_format = '%Y-%m-%d %H:%M:%S%z'
 db_misc = mongo_client['t_misc']
@@ -148,7 +149,9 @@ def item_track(item_name: str, id_str: str, item_obj):
     if item_obj['time noticed'] == '':
         item_obj['time noticed'] = datetime.utcnow()
     else:
+        print('time noticed in object:: ', item_obj['time noticed'])
         item_obj['time noticed'] = datetime.strptime(item_obj['time noticed'], datetime_format)
+        print('ah hah')
     item_obj['color'] = '#' + item_obj['color']
     # swap out blank values for null
     for attribute in item_obj.keys():
@@ -156,6 +159,7 @@ def item_track(item_name: str, id_str: str, item_obj):
             item_obj[attribute] = None
     database = mongo_client[db_item_prefix + id_str]
     item_coll = database[item_name]
+    print('before return')
     return item_coll.insert_one(item_obj)
 
 
