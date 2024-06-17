@@ -249,6 +249,10 @@ button_track_item_submit.onclick=async () => {
         return;
     }
     let color = document.getElementById('color').value;
+    let time_noticed = '';
+    if (document.getElementById('time noticed').value != '') {
+        let time_noticed = new Date(new Date(document.getElementById('time noticed').value) - OFFSET_VALUE).toISOString().substring(0,19);
+    }
     const api_url = URL_BASE + 'item_track_api/' + JSON.stringify({
         // cannot include '#' as it messes with python decoder
         'item name': item_name,
@@ -259,7 +263,7 @@ button_track_item_submit.onclick=async () => {
         'notes': document.getElementById('notes').value,
         'response method': document.getElementById('response method').value,
         'time duration': document.getElementById('time duration').value,
-        'time noticed': document.getElementById('time noticed').value
+        'time noticed': time_noticed
     });
     // NEED validate input
     // const request_options = {

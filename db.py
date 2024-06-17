@@ -145,12 +145,10 @@ def item_create(id_str: str, item_obj):
 # RETURNS:
 def item_track(item_name: str, id_str: str, item_obj):
     # alter+modify data as necessary
-    # print(datetime.strptime(item_obj['time noticed'], datetime_format).utcnow())
     if item_obj['time noticed'] == '':
         item_obj['time noticed'] = datetime.utcnow()
     else:
-        item_obj['time noticed'] = datetime.strptime(item_obj['time noticed'], datetime_format).utcnow()
-    # print('at the end of the if else')
+        item_obj['time noticed'] = datetime.strptime(item_obj['time noticed'], datetime_format)
     item_obj['color'] = '#' + item_obj['color']
     # swap out blank values for null
     for attribute in item_obj.keys():
