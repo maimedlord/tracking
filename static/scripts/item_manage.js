@@ -131,6 +131,7 @@ function get_item_docs() {
                 }
                 item_doc_list.append(temp_div);
             }
+            console.log(ITEM_DOCS)
             /* draw chart */
             // prepare data object for chart
             GRAPH_DATA_OBJECT = {
@@ -138,7 +139,9 @@ function get_item_docs() {
                     {
                         label: ITEM_DOCS[0]['name'],
                         data: [],
-                        backgroundColor: []
+                        backgroundColor: [],
+                        borderColor: ITEM_DOCS[0]['color'],
+                        borderWidth: BORDER_WIDTH
                     }
                 ],
             };
