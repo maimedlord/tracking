@@ -55,6 +55,7 @@ body {
     min-width: 100vw;
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+    overflow-wrap: break-word;
 }
 .border_box {
     box-sizing: border-box;
