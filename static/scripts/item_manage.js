@@ -94,12 +94,13 @@ function get_item_docs() {
                 let temp_date = new Date(new Date(ITEM_DOCS[i]['time noticed']) - OFFSET_VALUE);
                 let temp_div = document.createElement('div');
                 temp_div.className = 'item_div';
+                temp_div.style.border = 'solid 3px';
+                temp_div.style.borderColor = ITEM_DOCS[0]['color'];
                 for (key of Object.keys(ITEM_DOCS[i])) {
                     console.log(ITEM_DOCS[i]);
                     if (ITEM_DOCS[i][key]) {
                         if (key == 'color') {
                             temp_div.style.backgroundColor = hexToRgb(ITEM_DOCS[i]['color'], OPACITY_08);
-                            temp_div.style.borderColor = ITEM_DOCS[i]['color'];
                             temp_div.innerHTML += '<div class="width_full" style="background-color:' + ITEM_DOCS[i]['color'] + ';">' + 'color: ' + ITEM_DOCS[i]['color'] + '</div>';
                         }
                         else if (key == 'intensity') {
