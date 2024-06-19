@@ -96,7 +96,7 @@ function get_datasets_from_items(item_obj_arr) {
         let xyz_array = [];
         let color_array = [];
         for (let ii = 1; ii < item_obj_arr[i].length; ii++) {
-            let temp_date = new Date(item_obj_arr[i][ii]['time noticed']);
+            let temp_date = new Date(new Date(item_obj_arr[i][ii]['time noticed']) - OFFSET_VALUE);
             xyz_array.push({
                 x: temp_date,
                 y: temp_date.getHours() + (temp_date.getMinutes() / 60),
