@@ -305,7 +305,7 @@ button_track_item_submit.onclick=async () => {
         });
     // await sleep(1000);
     // button_track_item_submit.style.boxShadow = '3px 3px 0px black';
-    btn_pop_back(button_track_item_submit, track_item_input);
+    await btn_pop_back(button_track_item_submit, track_item_input);
 }
 sort_items_input.onclick=function () {
     // exit if empty input
