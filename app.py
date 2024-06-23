@@ -405,6 +405,12 @@ def item_track_api(item_obj):
     # })
 
 
+@app.route('/priorities')
+@login_required
+def priorities():
+    return render_template('priorities.html')
+
+
 @app.route('/view_create/<items_str>', methods=['GET', 'POST'])
 @login_required
 def view_create(items_str):

@@ -24,6 +24,7 @@ meta_coll = 'tc_meta'
 meta_doc_amt = 1
 
 db_item_prefix = 't_item_'
+db_priority_prefix = 't_priority_'
 collection_prefix = 'tc_'
 
 
@@ -174,22 +175,23 @@ def user_create(test_user_template):
     db_write = c_users.insert_one(test_user_template)
     if not db_write or not db_write.acknowledged:
         return None
-    id_obj = copy.deepcopy(db_write.inserted_id)
     # create user's personal database, meta collection and initial meta document,
     # view collection and initial view meta document:
     new_db = mongo_client[db_item_prefix + str(db_write.inserted_id)]
     new_collection = new_db[collection_prefix + 'meta']
-    db_write = new_collection.insert_one({
+    db_write_2 = new_collection.insert_one({
         'date_created': datetime.utcnow(),
         'user_id_obj': db_write.inserted_id,
         'views_saved': []
     })
-    # new_db = mongo_client[db_view_prefix + str(id_obj)]
-    # new_collection = new_db[collection_prefix + 'meta']
-    # db_write = new_collection.insert_one({
-    #     'date_create': datetime.utcnow()
-    # })
-    return db_write
+    #
+    new_db = mongo_client[db_priority_prefix + str(db_write.inserted_id)]
+    new_collection = new_db[collection_prefix + 'meta']
+    db_write_3 = new_collection.insert_one({
+        'date_created': datetime.utcnow(),
+        'user_id_obj': db_write.inserted_id
+    })
+    return db_write_3
 
 
 # RETURNS:
@@ -199,6 +201,8 @@ def user_delete(id_str):
         return None
     # delete user's items:
     mongo_client.drop_database(db_item_prefix + id_str)
+    # delete user's priorities:
+    mongo_client.drop_database(db_priority_prefix + id_str)
     # delete user's views:
     # mongo_client.drop_database(db_view_prefix + id_str)
     # delete user's user record:
