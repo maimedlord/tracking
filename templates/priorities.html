@@ -3,10 +3,12 @@
     <title>tracking - priorities</title>
 {% endblock %}
 {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/priorities.css') }}">
 {% endblock %}
 {% block body %}
     <div id="root_priorities">
-        root priorities
+        <div id="menu_buttons"></div>
+        <div id="horizontal_scroll"></div>
     </div>
 {% endblock %}
 {% block javascript_footer %}

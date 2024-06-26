@@ -1,3 +1,13 @@
+#horizontal_scroll {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+#menu_buttons {
+
+}
 #root_priorities {
     display: flex;
+    margin-top: 20px;
 }
